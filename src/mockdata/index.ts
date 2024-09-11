@@ -42,3 +42,5 @@ export const mockUserData: User[] = [
     ],
   },
 ];
+
+export const themesMock = ["React", "Nest", "Node js", "TypeScript", "JavaScript"];

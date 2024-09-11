@@ -5,12 +5,13 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: #1b1c27;
+  background-color: var(--backgraund-color);
 }
 
 .wrapper-header > * {
-  border: 1px solid #ff7f00;
+  border: 1px solid var(--accent-color);
   border-radius: 10%;
   padding: 10px;
   user-select: none;
+  cursor: pointer;
 }
