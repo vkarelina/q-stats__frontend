@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./header.css";
 
 import { useEffect, useRef } from "react";
 
@@ -11,6 +11,7 @@ const Header = () => {
   const setFilter = useTabStore((state) => state.setFilter);
   const setTheme = useTabStore((state) => state.setTheme);
   const themes = useTabStore((state) => state.themes);
+  const filter = useTabStore((state) => state.filter);
 
   useEffect(() => {
     setTheme(themesMock);
@@ -20,6 +21,7 @@ const Header = () => {
     const target = e.target;
 
     if (target instanceof HTMLElement && target.dataset.tab) {
+      if (filter === target.innerText) return;
       refCurrentElement.current = target.innerText;
       setFilter(refCurrentElement.current);
     }
