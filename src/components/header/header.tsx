@@ -2,20 +2,20 @@ import "./header.css";
 
 import { useEffect, useRef } from "react";
 
-import { useTabStore } from "../../store";
 import { themesMock } from "../../mockdata";
+import useStore from "../../store";
 
 const Header = () => {
   const refCurrentElement = useRef<string | null>(null);
-  
-  const setFilter = useTabStore((state) => state.setFilter);
-  const setTheme = useTabStore((state) => state.setTheme);
-  const themes = useTabStore((state) => state.themes);
-  const filter = useTabStore((state) => state.filter);
+
+  const setFilter = useStore((state) => state.setFilter);
+  const setTheme = useStore((state) => state.setTheme);
+  const themes = useStore.use.themes();
+  const filter = useStore.use.filter();
 
   useEffect(() => {
     setTheme(themesMock);
-  },[])
+  }, []);
 
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
@@ -29,11 +29,12 @@ const Header = () => {
 
   return (
     <div className="wrapper-header" onClick={onTabCLick}>
-      { themes && themes.map((theme, index) => (
-        <div key={index} data-tab="true">
-          {theme}
-        </div>
-      ))}
+      {themes &&
+        themes.map((theme, index) => (
+          <div key={index} data-tab="true">
+            {theme}
+          </div>
+        ))}
     </div>
   );
 };

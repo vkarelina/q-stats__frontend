@@ -15,8 +15,8 @@ export const mockUserData: User[] = [
       {
         name: "Nest",
         questions: [
-          { id: 3, text: "Question react 1", answer: null },
-          { id: 4, text: "Question react 2", answer: null },
+          { id: 3, text: "Question Nest 1", answer: null },
+          { id: 4, text: "Question Nest 2", answer: null },
         ],
       },
     ],
@@ -35,8 +35,8 @@ export const mockUserData: User[] = [
       {
         name: "Nest",
         questions: [
-          { id: 3, text: "Question react 1", answer: null },
-          { id: 4, text: "Question react 2", answer: null },
+          { id: 3, text: "Question Nest 1", answer: null },
+          { id: 4, text: "Question Nest 2", answer: null },
         ],
       },
     ],
