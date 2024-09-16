@@ -21,7 +21,7 @@ const Header = () => {
     const target = e.target;
 
     if (target instanceof HTMLElement && target.dataset.tab) {
-      if (filter === target.innerText) return;
+      if (filter?.name === target.innerText) return;
       refCurrentElement.current = target.innerText;
       setFilter(refCurrentElement.current);
     }
@@ -32,7 +32,7 @@ const Header = () => {
       {themes &&
         themes.map((theme, index) => (
           <div key={index} data-tab="true">
-            {theme}
+            {theme.name}
           </div>
         ))}
     </div>

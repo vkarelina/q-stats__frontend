@@ -1,26 +1,26 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { Questions, User } from "../types";
+import { Theme, User } from "../types";
 import createSelectors from "./createSelectors";
 
 interface UseTabStore {
   users: User[] | null;
-  questions: Questions[] | null;
-  filter: string | null;
-  themes: string[] | null;
+  user: User | null;
+  filter: Theme | null;
+  themes: Theme[] | null;
   getUser: () => void;
   setUsers: (mockedUser: User[]) => void;
   setQuestions: (userId: number) => void;
   getFilter: () => void;
   setFilter: (filter: string) => void;
-  setTheme: (mockedTheme: string[]) => void;
+  setTheme: (mockedTheme: Theme[]) => void;
 }
 
 const useTabStore = create<UseTabStore>()(
   devtools(
     (set, get) => ({
       users: null,
-      questions: null,
+      user: null,
       filter: null,
       themes: null,
 
@@ -34,19 +34,49 @@ const useTabStore = create<UseTabStore>()(
 
       setQuestions: (userId: number) => {
         const users = get().users;
-        const user = users?.find((user) => user.id === userId);
-        if(!user) return;
         const filter = get().filter;
-        const questions = user.themes.find((theme) => theme.name === filter);
-        if(!questions) return;
-        set({ questions: questions.questions }, false, "setQuestions");
+        const user = users?.find((user) => user.id === userId);
+
+        if (!user || !filter) return;
+
+        const questions = user.themes.find(
+          (theme) => theme.name === filter.name
+        );
+
+        if (!questions) {
+          const updatedThemes = [...user.themes, filter];
+
+          set(
+            (state) => {
+              const updatedUsers = state.users?.map((user) => {
+                return user.id === userId
+                  ? { ...user, themes: updatedThemes }
+                  : user;
+              });
+
+              return { users: updatedUsers };
+            },
+            false,
+            "setUsers"
+          );
+        } else {
+          set({ user: user }, false, "setUser");
+        }
       },
 
       setFilter: (filter: string) => {
-        set({ filter }, false, "setFilter");
+        const themes = get().themes;
+        if(!themes) return;
+        const theme = themes.find((theme) => theme.name === filter);
+        if(!theme) return;
+        set(
+          { filter: { name: filter, questions: theme.questions } },
+          false,
+          "setFilter"
+        );
       },
 
-      setTheme: (mockedTheme: string[]) => {
+      setTheme: (mockedTheme: Theme[]) => {
         set({ themes: mockedTheme }, false, "setTheme");
       },
     }),
@@ -54,6 +84,6 @@ const useTabStore = create<UseTabStore>()(
   )
 );
 
-const useStore = createSelectors(useTabStore)
+const useStore = createSelectors(useTabStore);
 
 export default useStore;

@@ -4,7 +4,7 @@ export interface Questions {
   answer: boolean | null;
 }
 
-interface Theme {
+export interface Theme {
   name: string;
   questions: Questions[];
 }
