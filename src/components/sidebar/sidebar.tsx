@@ -2,19 +2,23 @@ import "./sidebar.css";
 
 import { useEffect, useState } from "react";
 
-import useStore from "../../store";
 import { mockUserData } from "../../mockdata";
+import useRootStore from "../../store";
 
 const Sidebar = () => {
   const [userId, setUserId] = useState<string | null>(null);
 
-  const setUsers = useStore((state) => state.setUsers);
-  const setQuestions = useStore((state) => state.setQuestions);
-  const users = useStore.use.users();
-  const filter = useStore.use.filter();
+  const userStore = useRootStore((state) => state.userStore);
+  const tabStore = useRootStore((state) => state.tabStore);
+
+  const setUsers = userStore((state) => state.setUsers);
+  const setCurrentUser = userStore((state) => state.setCurrentUser);
+
+  const users = userStore.use.users();
+  const filter = tabStore.use.filter();
 
   useEffect(() => {
-    if (userId && filter) setQuestions(Number(userId));
+    if (userId && filter) setCurrentUser(Number(userId));
   }, [userId, filter]);
 
   const onSelectUser = (e: React.MouseEvent<HTMLElement>) => {
