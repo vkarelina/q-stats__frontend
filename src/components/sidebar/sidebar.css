@@ -17,4 +17,5 @@
     font-weight: bold;
     border-radius: 50%;
     background-color: var(--second-accent-color);
+    user-select: none;
 }

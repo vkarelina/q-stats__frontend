@@ -1,10 +1,10 @@
-import { Theme, User } from "../types";
+import { Topic, User } from "../types";
 
 export const mockUserData: User[] = [
   {
     id: 1,
     name: "User One",
-    themes: [
+    topics: [
       {
         name: "Nest",
         questions: [
@@ -17,7 +17,7 @@ export const mockUserData: User[] = [
   {
     id: 2,
     name: "User Two",
-    themes: [
+    topics: [
       {
         name: "React",
         questions: [
@@ -36,7 +36,7 @@ export const mockUserData: User[] = [
   },
 ];
 
-export const themesMock: Theme[] = [
+export const mockTopics: Topic[] = [
   {
     name: "React",
     questions: [

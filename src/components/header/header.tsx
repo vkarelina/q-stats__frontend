@@ -2,22 +2,20 @@ import "./header.css";
 
 import { useEffect, useRef } from "react";
 
-import { themesMock } from "../../mockdata";
-import useRootStore from "../../store";
+import { mockTopics } from "../../mock-data";
+import useFilter from "../../store/filter";
 
 const Header = () => {
   const refCurrentElement = useRef<string | null>(null);
 
-  const tabStore = useRootStore((state) => state.tabStore);
+  const setFilter = useFilter((state) => state.setFilter);
+  const setTopics = useFilter((state) => state.setTopics);
 
-  const setFilter = tabStore((state) => state.setFilter);
-  const setTheme = tabStore((state) => state.setTheme);
-
-  const themes = tabStore.use.themes();
-  const filter = tabStore.use.filter();
+  const topics = useFilter.use.topics();
+  const filter = useFilter.use.filter();
 
   useEffect(() => {
-    setTheme(themesMock);
+    setTopics(mockTopics);
   }, []);
 
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
@@ -32,12 +30,11 @@ const Header = () => {
 
   return (
     <div className="wrapper-header" onClick={onTabCLick}>
-      {themes &&
-        themes.map((theme, index) => (
-          <div key={index} data-tab="true">
-            {theme.name}
-          </div>
-        ))}
+      {topics?.map((topic, index) => (
+        <div key={index} data-tab="true">
+          {topic.name}
+        </div>
+      ))}
     </div>
   );
 };

@@ -4,7 +4,7 @@ export interface Questions {
   answer: boolean | null;
 }
 
-export interface Theme {
+export interface Topic {
   name: string;
   questions: Questions[];
 }
@@ -12,5 +12,5 @@ export interface Theme {
 export interface User {
   id: number;
   name: string;
-  themes: Theme[];
+  topics: Topic[];
 }
