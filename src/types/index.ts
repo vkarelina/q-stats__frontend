@@ -1,10 +1,10 @@
-interface Questions {
+export interface Questions {
   id: number;
   text: string;
   answer: boolean | null;
 }
 
-interface Theme {
+export interface Topic {
   name: string;
   questions: Questions[];
 }
@@ -12,5 +12,5 @@ interface Theme {
 export interface User {
   id: number;
   name: string;
-  themes: Theme[];
+  topics: Topic[];
 }

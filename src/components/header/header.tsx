@@ -2,26 +2,30 @@ import "./header.css";
 
 import { useEffect, useRef } from "react";
 
-import { useTabStore } from "../../store";
-import { themesMock } from "../../mockdata";
+import { mockTopics } from "../../mock-data";
+import useTopic from "../../store/topic";
 
 const Header = () => {
   const refCurrentElement = useRef<string | null>(null);
-  
-  const setFilter = useTabStore((state) => state.setFilter);
-  const setTheme = useTabStore((state) => state.setTheme);
-  const themes = useTabStore((state) => state.themes);
-  const filter = useTabStore((state) => state.filter);
+
+  const setFilter = useTopic.use.setFilter();
+  const setTopics = useTopic.use.setTopics();
+
+  const topics = useTopic.use.topics();
+  const filter = useTopic.use.filter();
 
   useEffect(() => {
-    setTheme(themesMock);
-  },[])
+    setTopics(mockTopics);
+  }, []);
 
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
 
-    if (target instanceof HTMLElement && target.dataset.tab) {
-      if (filter === target.innerText) return;
+    if (
+      target instanceof HTMLElement &&
+      target.dataset.tab &&
+      filter !== target.innerText
+    ) {
       refCurrentElement.current = target.innerText;
       setFilter(refCurrentElement.current);
     }
@@ -29,9 +33,9 @@ const Header = () => {
 
   return (
     <div className="wrapper-header" onClick={onTabCLick}>
-      { themes && themes.map((theme, index) => (
+      {topics?.map((topic, index) => (
         <div key={index} data-tab="true">
-          {theme}
+          {topic.name}
         </div>
       ))}
     </div>
