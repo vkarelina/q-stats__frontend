@@ -3,16 +3,16 @@ import "./header.css";
 import { useEffect, useRef } from "react";
 
 import { mockTopics } from "../../mock-data";
-import useFilter from "../../store/filter";
+import useTopic from "../../store/topic";
 
 const Header = () => {
   const refCurrentElement = useRef<string | null>(null);
 
-  const setFilter = useFilter((state) => state.setFilter);
-  const setTopics = useFilter((state) => state.setTopics);
+  const setFilter = useTopic.use.setFilter();
+  const setTopics = useTopic.use.setTopics();
 
-  const topics = useFilter.use.topics();
-  const filter = useFilter.use.filter();
+  const topics = useTopic.use.topics();
+  const filter = useTopic.use.filter();
 
   useEffect(() => {
     setTopics(mockTopics);
@@ -21,8 +21,11 @@ const Header = () => {
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
 
-    if (target instanceof HTMLElement && target.dataset.tab) {
-      if (filter === target.innerText) return;
+    if (
+      target instanceof HTMLElement &&
+      target.dataset.tab &&
+      filter !== target.innerText
+    ) {
       refCurrentElement.current = target.innerText;
       setFilter(refCurrentElement.current);
     }

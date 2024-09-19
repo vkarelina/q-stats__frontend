@@ -1,29 +1,44 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 
 import createSelectors from "./create-selectors";
-import { User } from "../types";
+import { Topic, User } from "../types";
 
 interface UseUserStore {
   users: User[] | null;
   user: User | null;
   setUsers: (users: User[]) => void;
-  setUser: (user: User) => void;
+  setUser: (userId: number) => void;
+  setUpdateUser: (userId: number, updateTopic: Topic) => void;
 }
 
 const useUserStore = create<UseUserStore>()(
-  devtools((set) => ({
-    users: null,
-    user: null,
+  devtools(
+    immer((set) => ({
+      users: null,
+      user: null,
 
-    setUsers: (users: User[]) => {
-      set({ users: users }, false, "setUsers");
-    },
+      setUsers: (users: User[]) => {
+        set({ users: users }, false, "setUsers");
+      },
 
-    setUser: (user: User) => {
-      set({ user: user }, false, "setUser");
-    },
-  }))
+      setUser: (userId: number) => {
+        set((state) => {
+          const user = state.users?.find((user) => user.id === userId);
+          if (user) state.user = user;
+        });
+      },
+
+      setUpdateUser: (userId: number, updateTopic: Topic) => {
+        set((state) => {
+          state.users?.forEach((user: User) => {
+            if (user.id === userId) user.topics.push(updateTopic);
+          });
+        });
+      },
+    }))
+  )
 );
 
 const useUser = createSelectors(useUserStore);

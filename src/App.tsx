@@ -1,6 +1,7 @@
 import "./App.css";
 
-import { Header, Sidebar } from "./components";
+import { Header } from "./components/header";
+import { Sidebar } from "./components/sidebar";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Header />
       <Sidebar />
     </>
-  )
+  );
 }
 
 export default App;

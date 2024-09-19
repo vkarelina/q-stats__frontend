@@ -4,17 +4,16 @@ import { useEffect, useState } from "react";
 
 import { mockUserData } from "../../mock-data";
 import useUser from "../../store/user";
-import useFilter from "../../store/filter";
-import useSetDefaultTopicForUser from "../hooks/setDefaultTopicForUser";
+import useTopic from "../../store/topic";
+import useSetDefaultTopicForUser from "../../hooks/setDefaultTopicForUser";
 
 const Sidebar = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const setDefaultTopicForUser = useSetDefaultTopicForUser();
 
-  const setUsers = useUser((state) => state.setUsers);
-
+  const setUsers = useUser.use.setUsers();
   const users = useUser.use.users();
-  const filter = useFilter.use.filter();
+  const filter = useTopic.use.filter();
 
   useEffect(() => {
     if (userId && filter) setDefaultTopicForUser(Number(userId));
@@ -23,8 +22,11 @@ const Sidebar = () => {
   const onSelectUser = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
 
-    if (target instanceof HTMLElement && target.dataset.user) {
-      if (userId === target.dataset.user) return;
+    if (
+      target instanceof HTMLElement &&
+      target.dataset.user &&
+      userId !== target.dataset.user
+    ) {
       setUserId(target.dataset.user);
     }
   };

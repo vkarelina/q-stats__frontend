@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 import { Topic } from "../types";
 import createSelectors from "./create-selectors";
 
-interface useFilterStore {
+interface useTopicStore {
   filter: string | null;
   topics: Topic[] | null;
   setFilter: (filter: string) => void;
@@ -12,7 +12,7 @@ interface useFilterStore {
   setCurrentTopicsQuestions: () => Topic | undefined;
 }
 
-const useFilterStore = create<useFilterStore>()(
+const useTopicStore = create<useTopicStore>()(
   devtools(
     (set, get) => ({
       filter: null,
@@ -33,10 +33,10 @@ const useFilterStore = create<useFilterStore>()(
         return questions;
       },
     }),
-    { name: "TabStore" }
+    { name: "TopicStore" }
   )
 );
 
-const useFilter = createSelectors(useFilterStore);
+const useTopic = createSelectors(useTopicStore);
 
-export default useFilter;
+export default useTopic;
