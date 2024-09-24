@@ -1,0 +1,11 @@
+.icons-container {
+  display: flex;
+}
+
+textarea {
+  width: 100%;
+  min-height: 70px;
+  border: 0px;
+  line-height: unset;
+  outline: none;
+}

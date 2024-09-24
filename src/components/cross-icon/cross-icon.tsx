@@ -1,4 +1,9 @@
-const CrossIcon = ({ isHovered, uniqueId }) => {
+interface CrossIconProps {
+  isHovered: boolean;
+  uniqueId: string;
+}
+
+const CrossIcon = ({ isHovered, uniqueId }: CrossIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,11 +29,11 @@ const CrossIcon = ({ isHovered, uniqueId }) => {
         </linearGradient>
         <linearGradient
           id={`cross-color-2-${uniqueId}`}
-          x1="0" // Начнем градиент с нуля
-          x2="1" // Увеличим до 1, чтобы охватить всю область
+          x1="0"
+          x2="1"
           y1="0"
           y2="1"
-          gradientUnits="objectBoundingBox" // Зададим относительно границ объекта
+          gradientUnits="objectBoundingBox"
         >
           <stop offset="0" stopColor={isHovered ? "#ff0000" : "#444"}></stop>
           <stop offset="1" stopColor={isHovered ? "#ff9999" : "#545353"}></stop>
@@ -49,7 +54,7 @@ const CrossIcon = ({ isHovered, uniqueId }) => {
           transform="scale(5.33333)"
         ></path>
         <path
-          fill={`url(#cross-color-2-${uniqueId})`} // Применение уникального id
+          fill={`url(#cross-color-2-${uniqueId})`}
           d="M24 30.821L35.599 42.42a1.98 1.98 0 002.802 0l4.019-4.019a1.98 1.98 0 000-2.802L30.821 24z"
           transform="scale(5.33333)"
         ></path>

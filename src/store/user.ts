@@ -11,6 +11,7 @@ interface UseUserStore {
   setUsers: (users: User[]) => void;
   setUser: (userId: number) => void;
   setUpdateUser: (userId: number, updateTopic: Topic) => void;
+  setUpdateAnswer: (userId: number, topicId: number, questionId: number, answer: boolean) => void;
 }
 
 const useUserStore = create<UseUserStore>()(
@@ -36,6 +37,17 @@ const useUserStore = create<UseUserStore>()(
             if (user.id === userId) user.topics.push(updateTopic);
           });
         });
+      },
+
+      setUpdateAnswer: (userId: number, topicId: number, questionId: number, answer: boolean) => {
+        set((state) => {
+          state.users?.forEach((user: User) => {
+            if(user.id === userId) {
+              user.topics[topicId].questions[questionId].answer = answer;
+              state.user = user;
+            }
+          })
+        })
       },
     }))
   )

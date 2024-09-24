@@ -1,6 +1,7 @@
+import "./question-list.css";
+
 import useTopic from "../../store/topic";
 import useUser from "../../store/user";
-import "./question-list.css";
 import QuestionItem from "../question-item/question-item";
 
 const QuestionList = () => {
@@ -12,8 +13,8 @@ const QuestionList = () => {
   if (theme) {
     return (
       <ul className="wrapper-list">
-        {theme.questions.map((question, idx) => (
-          <QuestionItem question={question} idx={idx} key={idx} />
+        {user && filter && theme.questions.map((question, idx) => (
+          <QuestionItem question={question} idx={idx} filter={filter} user={user} key={idx} />
         ))}
         <li className="moreQuestion">
           <p>+</p>
