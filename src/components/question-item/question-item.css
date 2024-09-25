@@ -1,9 +1,27 @@
-.icons-container {
+
+.icon-container {
   display: flex;
+  height: 100%;
+}
+
+.icon-container:nth-last-child() {
+  border-right: none;
+}
+
+.icon {
+  display: flex;
+  gap: 14px;
+  border-right: 1px solid var(--second-accent-color);
+  border-left: 1px solid var(--second-accent-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 textarea {
-  width: 100%;
+  width: 400px;
   min-height: 70px;
   border: 0px;
   line-height: unset;

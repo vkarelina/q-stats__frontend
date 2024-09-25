@@ -39,11 +39,12 @@ const useUserStore = create<UseUserStore>()(
         });
       },
 
-      setUpdateAnswer: (userId: number, topicId: number, questionId: number, answer: boolean) => {
+      setUpdateAnswer: (userId: number, topicIdx: number, questionIdx: number, answer: boolean) => {
         set((state) => {
           state.users?.forEach((user: User) => {
             if(user.id === userId) {
-              user.topics[topicId].questions[questionId].answer = answer;
+              const lastIdxAnswer = user.topics[topicIdx].questions[questionIdx].answers.length - 1;
+              user.topics[topicIdx].questions[questionIdx].answers[lastIdxAnswer].answer = answer;
               state.user = user;
             }
           })

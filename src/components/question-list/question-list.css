@@ -15,7 +15,6 @@
   list-style-type: none;
   font-size: 14px;
   border-bottom: 1px solid var(--second-accent-color);
-  margin: 8px 0 8px 0px;
 }
 
 .wrapper-list > li *:nth-child(2) {
@@ -53,4 +52,15 @@
   max-height: 20px;
   border-radius: 10px;
   background-color: var(--backgraund-color);
+}
+
+.data-question {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.data-wrapper {
+  display: flex;
+  gap: 14px;
 }

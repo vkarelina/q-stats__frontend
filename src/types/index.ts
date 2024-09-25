@@ -1,7 +1,13 @@
+export interface Answer {
+  id: number,
+  data: string,
+  answer: boolean | null;
+}
+
 export interface Questions {
   id: number;
   text: string;
-  answer: boolean | null;
+  answers: Answer[] | [];
 }
 
 export interface Topic {
