@@ -6,15 +6,13 @@ import { MainPage } from "./pages";
 
 function App() {
   return (
-    <>
-      <div className="wrapper-app">
-        <Header />
-        <div className="wrapper-content">
-          <Sidebar />
-          <MainPage />
-        </div>
+    <div className="wrapper-app">
+      <Header />
+      <div className="wrapper-content">
+        <Sidebar />
+        <MainPage />
       </div>
-    </>
+    </div>
   );
 }
 

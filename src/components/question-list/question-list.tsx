@@ -1,40 +1,27 @@
 import "./question-list.css";
 
-import useTopic from "../../store/topic";
-import useUser from "../../store/user";
 import QuestionItem from "../question-item/question-item";
+import useQuestion from "../../store/question";
 
 const QuestionList = () => {
-  const user = useUser.use.user();
-  const filter = useTopic.use.filter();
-  const theme = user?.topics.find((topic) => topic.name === filter);
+  const currentQuestions = useQuestion.use.currentQuestions();
 
-  if (theme) {
+  if (currentQuestions) {
     return (
       <ul className="wrapper-list">
-        <li className="data-question">
-          <div className="data-wrapper">
-              {theme.questions[0].answers.map(answer => (
-                <p key={answer.id}>{answer.data}</p>
-              ))}
-          </div>
-        </li>
-        {user &&
-          filter &&
-          theme.questions.map((question, idx) => (
-            <QuestionItem
-              question={question}
-              idx={idx}
-              filter={filter}
-              user={user}
-              key={idx}
-            />
-          ))}
+        <li className="data-question"></li>
+        {currentQuestions.map((question, idx) => (
+          <QuestionItem question={question} key={question.id} idx={idx} />
+        ))}
         <li>
           <p>+</p>
         </li>
       </ul>
     );
+  } else {
+    return(
+      <p>Для отображения вопросов выберите тему и пользователя</p>
+    )
   }
 };
 

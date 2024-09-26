@@ -1,46 +1,56 @@
 import "./sidebar.css";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { mockUserData } from "../../mock-data";
 import useUser from "../../store/user";
+import useQuestion from "../../store/question";
 import useTopic from "../../store/topic";
-import useSetDefaultTopicForUser from "../../hooks/setDefaultTopicForUser";
 
 const Sidebar = () => {
-  const [userId, setUserId] = useState<string | null>(null);
-  const setDefaultTopicForUser = useSetDefaultTopicForUser();
+  const fetchUsers = useUser.use.fetchUsers();
+  const setUser = useUser.use.setUser();
+  const fetchQuestions = useQuestion.use.fetchQuestions();
+  const setCurrentQuestions = useQuestion.use.setCurrentQuestions();
 
-  const setUsers = useUser.use.setUsers();
-  const users = useUser.use.users();
-  const filter = useTopic.use.filter();
+  const usersArr = useUser.use.users();
+  const currentUser = useUser.use.user();
+  const currentTopic = useTopic.use.filter();
 
   useEffect(() => {
-    if (userId && filter) setDefaultTopicForUser(Number(userId));
-  }, [userId, filter]);
+    fetchUsers();
+    fetchQuestions();
+  }, []);
+
+  useEffect(() => {
+    if (currentTopic) setCurrentQuestions(currentTopic.id);
+  }, [currentTopic]);
 
   const onSelectUser = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
 
-    if (
-      target instanceof HTMLElement &&
-      target.dataset.user &&
-      userId !== target.dataset.user
-    ) {
-      setUserId(target.dataset.user);
+    if (!(target instanceof HTMLElement)) return;
+
+    const userId = Number(target.dataset.user_id);
+
+    if (userId && currentUser?.id !== userId && currentTopic) {
+      setUser(userId);
+      console.log(currentTopic.id);
+      setCurrentQuestions(currentTopic.id);
     }
   };
 
-  useEffect(() => {
-    setUsers(mockUserData);
-  }, []);
-
   return (
     <div className="wrapper-sidebar">
-      {users &&
-        users.map((user) => (
-          <div key={user.id} onClick={onSelectUser} data-user={user.id}>
-            {user.name.split("")[0]}
+      {usersArr &&
+        usersArr.map((user) => (
+          <div
+            key={user.id}
+            onClick={onSelectUser}
+            className={
+              currentUser && user.id === currentUser.id ? "active" : ""
+            }
+          >
+            <span data-user_id={user.id}>{user.name.split("")[0]}</span>
           </div>
         ))}
     </div>

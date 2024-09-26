@@ -3,52 +3,32 @@ import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 import createSelectors from "./create-selectors";
-import { Topic, User } from "../types";
+import { User } from "../types";
+import { users } from "../mock-data";
 
 interface UseUserStore {
   users: User[] | null;
   user: User | null;
-  setUsers: (users: User[]) => void;
+
+  fetchUsers: () => void;
   setUser: (userId: number) => void;
-  setUpdateUser: (userId: number, updateTopic: Topic) => void;
-  setUpdateAnswer: (userId: number, topicId: number, questionId: number, answer: boolean) => void;
 }
 
 const useUserStore = create<UseUserStore>()(
   devtools(
-    immer((set) => ({
+    immer((set, get) => ({
       users: null,
       user: null,
 
-      setUsers: (users: User[]) => {
-        set({ users: users }, false, "setUsers");
+      fetchUsers: () => {
+        set({ users }, false, "setUsers");
       },
 
       setUser: (userId: number) => {
-        set((state) => {
-          const user = state.users?.find((user) => user.id === userId);
-          if (user) state.user = user;
-        });
-      },
-
-      setUpdateUser: (userId: number, updateTopic: Topic) => {
-        set((state) => {
-          state.users?.forEach((user: User) => {
-            if (user.id === userId) user.topics.push(updateTopic);
-          });
-        });
-      },
-
-      setUpdateAnswer: (userId: number, topicIdx: number, questionIdx: number, answer: boolean) => {
-        set((state) => {
-          state.users?.forEach((user: User) => {
-            if(user.id === userId) {
-              const lastIdxAnswer = user.topics[topicIdx].questions[questionIdx].answers.length - 1;
-              user.topics[topicIdx].questions[questionIdx].answers[lastIdxAnswer].answer = answer;
-              state.user = user;
-            }
-          })
-        })
+        console.log(1111111)
+        const users = get().users;
+        const user = users?.find((user) => user.id === userId);
+        set({ user }, false, "setUser");
       },
     }))
   )

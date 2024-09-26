@@ -1,23 +1,26 @@
+export interface User {
+  id: number;
+  name: string;
+}
+
 export interface Answer {
-  id: number,
-  data: string,
+  id: number;
+  questionId: number;
+  userId: number;
   answer: boolean | null;
 }
 
-export interface Questions {
+export interface Question {
   id: number;
+  topicId: number;
   text: string;
-  answers: Answer[] | [];
 }
 
 export interface Topic {
   id: number;
   name: string;
-  questions: Questions[];
 }
 
-export interface User {
-  id: number;
-  name: string;
-  topics: Topic[];
+export interface SessionRecord extends Question {
+  result: boolean | null;
 }

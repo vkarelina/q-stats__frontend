@@ -16,6 +16,20 @@
   align-items: center;
   font-weight: bold;
   border-radius: 50%;
-  background-color: var(--second-accent-color);
-  user-select: none;
+  padding: 2px;
+}
+
+.wrapper-sidebar > div > span {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  color: var(--accent-color);;
+  background-color: #272839;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-sidebar div.active {
+  background: linear-gradient(to bottom, #f0ae99, #ff7f00);
 }

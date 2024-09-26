@@ -1,21 +1,18 @@
 import "./header.css";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-import { mockTopics } from "../../mock-data";
 import useTopic from "../../store/topic";
 
 const Header = () => {
-  const refCurrentElement = useRef<string | null>(null);
-
   const setFilter = useTopic.use.setFilter();
-  const setTopics = useTopic.use.setTopics();
+  const fetchTopics = useTopic.use.fetchTopics();
 
-  const topics = useTopic.use.topics();
+  const topicsArr = useTopic.use.topics();
   const filter = useTopic.use.filter();
 
   useEffect(() => {
-    setTopics(mockTopics);
+    fetchTopics();
   }, []);
 
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
@@ -24,17 +21,20 @@ const Header = () => {
     if (
       target instanceof HTMLElement &&
       target.dataset.tab &&
-      filter !== target.innerText
+      filter?.name !== target.innerText
     ) {
-      refCurrentElement.current = target.innerText;
-      setFilter(refCurrentElement.current);
+      const currentTopic = topicsArr?.find(
+        (topic) => topic.name === target.innerText
+      );
+
+      if (currentTopic) setFilter(currentTopic);
     }
   };
 
   return (
     <div className="wrapper-header" onClick={onTabCLick}>
-      {topics?.map((topic, index) => (
-        <div key={index} data-tab="true">
+      {topicsArr?.map((topic, index) => (
+        <div key={index} data-tab="true" className={filter?.id ===  topic.id ? "active" : ""}>
           {topic.name}
         </div>
       ))}
