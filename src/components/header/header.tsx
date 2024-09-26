@@ -20,7 +20,6 @@ const Header = () => {
 
     if (
       target instanceof HTMLElement &&
-      target.dataset.tab &&
       filter?.name !== target.innerText
     ) {
       const currentTopic = topicsArr?.find(
@@ -32,9 +31,9 @@ const Header = () => {
   };
 
   return (
-    <div className="wrapper-header" onClick={onTabCLick}>
+    <div className="wrapper-header">
       {topicsArr?.map((topic, index) => (
-        <div key={index} data-tab="true" className={filter?.id ===  topic.id ? "active" : ""}>
+        <div key={index} onClick={onTabCLick} className={filter?.id ===  topic.id ? "active" : ""}>
           {topic.name}
         </div>
       ))}

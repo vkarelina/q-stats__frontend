@@ -18,32 +18,38 @@ export const answers: Answer[] = [
       id: 1,
       questionId: 3,
       userId: 1,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   },{
       id: 2,
       questionId: 4,
       userId: 1,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   },{
       id: 3,
       questionId: 1,
       userId: 2,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   },{
       id: 4,
       questionId: 2,
       userId: 2,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   },{
       id: 5,
       questionId: 3,
       userId: 2,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   },{
       id: 6,
       questionId: 4,
       userId: 2,
-      answer: null
+      answer: null,
+      date: new Date(1727382908935),
   }
 ];
 

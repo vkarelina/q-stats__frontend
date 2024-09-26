@@ -1,26 +1,25 @@
-export interface User {
+export type User = {
   id: number;
   name: string;
 }
 
-export interface Answer {
+export type Answer = {
   id: number;
   questionId: number;
   userId: number;
   answer: boolean | null;
+  date: Date;
 }
 
-export interface Question {
+export type Question = {
   id: number;
   topicId: number;
   text: string;
 }
 
-export interface Topic {
+export type Topic = {
   id: number;
   name: string;
 }
 
-export interface SessionRecord extends Question {
-  result: boolean | null;
-}
+export type SessionRecord = Question & Pick<Answer, 'date' | 'id' | 'answer'>
