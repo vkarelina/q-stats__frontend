@@ -25,7 +25,6 @@ const useUserStore = create<UseUserStore>()(
       },
 
       setUser: (userId: number) => {
-        console.log(1111111)
         const users = get().users;
         const user = users?.find((user) => user.id === userId);
         set({ user }, false, "setUser");

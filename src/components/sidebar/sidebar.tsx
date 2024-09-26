@@ -23,18 +23,11 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (currentTopic) setCurrentQuestions(currentTopic.id);
-  }, [currentTopic]);
+  }, [currentTopic, currentUser]);
 
-  const onSelectUser = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target;
-
-    if (!(target instanceof HTMLElement)) return;
-
-    const userId = Number(target.dataset.user_id);
-
+  const onSelectUser = (userId: number) => {
     if (userId && currentUser?.id !== userId && currentTopic) {
       setUser(userId);
-      console.log(currentTopic.id);
       setCurrentQuestions(currentTopic.id);
     }
   };
@@ -45,12 +38,12 @@ const Sidebar = () => {
         usersArr.map((user) => (
           <div
             key={user.id}
-            onClick={onSelectUser}
+            onClick={() => onSelectUser(user.id)}
             className={
               currentUser && user.id === currentUser.id ? "active" : ""
             }
           >
-            <span data-user_id={user.id}>{user.name.split("")[0]}</span>
+            <span>{user.name.split("")[0]}</span>
           </div>
         ))}
     </div>
