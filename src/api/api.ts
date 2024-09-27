@@ -40,13 +40,18 @@ export const fetchSession = (userId: number, topicId: number) => {
   const userAnswers = fetchUserAnswers(userId);
 
   const sessionQuestions = topicQuestions.filter((question) =>
-    userAnswers.some((answer) => answer.questionId === question.id)
+    userAnswers.filter((answer) => answer.questionId === question.id)
   );
 
-  const session = sessionQuestions.map(question => ({
+  const session1 = sessionQuestions.map(question => {
+    const answers = userAnswers
+    .filter(answer => answer.questionId === question.id)
+    .map(({ date, answer, id }) => ({ date, answer, id }));
+    
+    return {
     ...question,
-    answer: userAnswers.find(answer => answer.questionId === question.id)?.answer ?? null,
-  }))
+    answers,
+  }})
 
-  return session;
+  return session1;
 };

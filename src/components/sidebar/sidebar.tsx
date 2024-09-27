@@ -3,14 +3,12 @@ import "./sidebar.css";
 import { useEffect } from "react";
 
 import useUser from "../../store/user";
-import useQuestion from "../../store/question";
 import useTopic from "../../store/topic";
 
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
   const setUser = useUser.use.setUser();
-  const fetchQuestions = useQuestion.use.fetchQuestions();
-  const setCurrentQuestions = useQuestion.use.setCurrentQuestions();
+  const fetchSession = useUser.use.fetchSession();
 
   const usersArr = useUser.use.users();
   const currentUser = useUser.use.user();
@@ -18,18 +16,14 @@ const Sidebar = () => {
 
   useEffect(() => {
     fetchUsers();
-    fetchQuestions();
   }, []);
 
   useEffect(() => {
-    if (currentTopic) setCurrentQuestions(currentTopic.id);
-  }, [currentTopic, currentUser]);
+    if (currentUser && currentTopic) fetchSession(currentUser?.id, currentTopic?.id);
+  }, [currentUser?.id, currentTopic?.id]);
 
   const onSelectUser = (userId: number) => {
-    if (userId && currentUser?.id !== userId && currentTopic) {
-      setUser(userId);
-      setCurrentQuestions(currentTopic.id);
-    }
+    if (userId && currentUser?.id !== userId) setUser(userId);
   };
 
   return (

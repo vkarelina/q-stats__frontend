@@ -3,7 +3,7 @@ import { devtools } from "zustand/middleware";
 
 import { Topic } from "../types";
 import createSelectors from "./create-selectors";
-import { topics } from "../mock-data";
+import { fetchTopics } from "../api/api";
 
 interface UseTopicStore {
   filter: Topic | null;
@@ -20,6 +20,7 @@ const useTopicStore = create<UseTopicStore>()(
       topics: null,
 
       fetchTopics: () => {
+        const topics = fetchTopics();
         set({ topics }, false, "setTopics");
       },
 

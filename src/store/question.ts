@@ -1,32 +1,25 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+
 import { Question } from "../types";
 import createSelectors from "./create-selectors";
-import { questions } from "../mock-data";
+import { fetchSession } from "../api/api";
 
 interface UseQuestionStore {
   questions: Question[] | null;
-  currentQuestions: Question[] | null;
 
-  fetchQuestions: () => void;
-  setCurrentQuestions: (topicId: number) => void;
+  fetchQuestions: (userId: number, topicId: number) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
-    immer((set, get) => ({
+    immer((set) => ({
       questions: null,
-      currentQuestions: null,
 
-      fetchQuestions() {
+      fetchQuestions(userId, topicId) {
+        const questions = fetchSession(userId, topicId);
         set({ questions }, false, "setQuestions");
-      },
-
-      setCurrentQuestions(topicId: number) {
-        const questions = get().questions;
-        const currentQuestions = questions?.filter(question => question.topicId === topicId)
-        set({ currentQuestions }, false, "setCurrentQuestions");
       },
     }))
   )

@@ -22,4 +22,4 @@ export type Topic = {
   name: string;
 }
 
-export type SessionRecord = Question & Pick<Answer, 'date' | 'id' | 'answer'>
+export type SessionRecord = Question & { answers: Pick<Answer, 'date' | 'id' | 'answer'>[]}
