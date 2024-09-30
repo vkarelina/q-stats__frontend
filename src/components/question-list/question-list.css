@@ -17,9 +17,9 @@
   border-bottom: 1px solid var(--second-accent-color);
 }
 
-.wrapper-list > li *:nth-child(2) {
+/* .wrapper-list > li *:nth-child(2) {
   width: 100%;
-}
+} */
 
 .wrapper-list > li *:not(div, svg) {
   padding: 10px 10px 10px 10px;

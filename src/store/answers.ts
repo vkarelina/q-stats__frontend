@@ -4,7 +4,7 @@ import { immer } from "zustand/middleware/immer";
 
 import { Answer } from "../types";
 import createSelectors from "./create-selectors";
-import { fetchAnswers, fetchUserAnswers } from "../api/api";
+import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from "../api/api";
 
 interface UseAnswerStore {
   answers: Answer[] | null;
@@ -12,11 +12,12 @@ interface UseAnswerStore {
 
   fetchUserAnswers: (userId: number) => void;
   fetchAnswers: () => void;
+  fetchAddAnswer: (userId: number, questionId: number) => void;
 }
 
 const useAnswerStore = create<UseAnswerStore>()(
   devtools(
-    immer((set) => ({
+    immer((set, get) => ({
       answers: null,
       userAnswers: null,
 
@@ -28,6 +29,12 @@ const useAnswerStore = create<UseAnswerStore>()(
       fetchUserAnswers(userId) {
         const userAnswers = fetchUserAnswers(userId);
         set({ userAnswers }, false, "setAnswers");
+      },
+
+      fetchAddAnswer(userId: number, questionId: number) {
+        const newAnswer = fetchAddAnswer(userId, questionId);
+        const answers = get().answers;
+        answers?.push(newAnswer);
       },
     }))
   )

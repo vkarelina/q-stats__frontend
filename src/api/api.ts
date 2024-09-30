@@ -1,4 +1,5 @@
 import { answers, questions, topics, users } from "../mock-data";
+import { Question } from "../types";
 
 export const fetchUsers = () => {
   return users;
@@ -43,7 +44,7 @@ export const fetchSession = (userId: number, topicId: number) => {
     userAnswers.filter((answer) => answer.questionId === question.id)
   );
 
-  const session1 = sessionQuestions.map(question => {
+  const session = sessionQuestions.map(question => {
     const answers = userAnswers
     .filter(answer => answer.questionId === question.id)
     .map(({ date, answer, id }) => ({ date, answer, id }));
@@ -53,5 +54,31 @@ export const fetchSession = (userId: number, topicId: number) => {
     answers,
   }})
 
-  return session1;
+  console.log(session)
+
+  return session;
 };
+
+// добавление вопроса
+export const fetchAddQuestion = (question: Question) => {
+  const questions = fetchQuestions();
+  questions.push(question);
+
+  return question;
+}
+
+export const fetchAddAnswer = (userId: number, questionId: number) => {
+  const answers = fetchAnswers();
+
+  const answer = {
+    id: answers.length + 2,
+    questionId,
+    userId,
+    answer: null,
+    date: new Date(),
+  }
+
+  answers.push(answer);
+
+  return answer;
+}

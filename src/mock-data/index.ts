@@ -58,51 +58,61 @@ export const questions: Question[] = [
     id: 1,
     topicId: 1,
     text: "Question react 1",
+    isDefault: true,
   },
   {
     id: 2,
     topicId: 1,
     text: "Question react 2",
+    isDefault: true,
   },
   {
     id: 3,
     topicId: 2,
     text: "Question Nest 3",
+    isDefault: true,
   },
   {
     id: 4,
     topicId: 2,
     text: "Question Nest 4",
+    isDefault: true,
   },
   {
     id: 3,
     topicId: 3,
     text: "Question Node 5",
+    isDefault: true,
   },
   {
     id: 4,
     topicId: 3,
     text: "Question Node 6",
+    isDefault: true,
   },
   {
     id: 3,
     topicId: 4,
     text: "Question TypeScript 7",
+    isDefault: true,
   },
   {
     id: 4,
     topicId: 4,
     text: "Question TypeScript 8",
+    isDefault: true,
   },
   {
     id: 3,
     topicId: 5,
     text: "Question JavaScript 9",
+    isDefault: true,
   },
   {
     id: 4,
     topicId: 5,
     text: "Question JavaScript 10",
+    isDefault: true,
   },
 ];
 

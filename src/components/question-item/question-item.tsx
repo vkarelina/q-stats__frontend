@@ -1,6 +1,4 @@
 import { SessionRecord } from "../../types";
-import CheckIcon from "../check-icon/check-icon";
-import CrossIcon from "../cross-icon/cross-icon";
 import "./question-item.css";
 
 import { useState } from "react";
@@ -11,7 +9,6 @@ interface QuestionItemProps {
 }
 
 const QuestionItem = ({ question, idx }: QuestionItemProps) => {
-  console.log(question);
   const [onShowInput, setOnShowInput] = useState(false);
 
   const showInput = () => {
@@ -28,8 +25,8 @@ const QuestionItem = ({ question, idx }: QuestionItemProps) => {
       {onShowInput && (
         <textarea defaultValue={question.text} onBlur={hideInput} autoFocus />
       )}
-      {!onShowInput && <p onClick={showInput}>{question.text}</p>}
-      {question.answers.map(() => (
+      {!onShowInput && <p onClick={showInput} className="question-text">{question.text}</p>}
+      {/* {question.answers.map(() => (
         <div className="icon">
           <div>
             <CheckIcon />
@@ -38,7 +35,7 @@ const QuestionItem = ({ question, idx }: QuestionItemProps) => {
             <CrossIcon />
           </div>
         </div>
-      ))}
+      ))} */}
     </li>
   );
 };

@@ -15,6 +15,7 @@ export type Question = {
   id: number;
   topicId: number;
   text: string;
+  isDefault: boolean;
 }
 
 export type Topic = {

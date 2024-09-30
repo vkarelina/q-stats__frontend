@@ -4,22 +4,29 @@ import { immer } from "zustand/middleware/immer";
 
 import { Question } from "../types";
 import createSelectors from "./create-selectors";
-import { fetchSession } from "../api/api";
+import { fetchAddQuestion, fetchSession } from "../api/api";
 
 interface UseQuestionStore {
   questions: Question[] | null;
 
   fetchQuestions: (userId: number, topicId: number) => void;
+  fetchAddQuestion: (question: Question) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
-    immer((set) => ({
+    immer((set, get) => ({
       questions: null,
 
       fetchQuestions(userId, topicId) {
         const questions = fetchSession(userId, topicId);
         set({ questions }, false, "setQuestions");
+      },
+
+      fetchAddQuestion(question: Question) {
+        const newQuestion = fetchAddQuestion(question);
+        const questions = get().questions;
+        questions?.push(newQuestion);
       },
     }))
   )
