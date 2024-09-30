@@ -19,7 +19,8 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (currentUser && currentTopic) fetchSession(currentUser?.id, currentTopic?.id);
+    if (currentUser && currentTopic)
+      fetchSession(currentUser?.id, currentTopic?.id);
   }, [currentUser?.id, currentTopic?.id]);
 
   const onSelectUser = (userId: number) => {

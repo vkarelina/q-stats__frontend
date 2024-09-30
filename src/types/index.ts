@@ -1,7 +1,7 @@
 export type User = {
   id: number;
   name: string;
-}
+};
 
 export type Answer = {
   id: number;
@@ -9,18 +9,20 @@ export type Answer = {
   userId: number;
   answer: boolean | null;
   date: Date;
-}
+};
 
 export type Question = {
   id: number;
   topicId: number;
   text: string;
   isDefault: boolean;
-}
+};
 
 export type Topic = {
   id: number;
   name: string;
-}
+};
 
-export type SessionRecord = Question & { answers: Pick<Answer, 'date' | 'id' | 'answer'>[]}
+export type SessionRecord = Question & {
+  answers: Pick<Answer, "date" | "id" | "answer">[];
+};

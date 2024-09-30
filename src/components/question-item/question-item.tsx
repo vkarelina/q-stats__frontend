@@ -25,17 +25,11 @@ const QuestionItem = ({ question, idx }: QuestionItemProps) => {
       {onShowInput && (
         <textarea defaultValue={question.text} onBlur={hideInput} autoFocus />
       )}
-      {!onShowInput && <p onClick={showInput} className="question-text">{question.text}</p>}
-      {/* {question.answers.map(() => (
-        <div className="icon">
-          <div>
-            <CheckIcon />
-          </div>
-          <div>
-            <CrossIcon />
-          </div>
-        </div>
-      ))} */}
+      {!onShowInput && (
+        <p onClick={showInput} className="question-text">
+          {question.text}
+        </p>
+      )}
     </li>
   );
 };

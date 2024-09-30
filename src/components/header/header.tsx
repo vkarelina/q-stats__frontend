@@ -18,10 +18,7 @@ const Header = () => {
   const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target;
 
-    if (
-      target instanceof HTMLElement &&
-      filter?.name !== target.innerText
-    ) {
+    if (target instanceof HTMLElement && filter?.name !== target.innerText) {
       const currentTopic = topicsArr?.find(
         (topic) => topic.name === target.innerText
       );
@@ -33,7 +30,11 @@ const Header = () => {
   return (
     <div className="wrapper-header">
       {topicsArr?.map((topic, index) => (
-        <div key={index} onClick={onTabCLick} className={filter?.id ===  topic.id ? "active" : ""}>
+        <div
+          key={index}
+          onClick={onTabCLick}
+          className={filter?.id === topic.id ? "active" : ""}
+        >
           {topic.name}
         </div>
       ))}

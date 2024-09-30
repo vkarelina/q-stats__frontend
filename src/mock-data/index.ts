@@ -17,35 +17,35 @@ export const users: User[] = [
 
 export const answers: Answer[] = [
   {
-    id: 4,
+    id: 1,
     questionId: 1,
     userId: 2,
     answer: true,
     date: new Date(1727382908935),
   },
   {
-    id: 5,
+    id: 2,
     questionId: 1,
     userId: 2,
     answer: false,
     date: new Date(1727426615690),
   },
   {
-    id: 4,
+    id: 3,
     questionId: 2,
     userId: 2,
     answer: null,
     date: new Date(1727382908935),
   },
   {
-    id: 6,
+    id: 4,
     questionId: 3,
     userId: 2,
     answer: null,
     date: new Date(1727382908935),
   },
   {
-    id: 7,
+    id: 5,
     questionId: 4,
     userId: 2,
     answer: null,

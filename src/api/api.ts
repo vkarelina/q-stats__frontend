@@ -34,27 +34,32 @@ export const fetchUserAnswers = (userId: number) => {
 
 export const fetchSession = (userId: number, topicId: number) => {
   const questions = fetchQuestions();
+
   const topicQuestions = questions.filter(
     (question) => question.topicId === topicId
   );
 
   const userAnswers = fetchUserAnswers(userId);
 
-  const sessionQuestions = topicQuestions.filter((question) =>
-    userAnswers.filter((answer) => answer.questionId === question.id)
+  let sessionQuestions = topicQuestions.filter((question) =>
+    userAnswers.some((answer) => answer.questionId === question.id)
   );
 
-  const session = sessionQuestions.map(question => {
-    const answers = userAnswers
-    .filter(answer => answer.questionId === question.id)
-    .map(({ date, answer, id }) => ({ date, answer, id }));
-    
-    return {
-    ...question,
-    answers,
-  }})
+  if (sessionQuestions.length === 0) {
+    sessionQuestions = topicQuestions.filter((question) => question.isDefault);
+    sessionQuestions.map((question) => fetchAddAnswer(userId, question.id));
+  }
 
-  console.log(session)
+  const session = sessionQuestions.map((question) => {
+    const answers = userAnswers
+      .filter((answer) => answer.questionId === question.id)
+      .map(({ date, answer, id }) => ({ date, answer, id }));
+
+    return {
+      ...question,
+      answers,
+    };
+  });
 
   return session;
 };
@@ -65,20 +70,20 @@ export const fetchAddQuestion = (question: Question) => {
   questions.push(question);
 
   return question;
-}
+};
 
 export const fetchAddAnswer = (userId: number, questionId: number) => {
   const answers = fetchAnswers();
 
   const answer = {
-    id: answers.length + 2,
+    id: answers.length + 1,
     questionId,
     userId,
     answer: null,
     date: new Date(),
-  }
+  };
 
   answers.push(answer);
 
   return answer;
-}
+};

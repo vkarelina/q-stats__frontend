@@ -37,7 +37,7 @@ const useUserStore = create<UseUserStore>()(
       fetchSession: (userId: number, topicId: number) => {
         const sessia = fetchSession(userId, topicId);
         set({ sessia }, false, "setSession");
-      }
+      },
     }))
   )
 );
