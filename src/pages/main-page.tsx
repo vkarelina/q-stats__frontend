@@ -2,7 +2,7 @@ import "./main-page.css";
 
 import { QuestionList } from "../components/question-list";
 
-const mainPage = () => {
+const MainPage = () => {
   return (
     <div className="wrapper-main">
       <QuestionList />
@@ -10,4 +10,4 @@ const mainPage = () => {
   );
 };
 
-export default mainPage;
+export default MainPage;

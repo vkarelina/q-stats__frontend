@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import useUser from "../../store/user";
 import useQuestion from "../../store/question";
 import useAnswer from "../../store/answers";
-import QuestionItem from "../question-item/question-item";
+import { QuestionItem } from "../question-item";
 
 const QuestionList = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -16,14 +16,14 @@ const QuestionList = () => {
   const fetchSession = useUser.use.fetchSession();
 
   const questions = useUser.use.sessia();
-  const userId = useUser.use.user()?.id;
+  const user = useUser.use.user();
 
   const handleChangeTextQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     textQuestion.current = e.target.value;
   };
 
-  const handleQuestion = () => {
-    if (!questions || !userId) return;
+  const handleAddQuestion = () => {
+    if (!questions || !user?.id) return;
     const questionData = {
       id: Date.now(),
       topicId: questions[0].topicId,
@@ -32,36 +32,34 @@ const QuestionList = () => {
     };
 
     fetchAddQuestion(questionData);
-    fetchAddAnswer(userId, questionData.id);
-    fetchSession(userId, questionData.topicId);
+    fetchAddAnswer(user?.id, questionData.id);
+    fetchSession(user?.id, questionData.topicId);
     setOpenForm(false);
     textQuestion.current = "";
   };
 
   if (questions) {
     return (
-      <>
-        <ul className="wrapper-list">
-          <li className="data-question"></li>
-          {questions.map((question, idx) => (
-            <QuestionItem question={question} key={question.id} idx={idx} />
-          ))}
-          {openForm && (
-            <li>
-              <p>{questions.length + 1}</p>
-              <textarea
-                defaultValue={textQuestion.current}
-                onChange={handleChangeTextQuestion}
-                onBlur={handleQuestion}
-                autoFocus
-              />
-            </li>
-          )}
-          <li onClick={() => setOpenForm(true)}>
-            <p>+</p>
+      <ul className="wrapper-list">
+        <li className="data-question"></li>
+        {questions.map((question, idx) => (
+          <QuestionItem question={question} key={question.id} idx={idx} />
+        ))}
+        {openForm && (
+          <li>
+            <p>{questions.length + 1}</p>
+            <textarea
+              defaultValue={textQuestion.current}
+              onChange={handleChangeTextQuestion}
+              onBlur={handleAddQuestion}
+              autoFocus
+            />
           </li>
-        </ul>
-      </>
+        )}
+        <li onClick={() => setOpenForm(true)}>
+          <p>+</p>
+        </li>
+      </ul>
     );
   }
 };

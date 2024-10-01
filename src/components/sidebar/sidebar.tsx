@@ -24,7 +24,7 @@ const Sidebar = () => {
   }, [currentUser?.id, currentTopic?.id]);
 
   const handleSelectUser = (userId: number) => {
-    if (userId && currentUser?.id !== userId) setUser(userId);
+    if (currentUser?.id !== userId) setUser(userId);
   };
 
   return (
@@ -35,10 +35,10 @@ const Sidebar = () => {
             key={user.id}
             onClick={() => handleSelectUser(user.id)}
             className={
-              currentUser && user.id === currentUser.id ? "active" : ""
+              user.id === currentUser?.id ? "active" : ""
             }
           >
-            <span>{user.name.split("")[0]}</span>
+            <span>{user.name.charAt(0)}</span>
           </div>
         ))}
     </div>
