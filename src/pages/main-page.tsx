@@ -1,5 +1,6 @@
-import { QuestionList } from "../components/question-list";
 import "./main-page.css";
+
+import { QuestionList } from "../components/question-list";
 
 const mainPage = () => {
   return (

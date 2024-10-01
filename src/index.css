@@ -14,8 +14,10 @@
 
   --primary-color: #1f202f;
   --backgraund-color: #1b1c27;
+  --avatar-icon-color: #272839;
   --accent-color: #ff7f00;
   --second-accent-color: #ba6007;
+  --light-accent-color: #f0ae99;
 }
 
 body {

@@ -1,7 +1,8 @@
-import { SessionRecord } from "../../types";
 import "./question-item.css";
 
 import { useState } from "react";
+
+import { SessionRecord } from "../../types";
 
 interface QuestionItemProps {
   question: SessionRecord;
@@ -11,22 +12,18 @@ interface QuestionItemProps {
 const QuestionItem = ({ question, idx }: QuestionItemProps) => {
   const [onShowInput, setOnShowInput] = useState(false);
 
-  const showInput = () => {
-    setOnShowInput(true);
-  };
-
-  const hideInput = () => {
-    setOnShowInput(false);
+  const handleShowInput = () => {
+    setOnShowInput(!onShowInput);
   };
 
   return (
     <li>
       <p>{idx + 1 + "."}</p>
       {onShowInput && (
-        <textarea defaultValue={question.text} onBlur={hideInput} autoFocus />
+        <textarea defaultValue={question.text} onBlur={handleShowInput} autoFocus />
       )}
       {!onShowInput && (
-        <p onClick={showInput} className="question-text">
+        <p onClick={handleShowInput} className="question-text">
           {question.text}
         </p>
       )}

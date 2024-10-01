@@ -18,11 +18,11 @@ const QuestionList = () => {
   const questions = useUser.use.sessia();
   const userId = useUser.use.user()?.id;
 
-  const changeTextQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeTextQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     textQuestion.current = e.target.value;
   };
 
-  const addQuestion = () => {
+  const handleQuestion = () => {
     if (!questions || !userId) return;
     const questionData = {
       id: Date.now(),
@@ -43,17 +43,16 @@ const QuestionList = () => {
       <>
         <ul className="wrapper-list">
           <li className="data-question"></li>
-          {questions &&
-            questions?.map((question, idx) => (
-              <QuestionItem question={question} key={question.id} idx={idx} />
-            ))}
+          {questions.map((question, idx) => (
+            <QuestionItem question={question} key={question.id} idx={idx} />
+          ))}
           {openForm && (
             <li>
               <p>{questions.length + 1}</p>
               <textarea
                 defaultValue={textQuestion.current}
-                onChange={changeTextQuestion}
-                onBlur={addQuestion}
+                onChange={handleChangeTextQuestion}
+                onBlur={handleQuestion}
                 autoFocus
               />
             </li>
