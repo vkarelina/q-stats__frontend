@@ -4,7 +4,7 @@ import { immer } from "zustand/middleware/immer";
 
 import { Question } from "../types";
 import createSelectors from "./create-selectors";
-import { fetchAddQuestion, fetchSession } from "../api/api";
+import { fetchAddQuestion, fetchSession } from "../api";
 
 interface UseQuestionStore {
   questions: Question[] | null;

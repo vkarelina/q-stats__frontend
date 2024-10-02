@@ -1,30 +1,22 @@
 import { answers, questions, topics, users } from "../mock-data";
 import { Question } from "../types";
 
-export const fetchUsers = () => {
-  return users;
-};
+export const fetchUsers = () => users;
 
-export const fetchAnswers = () => {
-  return answers;
-};
+export const fetchAnswers = () => answers;
 
-export const fetchQuestions = () => {
-  return questions;
-};
+export const fetchQuestions = () => questions;
 
-export const fetchTopics = () => {
-  return topics;
-};
+export const fetchTopics = () => topics;
 
-export const fetchQuestionById = (questionId: number) => {
+export const fetchQuestionById = (id: number) => {
   const questions = fetchQuestions();
-  return questions.find((question) => question.id === questionId);
+  return questions.find((question) => question.id === id);
 };
 
-export const fetchTopicById = (topicId: number) => {
+export const fetchTopicById = (id: number) => {
   const topics = fetchTopics();
-  return topics.find((topic) => topic.id === topicId);
+  return topics.find((topic) => topic.id === id);
 };
 
 export const fetchUserAnswers = (userId: number) => {
@@ -64,7 +56,6 @@ export const fetchSession = (userId: number, topicId: number) => {
   return session;
 };
 
-// добавление вопроса
 export const fetchAddQuestion = (question: Question) => {
   const questions = fetchQuestions();
   questions.push(question);

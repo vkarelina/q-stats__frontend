@@ -3,7 +3,7 @@ import { devtools } from "zustand/middleware";
 
 import { Topic } from "../types";
 import createSelectors from "./create-selectors";
-import { fetchTopics } from "../api/api";
+import { fetchTopics } from "../api";
 
 interface UseTopicStore {
   filter: Topic | null;

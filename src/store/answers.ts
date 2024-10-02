@@ -4,7 +4,7 @@ import { immer } from "zustand/middleware/immer";
 
 import { Answer } from "../types";
 import createSelectors from "./create-selectors";
-import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from "../api/api";
+import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from "../api";
 
 interface UseAnswerStore {
   answers: Answer[] | null;

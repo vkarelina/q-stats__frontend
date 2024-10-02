@@ -10,7 +10,7 @@ const Sidebar = () => {
   const setUser = useUser.use.setUser();
   const fetchSession = useUser.use.fetchSession();
 
-  const usersArr = useUser.use.users();
+  const users = useUser.use.users();
   const currentUser = useUser.use.user();
   const currentTopic = useTopic.use.filter();
 
@@ -29,8 +29,8 @@ const Sidebar = () => {
 
   return (
     <div className="wrapper-sidebar">
-      {usersArr &&
-        usersArr.map((user) => (
+      {users &&
+        users.map((user) => (
           <div
             key={user.id}
             onClick={() => handleSelectUser(user.id)}

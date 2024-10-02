@@ -8,31 +8,30 @@ const Header = () => {
   const setFilter = useTopic.use.setFilter();
   const fetchTopics = useTopic.use.fetchTopics();
 
-  const topicsArr = useTopic.use.topics();
+  const topics = useTopic.use.topics();
   const filter = useTopic.use.filter();
 
   useEffect(() => {
     fetchTopics();
   }, []);
 
-  const handleTabCLick = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target;
+  const handleTabClick = (e: React.MouseEvent<HTMLElement>) => {
+    const { target } = e;
 
-    if (target instanceof HTMLElement && filter?.name !== target.innerText) {
-      const currentTopic = topicsArr?.find(
-        (topic) => topic.name === target.innerText
-      );
+    if (!(target instanceof HTMLElement) || filter?.name === target.innerText)
+      return;
 
-      if (currentTopic) setFilter(currentTopic);
-    }
+    const currentTopic = topics?.find(topic => topic.name === target.innerText);
+
+    if (currentTopic) setFilter(currentTopic);
   };
 
   return (
     <div className="wrapper-header">
-      {topicsArr?.map((topic, index) => (
+      {topics?.map((topic, index) => (
         <div
           key={index}
-          onClick={handleTabCLick}
+          onClick={handleTabClick}
           className={filter?.id === topic.id ? "active" : ""}
         >
           {topic.name}

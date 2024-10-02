@@ -9,33 +9,35 @@ import { QuestionItem } from "../question-item";
 
 const QuestionList = () => {
   const [openForm, setOpenForm] = useState(false);
-  const textQuestion = useRef<string>("");
+  const textQuestionRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchAddQuestion = useQuestion.use.fetchAddQuestion();
   const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
   const fetchSession = useUser.use.fetchSession();
 
-  const questions = useUser.use.sessia();
+  const questions = useUser.use.session();
   const user = useUser.use.user();
-
-  const handleChangeTextQuestion = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    textQuestion.current = e.target.value;
-  };
 
   const handleAddQuestion = () => {
     if (!questions || !user?.id) return;
-    const questionData = {
+
+    if (!textQuestionRef.current?.value) {
+      setOpenForm(false);
+      return;
+    }
+
+    const question = {
       id: Date.now(),
       topicId: questions[0].topicId,
-      text: textQuestion.current,
+      text: textQuestionRef.current.value,
       isDefault: false,
     };
 
-    fetchAddQuestion(questionData);
-    fetchAddAnswer(user?.id, questionData.id);
-    fetchSession(user?.id, questionData.topicId);
+    fetchAddQuestion(question);
+    fetchAddAnswer(user?.id, question.id);
+    fetchSession(user?.id, question.topicId);
     setOpenForm(false);
-    textQuestion.current = "";
+    textQuestionRef.current.value = "";
   };
 
   if (questions) {
@@ -49,9 +51,8 @@ const QuestionList = () => {
           <li>
             <p>{questions.length + 1}</p>
             <textarea
-              defaultValue={textQuestion.current}
-              onChange={handleChangeTextQuestion}
               onBlur={handleAddQuestion}
+              ref={textQuestionRef}
               autoFocus
             />
           </li>
