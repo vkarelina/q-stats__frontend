@@ -1,4 +1,4 @@
-.wrapper-list {
+.list {
   display: flex;
   padding: 12px;
   margin: 0;
@@ -8,7 +8,7 @@
   max-width: 700px;
 }
 
-.wrapper-list > li {
+.list > li {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -17,13 +17,13 @@
   border-bottom: 1px solid var(--second-accent-color);
 }
 
-.wrapper-list > li *:not(div, svg) {
+.list > li *:not(div, svg) {
   padding: 10px 10px 10px 10px;
   border-radius: 10px;
   background-color: var(--backgraund-color);
 }
 
-.wrapper-list > li:last-child {
+.list > li:last-child {
   justify-content: center;
   align-items: center;
   padding: 0px 10px 0px 10px;
@@ -42,7 +42,7 @@
   }
 }
 
-.wrapper-list svg {
+.list svg {
   width: 18px;
   padding: 10px;
   max-height: 20px;
@@ -50,13 +50,10 @@
   background-color: var(--backgraund-color);
 }
 
-.data-question {
-  width: 100%;
-  display: flex;
-  justify-content: end;
-}
-
-.data-wrapper {
-  display: flex;
-  gap: 14px;
+.textarea {
+  width: 500px;
+  height: 20px;
+  border: 0px;
+  line-height: unset;
+  outline: none;
 }

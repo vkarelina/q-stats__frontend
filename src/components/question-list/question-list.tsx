@@ -1,11 +1,12 @@
-import "./question-list.css";
-
 import { useRef, useState } from "react";
 
 import useUser from "../../store/user";
 import useQuestion from "../../store/question";
 import useAnswer from "../../store/answers";
+
 import { QuestionItem } from "../question-item";
+
+import styles from "./question-list.module.css";
 
 const QuestionList = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -42,8 +43,7 @@ const QuestionList = () => {
 
   if (questions) {
     return (
-      <ul className="wrapper-list">
-        <li className="data-question"></li>
+      <ul className={styles.list}>
         {questions.map((question, idx) => (
           <QuestionItem question={question} key={question.id} idx={idx} />
         ))}
@@ -54,6 +54,7 @@ const QuestionList = () => {
               onBlur={handleAddQuestion}
               ref={textQuestionRef}
               autoFocus
+              className={styles.textarea}
             />
           </li>
         )}

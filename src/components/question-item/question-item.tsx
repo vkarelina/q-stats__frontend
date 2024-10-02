@@ -1,8 +1,8 @@
-import "./question-item.css";
-
 import { useState } from "react";
 
 import { SessionRecord } from "../../types";
+
+import styles from "./question-item.module.css";
 
 interface QuestionItemProps {
   question: SessionRecord;
@@ -20,10 +20,15 @@ const QuestionItem = ({ question, idx }: QuestionItemProps) => {
     <li>
       <p>{idx + 1 + "."}</p>
       {onShowInput && (
-        <textarea defaultValue={question.text} onBlur={handleShowInput} autoFocus />
+        <textarea
+          defaultValue={question.text}
+          onBlur={handleShowInput}
+          autoFocus
+          className={styles.textarea}
+        />
       )}
       {!onShowInput && (
-        <p onClick={handleShowInput} className="question-text">
+        <p onClick={handleShowInput} className={styles.text}>
           {question.text}
         </p>
       )}

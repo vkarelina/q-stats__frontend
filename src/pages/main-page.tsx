@@ -1,9 +1,9 @@
-import "./main-page.css";
-
 import { QuestionList } from "../components/question-list";
 
+import styles from  "./main-page.module.css";
+
 const MainPage = () => (
-  <div className="wrapper-main">
+  <div className={styles.container}>
     <QuestionList />
   </div>
 );

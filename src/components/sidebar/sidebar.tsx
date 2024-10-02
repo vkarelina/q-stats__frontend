@@ -1,9 +1,9 @@
-import "./sidebar.css";
-
 import { useEffect } from "react";
 
 import useUser from "../../store/user";
 import useTopic from "../../store/topic";
+
+import styles from "./sidebar.module.css";
 
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
@@ -12,30 +12,30 @@ const Sidebar = () => {
 
   const users = useUser.use.users();
   const currentUser = useUser.use.user();
-  const currentTopic = useTopic.use.filter();
+  const topic = useTopic.use.topic();
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   useEffect(() => {
-    if (currentUser && currentTopic)
-      fetchSession(currentUser.id, currentTopic.id);
-  }, [currentUser?.id, currentTopic?.id]);
+    if (currentUser && topic)
+      fetchSession(currentUser.id, topic.id);
+  }, [currentUser?.id, topic?.id]);
 
   const handleSelectUser = (userId: number) => {
     if (currentUser?.id !== userId) setUser(userId);
   };
 
   return (
-    <div className="wrapper-sidebar">
+    <div className={styles.wrapperSidebar}>
       {users &&
         users.map((user) => (
           <div
             key={user.id}
             onClick={() => handleSelectUser(user.id)}
             className={
-              user.id === currentUser?.id ? "active" : ""
+              user.id === currentUser?.id ? styles.active : ""
             }
           >
             <span>{user.name.charAt(0)}</span>

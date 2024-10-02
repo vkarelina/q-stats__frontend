@@ -6,26 +6,26 @@ import createSelectors from "./create-selectors";
 import { fetchTopics } from "../api";
 
 interface UseTopicStore {
-  filter: Topic | null;
+  topic: Topic | null;
   topics: Topic[] | null;
 
   fetchTopics: () => void;
-  setFilter: (filter: Topic) => void;
+  fetchTopic: (topic: Topic) => void;
 }
 
 const useTopicStore = create<UseTopicStore>()(
   devtools(
     (set) => ({
-      filter: null,
+      topic: null,
       topics: null,
 
       fetchTopics: () => {
         const topics = fetchTopics();
-        set({ topics }, false, "setTopics");
+        set({ topics }, false, "fetchTopics");
       },
 
-      setFilter: (filter: Topic) => {
-        set({ filter }, false, "setFilter");
+      fetchTopic: (topic: Topic) => {
+        set({ topic }, false, "fetchTopic");
       },
     }),
     { name: "TopicStore" }

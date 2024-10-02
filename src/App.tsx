@@ -1,13 +1,13 @@
-import "./App.css";
-
 import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
 import { MainPage } from "./pages";
 
+import styles from "./App.module.css";
+
 const App = () => (
-  <div className="wrapper-app">
+  <div className={styles.wrapperApp}>
     <Header />
-    <div className="wrapper-content">
+    <div className={styles.wrapperContent}>
       <Sidebar />
       <MainPage />
     </div>
