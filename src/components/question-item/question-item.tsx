@@ -18,7 +18,7 @@ const QuestionItem = ({ question, idx }: QuestionItemProps) => {
 
   return (
     <li>
-      <p>{idx + 1 + "."}</p>
+      <p>{`${idx + 1}.`}</p>
       {onShowInput && (
         <textarea
           defaultValue={question.text}

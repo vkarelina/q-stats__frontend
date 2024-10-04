@@ -16,7 +16,7 @@
   padding: 2px;
 }
 
-.wrapperSidebar > div > span {
+.wrapperSidebar span {
   height: 100%;
   border-radius: 50%;
   color: var(--accent-color);
@@ -29,5 +29,9 @@
 }
 
 .wrapperSidebar div.active {
-  background: linear-gradient(to bottom, var(--light-accent-color), var(--accent-color));
+  background: linear-gradient(
+    to bottom,
+    var(--light-accent-color),
+    var(--accent-color)
+  );
 }

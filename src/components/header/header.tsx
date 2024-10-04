@@ -15,13 +15,14 @@ const Header = () => {
     fetchTopics();
   }, []);
 
-  const handleTabClick = (e: React.MouseEvent<HTMLElement>) => {
-    const { target } = e;
-
-    if (!(target instanceof HTMLElement) || currentTopic?.name === target.innerText)
+  const handleTabClick = ({ target }: React.MouseEvent<HTMLElement>) => {
+    if (
+      !(target instanceof HTMLElement) ||
+      currentTopic?.name === target.innerText
+    )
       return;
 
-    const topic = topics?.find(topic => topic.name === target.innerText);
+    const topic = topics?.find((topic) => topic.name === target.innerText);
 
     if (topic) fetchTopic(topic);
   };

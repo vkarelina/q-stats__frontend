@@ -19,8 +19,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (currentUser && topic)
-      fetchSession(currentUser.id, topic.id);
+    if (currentUser && topic) fetchSession(currentUser.id, topic.id);
   }, [currentUser?.id, topic?.id]);
 
   const handleSelectUser = (userId: number) => {
@@ -34,9 +33,7 @@ const Sidebar = () => {
           <div
             key={user.id}
             onClick={() => handleSelectUser(user.id)}
-            className={
-              user.id === currentUser?.id ? styles.active : ""
-            }
+            className={user.id === currentUser?.id ? styles.active : ""}
           >
             <span>{user.name.charAt(0)}</span>
           </div>
