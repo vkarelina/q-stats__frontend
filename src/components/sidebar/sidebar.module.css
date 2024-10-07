@@ -1,35 +1,37 @@
-.wrapper-sidebar {
+.wrapperSidebar {
   height: calc(100vh - 70px);
   width: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
   background-color: var(--backgraund-color);
 }
 
-.wrapper-sidebar > div {
+.wrapperSidebar > div {
   width: 40px;
   height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-weight: bold;
   border-radius: 50%;
   padding: 2px;
 }
 
-.wrapper-sidebar > div > span {
-  width: 100%;
+.wrapperSidebar span {
   height: 100%;
   border-radius: 50%;
-  color: var(--accent-color);;
-  background-color: #272839;
+  color: var(--accent-color);
+  background-color: var(--avatar-icon-color);
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  cursor: pointer;
 }
 
-.wrapper-sidebar div.active {
-  background: linear-gradient(to bottom, #f0ae99, #ff7f00);
+.wrapperSidebar div.active {
+  background: linear-gradient(
+    to bottom,
+    var(--light-accent-color),
+    var(--accent-color)
+  );
 }

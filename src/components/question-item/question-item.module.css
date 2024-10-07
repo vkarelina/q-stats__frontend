@@ -1,0 +1,12 @@
+.textarea {
+  width: 500px;
+  height: 20px;
+  border: 0px;
+  line-height: unset;
+  outline: none;
+}
+
+.text {
+  width: 500px;
+  text-align: start;
+}

@@ -1,25 +1,17 @@
-import { useEffect } from "react";
-import "./App.css";
-
 import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
 import { MainPage } from "./pages";
-import { fetchSession } from "./api/api";
 
-function App() {
-  useEffect(() => {
-    console.log(fetchSession(2, 1));
-  });
+import styles from "./App.module.css";
 
-  return (
-    <div className="wrapper-app">
-      <Header />
-      <div className="wrapper-content">
-        <Sidebar />
-        <MainPage />
-      </div>
+const App = () => (
+  <div className={styles.wrapperApp}>
+    <Header />
+    <div className={styles.wrapperContent}>
+      <Sidebar />
+      <MainPage />
     </div>
-  );
-}
+  </div>
+);
 
 export default App;

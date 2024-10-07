@@ -1,49 +1,40 @@
-import "./sidebar.css";
-
 import { useEffect } from "react";
 
 import useUser from "../../store/user";
-import useQuestion from "../../store/question";
 import useTopic from "../../store/topic";
+
+import styles from "./sidebar.module.css";
 
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
   const setUser = useUser.use.setUser();
-  const fetchQuestions = useQuestion.use.fetchQuestions();
-  const setCurrentQuestions = useQuestion.use.setCurrentQuestions();
+  const fetchSession = useUser.use.fetchSession();
 
-  const usersArr = useUser.use.users();
+  const users = useUser.use.users();
   const currentUser = useUser.use.user();
-  const currentTopic = useTopic.use.filter();
+  const topic = useTopic.use.topic();
 
   useEffect(() => {
     fetchUsers();
-    fetchQuestions();
   }, []);
 
   useEffect(() => {
-    if (currentTopic) setCurrentQuestions(currentTopic.id);
-  }, [currentTopic, currentUser]);
+    if (currentUser && topic) fetchSession(currentUser.id, topic.id);
+  }, [currentUser?.id, topic?.id]);
 
-  const onSelectUser = (userId: number) => {
-    if (userId && currentUser?.id !== userId && currentTopic) {
-      setUser(userId);
-      setCurrentQuestions(currentTopic.id);
-    }
+  const handleSelectUser = (userId: number) => {
+    if (currentUser?.id !== userId) setUser(userId);
   };
 
   return (
-    <div className="wrapper-sidebar">
-      {usersArr &&
-        usersArr.map((user) => (
+    <div className={styles.wrapperSidebar}>
+      {users?.map((user) => (
           <div
             key={user.id}
-            onClick={() => onSelectUser(user.id)}
-            className={
-              currentUser && user.id === currentUser.id ? "active" : ""
-            }
+            onClick={() => handleSelectUser(user.id)}
+            className={user.id === currentUser?.id ? styles.active : ""}
           >
-            <span>{user.name.split("")[0]}</span>
+            <span>{user.name.charAt(0)}</span>
           </div>
         ))}
     </div>

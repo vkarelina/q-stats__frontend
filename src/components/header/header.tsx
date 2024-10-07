@@ -1,39 +1,40 @@
-import "./header.css";
-
 import { useEffect } from "react";
 
 import useTopic from "../../store/topic";
 
+import styles from "./header.module.css";
+
 const Header = () => {
-  const setFilter = useTopic.use.setFilter();
+  const fetchTopic = useTopic.use.fetchTopic();
   const fetchTopics = useTopic.use.fetchTopics();
 
-  const topicsArr = useTopic.use.topics();
-  const filter = useTopic.use.filter();
+  const topics = useTopic.use.topics();
+  const currentTopic = useTopic.use.topic();
 
   useEffect(() => {
     fetchTopics();
   }, []);
 
-  const onTabCLick = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target;
-
+  const handleTabClick = ({ target }: React.MouseEvent<HTMLElement>) => {
     if (
-      target instanceof HTMLElement &&
-      filter?.name !== target.innerText
-    ) {
-      const currentTopic = topicsArr?.find(
-        (topic) => topic.name === target.innerText
-      );
+      !(target instanceof HTMLElement) ||
+      currentTopic?.name === target.innerText
+    )
+      return;
 
-      if (currentTopic) setFilter(currentTopic);
-    }
+    const topic = topics?.find((topic) => topic.name === target.innerText);
+
+    if (topic) fetchTopic(topic);
   };
 
   return (
-    <div className="wrapper-header">
-      {topicsArr?.map((topic, index) => (
-        <div key={index} onClick={onTabCLick} className={filter?.id ===  topic.id ? "active" : ""}>
+    <div className={styles.container}>
+      {topics?.map((topic, index) => (
+        <div
+          key={index}
+          onClick={handleTabClick}
+          className={currentTopic?.id === topic.id ? styles.active : ""}
+        >
           {topic.name}
         </div>
       ))}

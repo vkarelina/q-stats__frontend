@@ -1,3 +1,10 @@
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,36 +21,26 @@
 
   --primary-color: #1f202f;
   --backgraund-color: #1b1c27;
+  --avatar-icon-color: #272839;
   --accent-color: #ff7f00;
   --second-accent-color: #ba6007;
+  --light-accent-color: #f0ae99;
 }
 
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
-.wrapper-app {
+.wrapperApp {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 }
 
-.wrapper-content {
-  display: flex;
-  height: 100%;
-}
-
-.wrapper-app {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-
-.wrapper-content {
+.wrapperContent {
   display: flex;
   height: 100%;
 }
