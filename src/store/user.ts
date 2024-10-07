@@ -3,8 +3,8 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import createSelectors from './create-selectors';
-import { fetchSession, fetchUsers } from '../api';
-import { SessionRecord, User } from '../types';
+import { fetchSession, fetchUpdateSession, fetchUsers } from '../api';
+import { Question, SessionRecord, User } from '../types';
 
 interface UseUserStore {
   users: User[] | null;
@@ -14,6 +14,12 @@ interface UseUserStore {
   fetchUsers: () => void;
   setUser: (userId: number) => void;
   fetchSession: (userId: number, topicId: number) => void;
+  fetchUpdateSession: (
+    userId: number,
+    topicId: number,
+    newQuestion: Question,
+    oldQuestionId: number,
+  ) => void;
 }
 
 const useUserStore = create<UseUserStore>()(
@@ -37,6 +43,16 @@ const useUserStore = create<UseUserStore>()(
       fetchSession: (userId: number, topicId: number) => {
         const session = fetchSession(userId, topicId);
         set({ session }, false, 'setSession');
+      },
+
+      fetchUpdateSession: (
+        userId: number,
+        topicId: number,
+        newQuestion: Question,
+        oldQuestionId: number,
+      ) => {
+        const session = fetchUpdateSession(userId, topicId, newQuestion, oldQuestionId);
+        set({ session }, false, 'setUpdateSession');
       },
     })),
   ),

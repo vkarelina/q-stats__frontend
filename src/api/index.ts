@@ -78,3 +78,28 @@ export const fetchAddAnswer = (userId: number, questionId: number) => {
 
   return answer;
 };
+
+export const fetchUpdateSession = (
+  userId: number,
+  topicId: number,
+  newQuestion: Question,
+  oldQuestionId: number,
+) => {
+  const currentSession = fetchSession(userId, topicId);
+
+  const newSession = currentSession.filter((question) => {
+    if (question.id !== oldQuestionId) {
+      return question;
+    } else {
+      question.id = newQuestion.id;
+      question.text = newQuestion.text;
+      question.isDefault = newQuestion.isDefault;
+
+      return question;
+    }
+  });
+
+  newSession.pop();
+
+  return newSession;
+};

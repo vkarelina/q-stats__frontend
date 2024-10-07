@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import useAnswer from '../../store/answers';
 import useQuestion from '../../store/question';
 import useUser from '../../store/user';
+import { Question } from '../../types';
 import { QuestionItem } from '../question-item';
 
 import styles from './question-list.module.css';
@@ -14,6 +15,7 @@ const QuestionList = () => {
   const fetchAddQuestion = useQuestion.use.fetchAddQuestion();
   const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
   const fetchSession = useUser.use.fetchSession();
+  const fetchUpdateSession = useUser.use.fetchUpdateSession();
 
   const questions = useUser.use.session();
   const user = useUser.use.user();
@@ -40,11 +42,31 @@ const QuestionList = () => {
     textQuestionRef.current.value = '';
   };
 
+  const handleUpdateQuestionn = (text: string, question: Question) => {
+    const newQuestion = {
+      id: Date.now(),
+      topicId: question.topicId,
+      text: text,
+      isDefault: false,
+    };
+
+    if (!user) return;
+
+    fetchAddQuestion(newQuestion);
+    fetchAddAnswer(user.id, newQuestion.id);
+    fetchUpdateSession(user.id, question.topicId, newQuestion, question.id);
+  };
+
   if (questions) {
     return (
       <ul className={styles.list}>
         {questions.map((question, idx) => (
-          <QuestionItem question={question} key={question.id} idx={idx} />
+          <QuestionItem
+            question={question}
+            key={question.id}
+            idx={idx}
+            handleUpdateQuestion={handleUpdateQuestionn}
+          />
         ))}
         {openForm && (
           <li>
