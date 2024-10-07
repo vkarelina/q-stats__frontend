@@ -28,8 +28,7 @@ const Sidebar = () => {
 
   return (
     <div className={styles.wrapperSidebar}>
-      {users &&
-        users.map((user) => (
+      {users?.map((user) => (
           <div
             key={user.id}
             onClick={() => handleSelectUser(user.id)}
