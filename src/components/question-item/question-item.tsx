@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { SessionRecord } from "../../types";
+import { SessionRecord } from '../../types';
 
-import styles from "./question-item.module.css";
+import styles from './question-item.module.css';
 
 interface QuestionItemProps {
   question: SessionRecord;

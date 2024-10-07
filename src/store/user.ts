@@ -1,10 +1,10 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
-import createSelectors from "./create-selectors";
-import { SessionRecord, User } from "../types";
-import { fetchSession, fetchUsers } from "../api";
+import createSelectors from './create-selectors';
+import { SessionRecord, User } from '../types';
+import { fetchSession, fetchUsers } from '../api';
 
 interface UseUserStore {
   users: User[] | null;
@@ -25,21 +25,21 @@ const useUserStore = create<UseUserStore>()(
 
       fetchUsers: () => {
         const users = fetchUsers();
-        set({ users }, false, "setUsers");
+        set({ users }, false, 'setUsers');
       },
 
       setUser: (userId: number) => {
         const users = get().users;
         const user = users?.find((user) => user.id === userId);
-        set({ user }, false, "setUser");
+        set({ user }, false, 'setUser');
       },
 
       fetchSession: (userId: number, topicId: number) => {
         const session = fetchSession(userId, topicId);
-        set({ session }, false, "setSession");
+        set({ session }, false, 'setSession');
       },
-    }))
-  )
+    })),
+  ),
 );
 
 const useUser = createSelectors(useUserStore);

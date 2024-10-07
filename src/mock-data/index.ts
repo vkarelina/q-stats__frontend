@@ -1,17 +1,17 @@
-import { Answer, Question, Topic, User } from "../types";
+import { Answer, Question, Topic, User } from '../types';
 
 export const users: User[] = [
   {
     id: 1,
-    name: "AUser One",
+    name: 'AUser One',
   },
   {
     id: 2,
-    name: "BUser Two",
+    name: 'BUser Two',
   },
   {
     id: 3,
-    name: "CUser Three",
+    name: 'CUser Three',
   },
 ];
 
@@ -57,69 +57,69 @@ export const questions: Question[] = [
   {
     id: 1,
     topicId: 1,
-    text: "Question react 1",
+    text: 'Question react 1',
     isDefault: true,
   },
   {
     id: 2,
     topicId: 1,
-    text: "Question react 2",
+    text: 'Question react 2',
     isDefault: true,
   },
   {
     id: 3,
     topicId: 2,
-    text: "Question Nest 3",
+    text: 'Question Nest 3',
     isDefault: true,
   },
   {
     id: 4,
     topicId: 2,
-    text: "Question Nest 4",
+    text: 'Question Nest 4',
     isDefault: true,
   },
   {
     id: 3,
     topicId: 3,
-    text: "Question Node 5",
+    text: 'Question Node 5',
     isDefault: true,
   },
   {
     id: 4,
     topicId: 3,
-    text: "Question Node 6",
+    text: 'Question Node 6',
     isDefault: true,
   },
   {
     id: 3,
     topicId: 4,
-    text: "Question TypeScript 7",
+    text: 'Question TypeScript 7',
     isDefault: true,
   },
   {
     id: 4,
     topicId: 4,
-    text: "Question TypeScript 8",
+    text: 'Question TypeScript 8',
     isDefault: true,
   },
   {
     id: 3,
     topicId: 5,
-    text: "Question JavaScript 9",
+    text: 'Question JavaScript 9',
     isDefault: true,
   },
   {
     id: 4,
     topicId: 5,
-    text: "Question JavaScript 10",
+    text: 'Question JavaScript 10',
     isDefault: true,
   },
 ];
 
 export const topics: Topic[] = [
-  { id: 1, name: "React" },
-  { id: 2, name: "Nest" },
-  { id: 3, name: "Node js" },
-  { id: 4, name: "TypeScript" },
-  { id: 5, name: "JavaScript" },
+  { id: 1, name: 'React' },
+  { id: 2, name: 'Nest' },
+  { id: 3, name: 'Node js' },
+  { id: 4, name: 'TypeScript' },
+  { id: 5, name: 'JavaScript' },
 ];

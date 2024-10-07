@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-import { Topic } from "../types";
-import createSelectors from "./create-selectors";
-import { fetchTopics } from "../api";
+import { Topic } from '../types';
+import createSelectors from './create-selectors';
+import { fetchTopics } from '../api';
 
 interface UseTopicStore {
   topic: Topic | null;
@@ -21,15 +21,15 @@ const useTopicStore = create<UseTopicStore>()(
 
       fetchTopics: () => {
         const topics = fetchTopics();
-        set({ topics }, false, "fetchTopics");
+        set({ topics }, false, 'fetchTopics');
       },
 
       fetchTopic: (topic: Topic) => {
-        set({ topic }, false, "fetchTopic");
+        set({ topic }, false, 'fetchTopic');
       },
     }),
-    { name: "TopicStore" }
-  )
+    { name: 'TopicStore' },
+  ),
 );
 
 const useTopic = createSelectors(useTopicStore);

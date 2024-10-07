@@ -1,10 +1,10 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
-import { Question } from "../types";
-import createSelectors from "./create-selectors";
-import { fetchAddQuestion, fetchSession } from "../api";
+import { Question } from '../types';
+import createSelectors from './create-selectors';
+import { fetchAddQuestion, fetchSession } from '../api';
 
 interface UseQuestionStore {
   questions: Question[] | null;
@@ -20,7 +20,7 @@ const useQuestionStore = create<UseQuestionStore>()(
 
       fetchQuestions(userId, topicId) {
         const questions = fetchSession(userId, topicId);
-        set({ questions }, false, "setQuestions");
+        set({ questions }, false, 'setQuestions');
       },
 
       fetchAddQuestion(question: Question) {
@@ -28,8 +28,8 @@ const useQuestionStore = create<UseQuestionStore>()(
         const questions = get().questions;
         questions?.push(newQuestion);
       },
-    }))
-  )
+    })),
+  ),
 );
 
 const useQuestion = createSelectors(useQuestionStore);

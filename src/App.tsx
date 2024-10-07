@@ -1,8 +1,8 @@
-import { Header } from "./components/header";
-import { Sidebar } from "./components/sidebar";
-import { MainPage } from "./pages";
+import { Header } from './components/header';
+import { Sidebar } from './components/sidebar';
+import { MainPage } from './pages';
 
-import styles from "./App.module.css";
+import styles from './App.module.css';
 
 const App = () => (
   <div className={styles.wrapperApp}>

@@ -24,5 +24,5 @@ export type Topic = {
 };
 
 export type SessionRecord = Question & {
-  answers: Pick<Answer, "date" | "id" | "answer">[];
+  answers: Pick<Answer, 'date' | 'id' | 'answer'>[];
 };

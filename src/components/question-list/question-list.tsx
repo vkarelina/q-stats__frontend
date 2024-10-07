@@ -1,12 +1,12 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
-import useUser from "../../store/user";
-import useQuestion from "../../store/question";
-import useAnswer from "../../store/answers";
+import useUser from '../../store/user';
+import useQuestion from '../../store/question';
+import useAnswer from '../../store/answers';
 
-import { QuestionItem } from "../question-item";
+import { QuestionItem } from '../question-item';
 
-import styles from "./question-list.module.css";
+import styles from './question-list.module.css';
 
 const QuestionList = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -38,7 +38,7 @@ const QuestionList = () => {
     fetchAddAnswer(user?.id, question.id);
     fetchSession(user?.id, question.topicId);
     setOpenForm(false);
-    textQuestionRef.current.value = "";
+    textQuestionRef.current.value = '';
   };
 
   if (questions) {

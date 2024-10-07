@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import useUser from "../../store/user";
-import useTopic from "../../store/topic";
+import useUser from '../../store/user';
+import useTopic from '../../store/topic';
 
-import styles from "./sidebar.module.css";
+import styles from './sidebar.module.css';
 
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
@@ -29,14 +29,14 @@ const Sidebar = () => {
   return (
     <div className={styles.wrapperSidebar}>
       {users?.map((user) => (
-          <div
-            key={user.id}
-            onClick={() => handleSelectUser(user.id)}
-            className={user.id === currentUser?.id ? styles.active : ""}
-          >
-            <span>{user.name.charAt(0)}</span>
-          </div>
-        ))}
+        <div
+          key={user.id}
+          onClick={() => handleSelectUser(user.id)}
+          className={user.id === currentUser?.id ? styles.active : ''}
+        >
+          <span>{user.name.charAt(0)}</span>
+        </div>
+      ))}
     </div>
   );
 };

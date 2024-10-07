@@ -1,5 +1,5 @@
-import { answers, questions, topics, users } from "../mock-data";
-import { Question } from "../types";
+import { answers, questions, topics, users } from '../mock-data';
+import { Question } from '../types';
 
 export const fetchUsers = () => users;
 
@@ -28,13 +28,13 @@ export const fetchSession = (userId: number, topicId: number) => {
   const questions = fetchQuestions();
 
   const topicQuestions = questions.filter(
-    (question) => question.topicId === topicId
+    (question) => question.topicId === topicId,
   );
 
   const userAnswers = fetchUserAnswers(userId);
 
   let sessionQuestions = topicQuestions.filter((question) =>
-    userAnswers.some((answer) => answer.questionId === question.id)
+    userAnswers.some((answer) => answer.questionId === question.id),
   );
 
   if (sessionQuestions.length === 0) {
