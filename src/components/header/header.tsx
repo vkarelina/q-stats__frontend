@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import useTopic from "../../store/topic";
+import useTopic from '../../store/topic';
 
-import styles from "./header.module.css";
+import styles from './header.module.css';
 
 const Header = () => {
   const fetchTopic = useTopic.use.fetchTopic();
@@ -33,7 +33,7 @@ const Header = () => {
         <div
           key={index}
           onClick={handleTabClick}
-          className={currentTopic?.id === topic.id ? styles.active : ""}
+          className={currentTopic?.id === topic.id ? styles.active : ''}
         >
           {topic.name}
         </div>

@@ -1,10 +1,10 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
-import { Answer } from "../types";
-import createSelectors from "./create-selectors";
-import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from "../api";
+import { Answer } from '../types';
+import createSelectors from './create-selectors';
+import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from '../api';
 
 interface UseAnswerStore {
   answers: Answer[] | null;
@@ -23,12 +23,12 @@ const useAnswerStore = create<UseAnswerStore>()(
 
       fetchAnswers() {
         const answers = fetchAnswers();
-        set({ answers }, false, "setAnswers");
+        set({ answers }, false, 'setAnswers');
       },
 
       fetchUserAnswers(userId) {
         const userAnswers = fetchUserAnswers(userId);
-        set({ userAnswers }, false, "setAnswers");
+        set({ userAnswers }, false, 'setAnswers');
       },
 
       fetchAddAnswer(userId: number, questionId: number) {
@@ -36,8 +36,8 @@ const useAnswerStore = create<UseAnswerStore>()(
         const answers = get().answers;
         answers?.push(newAnswer);
       },
-    }))
-  )
+    })),
+  ),
 );
 
 const useAnswer = createSelectors(useAnswerStore);
