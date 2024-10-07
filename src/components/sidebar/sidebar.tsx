@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import useUser from '../../store/user';
 import useTopic from '../../store/topic';
+import useUser from '../../store/user';
 
 import styles from './sidebar.module.css';
 

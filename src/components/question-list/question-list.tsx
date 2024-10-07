@@ -1,9 +1,8 @@
 import { useRef, useState } from 'react';
 
-import useUser from '../../store/user';
-import useQuestion from '../../store/question';
 import useAnswer from '../../store/answers';
-
+import useQuestion from '../../store/question';
+import useUser from '../../store/user';
 import { QuestionItem } from '../question-item';
 
 import styles from './question-list.module.css';

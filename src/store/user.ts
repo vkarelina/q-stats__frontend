@@ -3,8 +3,8 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import createSelectors from './create-selectors';
-import { SessionRecord, User } from '../types';
 import { fetchSession, fetchUsers } from '../api';
+import { SessionRecord, User } from '../types';
 
 interface UseUserStore {
   users: User[] | null;
