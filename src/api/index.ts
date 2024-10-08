@@ -1,5 +1,5 @@
 import { answers, questions, topics, users } from '../mock-data';
-import { Question } from '../types';
+import { Question, SessionRecord } from '../types';
 
 export const fetchUsers = () => users;
 
@@ -84,22 +84,22 @@ export const fetchUpdateSession = (
   topicId: number,
   newQuestion: Question,
   oldQuestionId: number,
+  session: SessionRecord[] | null,
 ) => {
-  const currentSession = fetchSession(userId, topicId);
+  let currentSession;
 
-  const newSession = currentSession.filter((question) => {
-    if (question.id !== oldQuestionId) {
-      return question;
-    } else {
-      question.id = newQuestion.id;
-      question.text = newQuestion.text;
-      question.isDefault = newQuestion.isDefault;
+  if (session) currentSession = session;
+  else currentSession = fetchSession(userId, topicId);
 
-      return question;
+  const newSession = currentSession.map((question) => {
+    if (question.id === oldQuestionId) {
+      return {
+        ...newQuestion,
+        answers: question.answers,
+      };
     }
+    return question;
   });
-
-  newSession.pop();
 
   return newSession;
 };

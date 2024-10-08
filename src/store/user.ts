@@ -35,7 +35,7 @@ const useUserStore = create<UseUserStore>()(
       },
 
       setUser: (userId: number) => {
-        const users = get().users;
+        const { users } = get();
         const user = users?.find((user) => user.id === userId);
         set({ user }, false, 'setUser');
       },
@@ -51,8 +51,15 @@ const useUserStore = create<UseUserStore>()(
         newQuestion: Question,
         oldQuestionId: number,
       ) => {
-        const session = fetchUpdateSession(userId, topicId, newQuestion, oldQuestionId);
-        set({ session }, false, 'setUpdateSession');
+        const { session } = get();
+        const newSession = fetchUpdateSession(
+          userId,
+          topicId,
+          newQuestion,
+          oldQuestionId,
+          session,
+        );
+        set({ session: newSession }, false, 'setUpdateSession');
       },
     })),
   ),
