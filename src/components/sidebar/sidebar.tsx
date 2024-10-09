@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
 import useUser from '../../store/user';
 
@@ -9,6 +10,7 @@ const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
   const setUser = useUser.use.setUser();
   const fetchSession = useUser.use.fetchSession();
+  const fetchQuestions = useQuestion.use.fetchQuestions();
 
   const users = useUser.use.users();
   const currentUser = useUser.use.user();
@@ -23,7 +25,9 @@ const Sidebar = () => {
   }, [currentUser?.id, topic?.id]);
 
   const handleSelectUser = (userId: number) => {
-    if (currentUser?.id !== userId) setUser(userId);
+    if (currentUser?.id === userId) return;
+    setUser(userId);
+    fetchQuestions(userId, topic?.id ?? 0);
   };
 
   return (

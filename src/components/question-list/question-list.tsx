@@ -17,11 +17,12 @@ const QuestionList = () => {
   const fetchSession = useUser.use.fetchSession();
   const fetchUpdateSession = useUser.use.fetchUpdateSession();
 
-  const questions = useUser.use.session();
+  const sessionQuestion = useUser.use.session();
+  const questions = useQuestion.use.questions();
   const user = useUser.use.user();
 
   const handleAddQuestion = () => {
-    if (!questions || !user?.id) return;
+    if (!sessionQuestion || !user?.id) return;
 
     if (!textQuestionRef.current?.value) {
       setOpenForm(false);
@@ -30,7 +31,7 @@ const QuestionList = () => {
 
     const question = {
       id: Date.now(),
-      topicId: questions[0].topicId,
+      topicId: sessionQuestion[0].topicId,
       text: textQuestionRef.current.value,
       isDefault: false,
     };
@@ -57,6 +58,34 @@ const QuestionList = () => {
     fetchUpdateSession(user.id, question.topicId, newQuestion, question.id);
   };
 
+  if (sessionQuestion) {
+    return (
+      <ul className={styles.list}>
+        {sessionQuestion.map((question, idx) => (
+          <QuestionItem
+            question={question}
+            key={question.id}
+            idx={idx}
+            handleUpdateQuestion={handleUpdateQuestionn}
+          />
+        ))}
+        {openForm && (
+          <li>
+            <p>{sessionQuestion.length + 1}</p>
+            <textarea
+              onBlur={handleAddQuestion}
+              ref={textQuestionRef}
+              autoFocus
+              className={styles.textarea}
+            />
+          </li>
+        )}
+        <li onClick={() => setOpenForm(true)}>
+          <p>+</p>
+        </li>
+      </ul>
+    );
+  }
   if (questions) {
     return (
       <ul className={styles.list}>

@@ -5,7 +5,7 @@ import { Question, SessionRecord } from '../../types';
 import styles from './question-item.module.css';
 
 interface QuestionItemProps {
-  question: SessionRecord;
+  question: SessionRecord | Question;
   idx: number;
   handleUpdateQuestion: (text: string, question: Question) => void;
 }

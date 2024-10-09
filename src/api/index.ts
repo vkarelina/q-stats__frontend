@@ -24,6 +24,13 @@ export const fetchUserAnswers = (userId: number) => {
   return answers.filter((answer) => answer.userId === userId);
 };
 
+export const fetchQuestionByTopic = (topicId: number) => {
+  const questions = fetchQuestions();
+  return questions.filter(
+    (question) => question.topicId === topicId && question.isDefault,
+  );
+};
+
 export const fetchSession = (userId: number, topicId: number) => {
   const questions = fetchQuestions();
 
