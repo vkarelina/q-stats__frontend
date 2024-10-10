@@ -7,8 +7,8 @@ import createSelectors from './create-selectors';
 import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from '../api';
 
 interface UseAnswerStore {
-  answers: Answer[] | null;
-  userAnswers: Answer[] | null;
+  answers: Answer[] | [];
+  userAnswers: Answer[] | [];
 
   fetchUserAnswers: (userId: number) => void;
   fetchAnswers: () => void;
@@ -18,8 +18,8 @@ interface UseAnswerStore {
 const useAnswerStore = create<UseAnswerStore>()(
   devtools(
     immer((set, get) => ({
-      answers: null,
-      userAnswers: null,
+      answers: [],
+      userAnswers: [],
 
       fetchAnswers() {
         const answers = fetchAnswers();
@@ -32,9 +32,9 @@ const useAnswerStore = create<UseAnswerStore>()(
       },
 
       fetchAddAnswer(userId: number, questionId: number) {
-        const newAnswer = fetchAddAnswer(userId, questionId);
+        const newAnswer: Answer = fetchAddAnswer(userId, questionId);
         const answers = get().answers;
-        answers?.push(newAnswer);
+        answers.push(newAnswer);
       },
     })),
   ),

@@ -1,5 +1,5 @@
 import { answers, questions, topics, users } from '../mock-data';
-import { Question, SessionRecord } from '../types';
+import { Question } from '../types';
 
 export const fetchUsers = () => users;
 
@@ -31,25 +31,31 @@ export const fetchQuestionByTopic = (topicId: number) => {
   );
 };
 
-export const fetchSession = (userId: number, topicId: number) => {
-  const questions = fetchQuestions();
+export const fetchSession = (
+  questions: Question[] | null,
+  userId: number,
+  topicId: number,
+) => {
+  const allQuestion = fetchQuestions();
+  if (!questions) return;
 
-  const topicQuestions = questions.filter(
+  const topicQuestions = allQuestion.filter(
     (question) => question.topicId === topicId,
   );
 
   const userAnswers = fetchUserAnswers(userId);
 
-  let sessionQuestions = topicQuestions.filter((question) =>
+  const sessionQuestions = topicQuestions.filter((question) =>
     userAnswers.some((answer) => answer.questionId === question.id),
   );
 
-  if (sessionQuestions.length === 0) {
-    sessionQuestions = topicQuestions.filter((question) => question.isDefault);
-    sessionQuestions.map((question) => fetchAddAnswer(userId, question.id));
-  }
+  const updatedSessionQuestions = sessionQuestions.map((session) => {
+    const matchingQuestion = questions.find((question) => session.id === question.id);
 
-  const session = sessionQuestions.map((question) => {
+    return matchingQuestion ? matchingQuestion : session;
+  });
+
+  const session = updatedSessionQuestions.map((question) => {
     const answers = userAnswers
       .filter((answer) => answer.questionId === question.id)
       .map(({ date, answer, id }) => ({ date, answer, id }));
@@ -83,30 +89,6 @@ export const fetchAddAnswer = (userId: number, questionId: number) => {
 
   answers.push(answer);
 
+  console.log(answer);
   return answer;
-};
-
-export const fetchUpdateSession = (
-  userId: number,
-  topicId: number,
-  newQuestion: Question,
-  oldQuestionId: number,
-  session: SessionRecord[] | null,
-) => {
-  let currentSession;
-
-  if (session) currentSession = session;
-  else currentSession = fetchSession(userId, topicId);
-
-  const newSession = currentSession.map((question) => {
-    if (question.id === oldQuestionId) {
-      return {
-        ...newQuestion,
-        answers: question.answers,
-      };
-    }
-    return question;
-  });
-
-  return newSession;
 };

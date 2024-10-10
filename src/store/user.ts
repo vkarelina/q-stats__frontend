@@ -3,31 +3,26 @@ import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import createSelectors from './create-selectors';
-import { fetchSession, fetchUpdateSession, fetchUsers } from '../api';
-import { Question, SessionRecord, User } from '../types';
+import { fetchSession, fetchUsers } from '../api';
+import { SessionRecord, User } from '../types';
+import useQuestion from './question';
 
 interface UseUserStore {
-  users: User[] | null;
+  users: User[] | [];
   user: User | null;
-  session: SessionRecord[] | null;
+  session: SessionRecord[] | [];
 
   fetchUsers: () => void;
   setUser: (userId: number) => void;
   fetchSession: (userId: number, topicId: number) => void;
-  fetchUpdateSession: (
-    userId: number,
-    topicId: number,
-    newQuestion: Question,
-    oldQuestionId: number,
-  ) => void;
 }
 
 const useUserStore = create<UseUserStore>()(
   devtools(
     immer((set, get) => ({
-      users: null,
+      users: [],
       user: null,
-      session: null,
+      session: [],
 
       fetchUsers: () => {
         const users = fetchUsers();
@@ -41,25 +36,10 @@ const useUserStore = create<UseUserStore>()(
       },
 
       fetchSession: (userId: number, topicId: number) => {
-        const session = fetchSession(userId, topicId);
-        set({ session }, false, 'setSession');
-      },
+        const { questions } = useQuestion.getState();
+        const session = fetchSession(questions, userId, topicId);
 
-      fetchUpdateSession: (
-        userId: number,
-        topicId: number,
-        newQuestion: Question,
-        oldQuestionId: number,
-      ) => {
-        const { session } = get();
-        const newSession = fetchUpdateSession(
-          userId,
-          topicId,
-          newQuestion,
-          oldQuestionId,
-          session,
-        );
-        set({ session: newSession }, false, 'setUpdateSession');
+        set({ session }, false, 'setSession');
       },
     })),
   ),

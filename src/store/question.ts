@@ -4,24 +4,32 @@ import { immer } from 'zustand/middleware/immer';
 
 import { Question } from '../types';
 import createSelectors from './create-selectors';
-import { fetchAddQuestion, fetchQuestionByTopic, fetchSession } from '../api';
+import { fetchQuestionByTopic, fetchQuestions } from '../api';
 
 interface UseQuestionStore {
-  questions: Question[] | null;
+  questions: Question[] | [];
 
-  fetchQuestions: (userId: number, topicId: number) => void;
+  fetchQuestions: () => void;
   fetchQuestionByTopic: (topicId: number) => void;
-  fetchAddQuestion: (question: Question) => void;
+  fetchUpdateDefaultQuestion: (questionId: number, text: string) => void;
+  // fetchUpdateDefaultUserQuestion: (questionId: number, updateQuestion: Question) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
     immer((set, get) => ({
-      questions: null,
+      questions: [],
 
-      fetchQuestions(userId, topicId) {
-        const questions = fetchSession(userId, topicId);
-        set({ questions }, false, 'setQuestions');
+      fetchQuestions() {
+        const { questions } = get();
+
+        if (!questions.length) {
+          const questionsMock = fetchQuestions();
+          set({ questions: questionsMock }, false, 'setQuestionsMock');
+          return;
+        }
+
+        set({ questions: questions }, false, 'setQuestions');
       },
 
       fetchQuestionByTopic(topicId) {
@@ -29,11 +37,29 @@ const useQuestionStore = create<UseQuestionStore>()(
         set({ questions }, false, 'setQuestions');
       },
 
-      fetchAddQuestion(question) {
-        const newQuestion = fetchAddQuestion(question);
-        const questions = get().questions;
-        questions?.push(newQuestion);
+      fetchUpdateDefaultQuestion(questionId: number, text: string) {
+        set(
+          (state) => {
+            const questionToUpdate = state.questions.find(
+              (question) => question.id === questionId,
+            );
+
+            if (questionToUpdate) questionToUpdate.text = text;
+          },
+          false,
+          'fetchUpdateDefaultQuestion',
+        );
       },
+
+      // fetchUpdateDefaultUserQuestion(questionId, updateQuestion) {
+      //   set(
+      //     (state) => {
+      //       // const questionToUpdate = state.questions.push()
+      //     },
+      //     false,
+      //     'fetchUpdateDefaultQuestion',
+      //   );
+      // },
     })),
   ),
 );
