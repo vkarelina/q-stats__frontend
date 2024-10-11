@@ -17,7 +17,8 @@ const QuestionList = ({ questions }: QuestionListProps) => {
   const textQuestionRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
-  const fetchUpdateDefaultQuestion = useQuestion.use.fetchUpdateDefaultQuestion();
+  const fetchUpdateDefaultQuestion =
+    useQuestion.use.fetchUpdateDefaultQuestion();
 
   const user = useUser.use.user();
 
@@ -42,19 +43,8 @@ const QuestionList = ({ questions }: QuestionListProps) => {
   };
 
   const handleUpdateQuestion = (text: string, question: Question) => {
-    // редактируем дефолтный вопрос в теме юзера иначе редактируем либо вопрос из темы, либо кастомный
-    if (user?.id && question.isDefault) {
-      // const updateQuestion = {
-      //   id: Date.now(),
-      //   topicId: question.topicId,
-      //   text: text,
-      //   isDefault: false,
-      // };
-
-      // fetchUpdateDefaultUserQuestion(question.id, updateQuestion);
-    } else {
-      fetchUpdateDefaultQuestion(question.id, text);
-    }
+    if (user?.id && question.isDefault) return;
+    fetchUpdateDefaultQuestion(question.id, text);
   };
 
   if (questions) {

@@ -88,7 +88,6 @@ export const fetchAddAnswer = (userId: number, questionId: number) => {
   };
 
   answers.push(answer);
-
-  console.log(answer);
+  
   return answer;
 };

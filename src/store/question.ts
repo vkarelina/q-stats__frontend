@@ -12,7 +12,6 @@ interface UseQuestionStore {
   fetchQuestions: () => void;
   fetchQuestionByTopic: (topicId: number) => void;
   fetchUpdateDefaultQuestion: (questionId: number, text: string) => void;
-  // fetchUpdateDefaultUserQuestion: (questionId: number, updateQuestion: Question) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
@@ -50,16 +49,6 @@ const useQuestionStore = create<UseQuestionStore>()(
           'fetchUpdateDefaultQuestion',
         );
       },
-
-      // fetchUpdateDefaultUserQuestion(questionId, updateQuestion) {
-      //   set(
-      //     (state) => {
-      //       // const questionToUpdate = state.questions.push()
-      //     },
-      //     false,
-      //     'fetchUpdateDefaultQuestion',
-      //   );
-      // },
     })),
   ),
 );
