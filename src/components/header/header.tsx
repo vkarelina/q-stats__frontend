@@ -1,7 +1,9 @@
+import classNames from 'classnames';
 import { useEffect } from 'react';
 
 import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
+import { Topic } from '../../types';
 
 import styles from './header.module.css';
 
@@ -17,12 +19,8 @@ const Header = () => {
     fetchTopics();
   }, []);
 
-  const handleTabClick = (topicName: string) => {
-    if (currentTopic?.name === topicName) return;
-
-    const topic = topics?.find((topic) => topic.name === topicName);
-
-    if (!topic) return;
+  const handleTabClick = (topic: Topic) => {
+    if (currentTopic?.id === topic.id) return;
     fetchQuestions();
     fetchCurrentTopic(topic);
   };
@@ -32,8 +30,10 @@ const Header = () => {
       {topics?.map((topic, index) => (
         <div
           key={index}
-          onClick={() => handleTabClick(topic.name)}
-          className={currentTopic?.id === topic.id ? styles.active : ''}
+          onClick={() => handleTabClick(topic)}
+          className={classNames({
+            [styles.active]: currentTopic?.id === topic.id,
+          })}
         >
           {topic.name}
         </div>

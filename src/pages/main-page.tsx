@@ -16,26 +16,23 @@ const MainPage = () => {
 
   const fetchSession = useUser.use.fetchSession();
 
-  const [questions, setQuestions] = useState<Question[] | SessionRecord[] | []>([]);
+  const [questions, setQuestions] = useState<Question[] | SessionRecord[]>([]);
 
   const selectQuestions = () => {
-    if (sessionQuestions && sessionQuestions.length > 0) return sessionQuestions;
-
-    return allQuestions.filter(
+    return sessionQuestions?.length
+    ? sessionQuestions
+    : allQuestions.filter(
       (question) => question.isDefault && question.topicId === topic?.id,
     );
   };
 
   useEffect(() => {
-    if (!user || !topic) return;
-
-    fetchSession(user.id, topic.id);
-  }, [user, topic, allQuestions]);
+    if (user && topic) fetchSession(user.id, topic.id);
+  }, [user, topic]);
 
   useEffect(() => {
     setQuestions(selectQuestions());
   }, [sessionQuestions, allQuestions, topic]);
-
 
   return (
     <div className={styles.container}>

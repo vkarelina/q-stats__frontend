@@ -1,5 +1,5 @@
 import { answers, questions, topics, users } from '../mock-data';
-import { Question } from '../types';
+import { Answer, Question } from '../types';
 
 export const fetchUsers = () => users;
 
@@ -50,15 +50,23 @@ export const fetchSession = (
   );
 
   const updatedSessionQuestions = sessionQuestions.map((session) => {
-    const matchingQuestion = questions.find((question) => session.id === question.id);
+    const matchingQuestion = questions.find(
+      (question) => session.id === question.id,
+    );
 
-    return matchingQuestion ? matchingQuestion : session;
+    return matchingQuestion || session;
   });
 
   const session = updatedSessionQuestions.map((question) => {
-    const answers = userAnswers
-      .filter((answer) => answer.questionId === question.id)
-      .map(({ date, answer, id }) => ({ date, answer, id }));
+    const answers = userAnswers.reduce<Pick<Answer, 'date' | 'answer' | 'id'>[]>(
+      (acc, userAnswer) => {
+        const { questionId, date, answer, id } = userAnswer;
+        if (questionId === question.id) acc.push({ date, answer, id });
+
+        return acc;
+      },
+      [],
+    );
 
     return {
       ...question,
@@ -88,6 +96,6 @@ export const fetchAddAnswer = (userId: number, questionId: number) => {
   };
 
   answers.push(answer);
-  
+
   return answer;
 };

@@ -7,7 +7,7 @@ import createSelectors from './create-selectors';
 import { fetchQuestionByTopic, fetchQuestions } from '../api';
 
 interface UseQuestionStore {
-  questions: Question[] | [];
+  questions: Question[];
 
   fetchQuestions: () => void;
   fetchQuestionByTopic: (topicId: number) => void;
@@ -21,14 +21,13 @@ const useQuestionStore = create<UseQuestionStore>()(
 
       fetchQuestions() {
         const { questions } = get();
+        const questionsToSet = questions.length ? questions : fetchQuestions();
 
-        if (!questions.length) {
-          const questionsMock = fetchQuestions();
-          set({ questions: questionsMock }, false, 'setQuestionsMock');
-          return;
-        }
-
-        set({ questions: questions }, false, 'setQuestions');
+        set(
+          { questions: questionsToSet },
+          false,
+          questions.length ? 'setQuestions' : 'setQuestionsMock',
+        );
       },
 
       fetchQuestionByTopic(topicId) {

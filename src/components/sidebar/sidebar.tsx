@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useEffect } from 'react';
 
 import useUser from '../../store/user';
@@ -16,8 +17,7 @@ const Sidebar = () => {
   }, []);
 
   const handleSelectUser = (userId: number) => {
-    if (currentUser?.id === userId) return;
-    setUser(userId);
+    if (currentUser?.id !== userId) setUser(userId);
   };
 
   return (
@@ -26,7 +26,9 @@ const Sidebar = () => {
         <div
           key={user.id}
           onClick={() => handleSelectUser(user.id)}
-          className={user.id === currentUser?.id ? styles.active : ''}
+          className={classNames({
+            [styles.active]: user?.id === currentUser?.id,
+          })}
         >
           <span>{user.name.charAt(0)}</span>
         </div>

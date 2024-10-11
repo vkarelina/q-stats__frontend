@@ -17,8 +17,7 @@ const QuestionList = ({ questions }: QuestionListProps) => {
   const textQuestionRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
-  const fetchUpdateDefaultQuestion =
-    useQuestion.use.fetchUpdateDefaultQuestion();
+  const fetchUpdateDefaultQuestion = useQuestion.use.fetchUpdateDefaultQuestion();
 
   const user = useUser.use.user();
 
@@ -43,8 +42,7 @@ const QuestionList = ({ questions }: QuestionListProps) => {
   };
 
   const handleUpdateQuestion = (text: string, question: Question) => {
-    if (user?.id && question.isDefault) return;
-    fetchUpdateDefaultQuestion(question.id, text);
+    if (question.isDefault) fetchUpdateDefaultQuestion(question.id, text);
   };
 
   if (questions) {

@@ -8,9 +8,9 @@ import { SessionRecord, User } from '../types';
 import useQuestion from './question';
 
 interface UseUserStore {
-  users: User[] | [];
+  users: User[];
   user: User | null;
-  session: SessionRecord[] | [];
+  session: SessionRecord[];
 
   fetchUsers: () => void;
   setUser: (userId: number) => void;

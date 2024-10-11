@@ -19,15 +19,11 @@ const QuestionItem = ({
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const toggleEditing = () => {
-    setIsEditing((prevState) => !prevState);
+    setIsEditing(!isEditing);
   };
 
   const handleSaveQuestion = (currentQuestion: Question) => {
-    if (
-      !textAreaRef.current ||
-      currentQuestion.text === textAreaRef.current.value
-    )
-      return;
+    if (!textAreaRef.current || currentQuestion.text === textAreaRef.current.value) return;
 
     handleUpdateQuestion(textAreaRef.current.value, currentQuestion);
   };

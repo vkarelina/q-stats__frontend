@@ -7,7 +7,7 @@ import { fetchTopics } from '../api';
 
 interface UseTopicStore {
   topic: Topic | null;
-  topics: Topic[] | [];
+  topics: Topic[];
 
   fetchTopics: () => void;
   fetchCurrentTopic: (topic: Topic) => void;

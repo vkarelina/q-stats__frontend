@@ -7,8 +7,8 @@ import createSelectors from './create-selectors';
 import { fetchAddAnswer, fetchAnswers, fetchUserAnswers } from '../api';
 
 interface UseAnswerStore {
-  answers: Answer[] | [];
-  userAnswers: Answer[] | [];
+  answers: Answer[];
+  userAnswers: Answer[];
 
   fetchUserAnswers: (userId: number) => void;
   fetchAnswers: () => void;
