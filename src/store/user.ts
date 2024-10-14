@@ -16,7 +16,7 @@ interface UseUserStore {
   fetchUser: (userId: number) => void;
   fetchSession: (userId: number, topicId: number) => void;
   fetchClearCurrentUser: () => void;
-  fetchClearSessia: () => void;
+  fetchClearSession: () => void;
 }
 
 const useUserStore = create<UseUserStore>()(
@@ -48,7 +48,7 @@ const useUserStore = create<UseUserStore>()(
         set({ user: null }, false, 'fetchClearCurrentUser');
       }, 
 
-      fetchClearSessia: () => {
+      fetchClearSession: () => {
         set({ session: [] }, false, 'fetchClearCurrentUser');
       }, 
     })),

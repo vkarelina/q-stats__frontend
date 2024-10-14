@@ -15,7 +15,7 @@ const MainPage = () => {
   const user = useUser.use.user();
 
   const fetchSession = useUser.use.fetchSession();
-  const fetchClearSessia = useUser.use.fetchClearSessia();
+  const fetchClearSession = useUser.use.fetchClearSession();
 
   const [questions, setQuestions] = useState<Question[] | SessionRecord[]>([]);
 
@@ -28,7 +28,7 @@ const MainPage = () => {
   };
 
   useEffect(() => (
-    user && topic ? fetchSession(user.id, topic.id) : fetchClearSessia()
+    user && topic ? fetchSession(user.id, topic.id) : fetchClearSession()
   ), [user, topic]);
 
   useEffect(() => {
