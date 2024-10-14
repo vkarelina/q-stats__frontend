@@ -3,19 +3,22 @@ import { useRef, useState } from 'react';
 import useAnswer from '../../store/answers';
 import useQuestion from '../../store/question';
 import useUser from '../../store/user';
+import { Question, SessionRecord } from '../../types';
 import { QuestionItem } from '../question-item';
 
 import styles from './question-list.module.css';
 
-const QuestionList = () => {
+interface QuestionListProps {
+  questions: Question[] | SessionRecord[] | null;
+}
+
+const QuestionList = ({ questions }: QuestionListProps) => {
   const [openForm, setOpenForm] = useState(false);
   const textQuestionRef = useRef<HTMLTextAreaElement>(null);
 
-  const fetchAddQuestion = useQuestion.use.fetchAddQuestion();
   const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
-  const fetchSession = useUser.use.fetchSession();
+  const fetchUpdateDefaultQuestion = useQuestion.use.fetchUpdateDefaultQuestion();
 
-  const questions = useUser.use.session();
   const user = useUser.use.user();
 
   const handleAddQuestion = () => {
@@ -33,18 +36,25 @@ const QuestionList = () => {
       isDefault: false,
     };
 
-    fetchAddQuestion(question);
     fetchAddAnswer(user?.id, question.id);
-    fetchSession(user?.id, question.topicId);
     setOpenForm(false);
     textQuestionRef.current.value = '';
+  };
+
+  const handleUpdateQuestion = (text: string, question: Question) => {
+    if (question.isDefault) fetchUpdateDefaultQuestion(question.id, text);
   };
 
   if (questions) {
     return (
       <ul className={styles.list}>
         {questions.map((question, idx) => (
-          <QuestionItem question={question} key={question.id} idx={idx} />
+          <QuestionItem
+            question={question}
+            key={question.id}
+            idx={idx}
+            handleUpdateQuestion={handleUpdateQuestion}
+          />
         ))}
         {openForm && (
           <li>

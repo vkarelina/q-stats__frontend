@@ -4,29 +4,49 @@ import { immer } from 'zustand/middleware/immer';
 
 import { Question } from '../types';
 import createSelectors from './create-selectors';
-import { fetchAddQuestion, fetchSession } from '../api';
+import { fetchQuestionByTopic, fetchQuestions } from '../api';
 
 interface UseQuestionStore {
-  questions: Question[] | null;
+  questions: Question[];
 
-  fetchQuestions: (userId: number, topicId: number) => void;
-  fetchAddQuestion: (question: Question) => void;
+  fetchQuestions: () => void;
+  fetchQuestionByTopic: (topicId: number) => void;
+  fetchUpdateDefaultQuestion: (questionId: number, text: string) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
     immer((set, get) => ({
-      questions: null,
+      questions: [],
 
-      fetchQuestions(userId, topicId) {
-        const questions = fetchSession(userId, topicId);
+      fetchQuestions() {
+        const { questions } = get();
+        const questionsToSet = questions.length ? questions : fetchQuestions();
+
+        set(
+          { questions: questionsToSet },
+          false,
+          questions.length ? 'setQuestions' : 'setQuestionsMock',
+        );
+      },
+
+      fetchQuestionByTopic(topicId) {
+        const questions = fetchQuestionByTopic(topicId);
         set({ questions }, false, 'setQuestions');
       },
 
-      fetchAddQuestion(question: Question) {
-        const newQuestion = fetchAddQuestion(question);
-        const questions = get().questions;
-        questions?.push(newQuestion);
+      fetchUpdateDefaultQuestion(questionId: number, text: string) {
+        set(
+          (state) => {
+            const questionToUpdate = state.questions.find(
+              (question) => question.id === questionId,
+            );
+
+            if (questionToUpdate) questionToUpdate.text = text;
+          },
+          false,
+          'fetchUpdateDefaultQuestion',
+        );
       },
     })),
   ),

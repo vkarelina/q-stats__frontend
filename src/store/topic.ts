@@ -7,25 +7,25 @@ import { fetchTopics } from '../api';
 
 interface UseTopicStore {
   topic: Topic | null;
-  topics: Topic[] | null;
+  topics: Topic[];
 
   fetchTopics: () => void;
-  fetchTopic: (topic: Topic) => void;
+  fetchCurrentTopic: (topic: Topic) => void;
 }
 
 const useTopicStore = create<UseTopicStore>()(
   devtools(
     (set) => ({
       topic: null,
-      topics: null,
+      topics: [],
 
       fetchTopics: () => {
         const topics = fetchTopics();
         set({ topics }, false, 'fetchTopics');
       },
 
-      fetchTopic: (topic: Topic) => {
-        set({ topic }, false, 'fetchTopic');
+      fetchCurrentTopic: (topic: Topic) => {
+        set({ topic }, false, 'fetchCurrentTopic');
       },
     }),
     { name: 'TopicStore' },

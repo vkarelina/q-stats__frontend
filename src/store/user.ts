@@ -5,11 +5,12 @@ import { immer } from 'zustand/middleware/immer';
 import createSelectors from './create-selectors';
 import { fetchSession, fetchUsers } from '../api';
 import { SessionRecord, User } from '../types';
+import useQuestion from './question';
 
 interface UseUserStore {
-  users: User[] | null;
+  users: User[];
   user: User | null;
-  session: SessionRecord[] | null;
+  session: SessionRecord[];
 
   fetchUsers: () => void;
   setUser: (userId: number) => void;
@@ -19,9 +20,9 @@ interface UseUserStore {
 const useUserStore = create<UseUserStore>()(
   devtools(
     immer((set, get) => ({
-      users: null,
+      users: [],
       user: null,
-      session: null,
+      session: [],
 
       fetchUsers: () => {
         const users = fetchUsers();
@@ -29,13 +30,15 @@ const useUserStore = create<UseUserStore>()(
       },
 
       setUser: (userId: number) => {
-        const users = get().users;
+        const { users } = get();
         const user = users?.find((user) => user.id === userId);
         set({ user }, false, 'setUser');
       },
 
       fetchSession: (userId: number, topicId: number) => {
-        const session = fetchSession(userId, topicId);
+        const { questions } = useQuestion.getState();
+        const session = fetchSession(questions, userId, topicId);
+
         set({ session }, false, 'setSession');
       },
     })),

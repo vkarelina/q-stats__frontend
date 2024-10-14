@@ -1,12 +1,16 @@
+import classNames from 'classnames';
 import { useEffect } from 'react';
 
+import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
+import { Topic } from '../../types';
 
 import styles from './header.module.css';
 
 const Header = () => {
-  const fetchTopic = useTopic.use.fetchTopic();
   const fetchTopics = useTopic.use.fetchTopics();
+  const fetchCurrentTopic = useTopic.use.fetchCurrentTopic();
+  const fetchQuestions = useQuestion.use.fetchQuestions();
 
   const topics = useTopic.use.topics();
   const currentTopic = useTopic.use.topic();
@@ -15,16 +19,10 @@ const Header = () => {
     fetchTopics();
   }, []);
 
-  const handleTabClick = ({ target }: React.MouseEvent<HTMLElement>) => {
-    if (
-      !(target instanceof HTMLElement) ||
-      currentTopic?.name === target.innerText
-    )
-      return;
-
-    const topic = topics?.find((topic) => topic.name === target.innerText);
-
-    if (topic) fetchTopic(topic);
+  const handleTabClick = (topic: Topic) => {
+    if (currentTopic?.id === topic.id) return;
+    fetchQuestions();
+    fetchCurrentTopic(topic);
   };
 
   return (
@@ -32,8 +30,10 @@ const Header = () => {
       {topics?.map((topic, index) => (
         <div
           key={index}
-          onClick={handleTabClick}
-          className={currentTopic?.id === topic.id ? styles.active : ''}
+          onClick={() => handleTabClick(topic)}
+          className={classNames({
+            [styles.active]: currentTopic?.id === topic.id,
+          })}
         >
           {topic.name}
         </div>

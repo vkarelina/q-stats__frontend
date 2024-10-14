@@ -26,6 +26,8 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       quotes: ['error', 'single'],
+      "max-len": ["error", { "code": 100 }],
+      'eol-last': ['error', 'always'],
       'import/order': [
         'warn',
         {

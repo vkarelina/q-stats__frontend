@@ -1,5 +1,5 @@
 import { answers, questions, topics, users } from '../mock-data';
-import { Question } from '../types';
+import { Answer, Question } from '../types';
 
 export const fetchUsers = () => users;
 
@@ -24,28 +24,49 @@ export const fetchUserAnswers = (userId: number) => {
   return answers.filter((answer) => answer.userId === userId);
 };
 
-export const fetchSession = (userId: number, topicId: number) => {
+export const fetchQuestionByTopic = (topicId: number) => {
   const questions = fetchQuestions();
+  return questions.filter(
+    (question) => question.topicId === topicId && question.isDefault,
+  );
+};
 
-  const topicQuestions = questions.filter(
+export const fetchSession = (
+  questions: Question[] | null,
+  userId: number,
+  topicId: number,
+) => {
+  const allQuestion = fetchQuestions();
+  if (!questions) return;
+
+  const topicQuestions = allQuestion.filter(
     (question) => question.topicId === topicId,
   );
 
   const userAnswers = fetchUserAnswers(userId);
 
-  let sessionQuestions = topicQuestions.filter((question) =>
+  const sessionQuestions = topicQuestions.filter((question) =>
     userAnswers.some((answer) => answer.questionId === question.id),
   );
 
-  if (sessionQuestions.length === 0) {
-    sessionQuestions = topicQuestions.filter((question) => question.isDefault);
-    sessionQuestions.map((question) => fetchAddAnswer(userId, question.id));
-  }
+  const updatedSessionQuestions = sessionQuestions.map((session) => {
+    const matchingQuestion = questions.find(
+      (question) => session.id === question.id,
+    );
 
-  const session = sessionQuestions.map((question) => {
-    const answers = userAnswers
-      .filter((answer) => answer.questionId === question.id)
-      .map(({ date, answer, id }) => ({ date, answer, id }));
+    return matchingQuestion || session;
+  });
+
+  const session = updatedSessionQuestions.map((question) => {
+    const answers = userAnswers.reduce<Pick<Answer, 'date' | 'answer' | 'id'>[]>(
+      (acc, userAnswer) => {
+        const { questionId, date, answer, id } = userAnswer;
+        if (questionId === question.id) acc.push({ date, answer, id });
+
+        return acc;
+      },
+      [],
+    );
 
     return {
       ...question,

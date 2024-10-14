@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import { useEffect } from 'react';
 
-import useTopic from '../../store/topic';
 import useUser from '../../store/user';
 
 import styles from './sidebar.module.css';
@@ -8,19 +8,13 @@ import styles from './sidebar.module.css';
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
   const setUser = useUser.use.setUser();
-  const fetchSession = useUser.use.fetchSession();
 
   const users = useUser.use.users();
   const currentUser = useUser.use.user();
-  const topic = useTopic.use.topic();
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  useEffect(() => {
-    if (currentUser && topic) fetchSession(currentUser.id, topic.id);
-  }, [currentUser?.id, topic?.id]);
 
   const handleSelectUser = (userId: number) => {
     if (currentUser?.id !== userId) setUser(userId);
@@ -32,7 +26,9 @@ const Sidebar = () => {
         <div
           key={user.id}
           onClick={() => handleSelectUser(user.id)}
-          className={user.id === currentUser?.id ? styles.active : ''}
+          className={classNames({
+            [styles.active]: user?.id === currentUser?.id,
+          })}
         >
           <span>{user.name.charAt(0)}</span>
         </div>

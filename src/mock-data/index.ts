@@ -51,6 +51,20 @@ export const answers: Answer[] = [
     answer: null,
     date: new Date(2024, 9, 24),
   },
+  {
+    id: 6,
+    questionId: 11,
+    userId: 2,
+    answer: null,
+    date: new Date(2024, 9, 24),
+  },
+  {
+    id: 7,
+    questionId: 12,
+    userId: 1,
+    answer: null,
+    date: new Date(2024, 9, 24),
+  },
 ];
 
 export const questions: Question[] = [
@@ -79,40 +93,52 @@ export const questions: Question[] = [
     isDefault: true,
   },
   {
-    id: 3,
+    id: 5,
     topicId: 3,
     text: 'Question Node 5',
     isDefault: true,
   },
   {
-    id: 4,
+    id: 6,
     topicId: 3,
     text: 'Question Node 6',
     isDefault: true,
   },
   {
-    id: 3,
+    id: 7,
     topicId: 4,
     text: 'Question TypeScript 7',
     isDefault: true,
   },
   {
-    id: 4,
+    id: 8,
     topicId: 4,
     text: 'Question TypeScript 8',
     isDefault: true,
   },
   {
-    id: 3,
+    id: 9,
     topicId: 5,
     text: 'Question JavaScript 9',
     isDefault: true,
   },
   {
-    id: 4,
+    id: 10,
     topicId: 5,
     text: 'Question JavaScript 10',
     isDefault: true,
+  },
+  {
+    id: 11,
+    topicId: 1,
+    text: 'Custom!!! Question React 11',
+    isDefault: false,
+  },
+  {
+    id: 12,
+    topicId: 1,
+    text: 'Custom!!! Question React 12',
+    isDefault: false,
   },
 ];
 
