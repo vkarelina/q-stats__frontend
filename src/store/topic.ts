@@ -11,6 +11,7 @@ interface UseTopicStore {
 
   fetchTopics: () => void;
   fetchCurrentTopic: (topic: Topic) => void;
+  fetchClearCurrentTopic: () => void;
 }
 
 const useTopicStore = create<UseTopicStore>()(
@@ -27,6 +28,10 @@ const useTopicStore = create<UseTopicStore>()(
       fetchCurrentTopic: (topic: Topic) => {
         set({ topic }, false, 'fetchCurrentTopic');
       },
+
+      fetchClearCurrentTopic: () => {
+        set({ topic: null }, false, 'fetchClearCurrentTopic');
+      }
     }),
     { name: 'TopicStore' },
   ),
