@@ -11,6 +11,7 @@ const Header = () => {
   const fetchTopics = useTopic.use.fetchTopics();
   const fetchCurrentTopic = useTopic.use.fetchCurrentTopic();
   const fetchQuestions = useQuestion.use.fetchQuestions();
+  const fetchClearCurrentTopic = useTopic.use.fetchClearCurrentTopic();
 
   const topics = useTopic.use.topics();
   const currentTopic = useTopic.use.topic();
@@ -20,9 +21,12 @@ const Header = () => {
   }, []);
 
   const handleTabClick = (topic: Topic) => {
-    if (currentTopic?.id === topic.id) return;
-    fetchQuestions();
-    fetchCurrentTopic(topic);
+    if (currentTopic?.id === topic.id) {
+      fetchClearCurrentTopic();
+    } else {
+      fetchQuestions();
+      fetchCurrentTopic(topic);
+    }
   };
 
   return (

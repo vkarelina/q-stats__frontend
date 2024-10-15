@@ -13,8 +13,10 @@ interface UseUserStore {
   session: SessionRecord[];
 
   fetchUsers: () => void;
-  setUser: (userId: number) => void;
+  fetchUser: (userId: number) => void;
   fetchSession: (userId: number, topicId: number) => void;
+  fetchClearCurrentUser: () => void;
+  fetchClearSession: () => void;
 }
 
 const useUserStore = create<UseUserStore>()(
@@ -26,21 +28,29 @@ const useUserStore = create<UseUserStore>()(
 
       fetchUsers: () => {
         const users = fetchUsers();
-        set({ users }, false, 'setUsers');
+        set({ users }, false, 'fetchUsers');
       },
 
-      setUser: (userId: number) => {
+      fetchUser: (userId: number) => {
         const { users } = get();
         const user = users?.find((user) => user.id === userId);
-        set({ user }, false, 'setUser');
+        set({ user }, false, 'fetchUser');
       },
 
       fetchSession: (userId: number, topicId: number) => {
         const { questions } = useQuestion.getState();
         const session = fetchSession(questions, userId, topicId);
 
-        set({ session }, false, 'setSession');
+        set({ session }, false, 'fetchSession');
       },
+
+      fetchClearCurrentUser: () => {
+        set({ user: null }, false, 'fetchClearCurrentUser');
+      }, 
+
+      fetchClearSession: () => {
+        set({ session: [] }, false, 'fetchClearCurrentUser');
+      }, 
     })),
   ),
 );
