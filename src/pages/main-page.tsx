@@ -27,9 +27,10 @@ const MainPage = () => {
     );
   };
 
-  useEffect(() => (
-    user && topic ? fetchSession(user.id, topic.id) : fetchClearSession()
-  ), [user, topic]);
+  useEffect(() => {
+    if (user && topic) fetchSession(user.id, topic.id);
+    else fetchClearSession();
+  }, [user, topic]);
 
   useEffect(() => {
     setQuestions(selectQuestions());
