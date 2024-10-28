@@ -1,7 +1,5 @@
 import { useRef, useState } from 'react';
 
-import useAnswer from '../../store/answers';
-import useQuestion from '../../store/question';
 import useUser from '../../store/user';
 import { Question, SessionRecord } from '../../types';
 import { QuestionItem } from '../question-item';
@@ -15,9 +13,6 @@ interface QuestionListProps {
 const QuestionList = ({ questions }: QuestionListProps) => {
   const [openForm, setOpenForm] = useState(false);
   const textQuestionRef = useRef<HTMLTextAreaElement>(null);
-
-  const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
-  const fetchUpdateDefaultQuestion = useQuestion.use.fetchUpdateDefaultQuestion();
 
   const user = useUser.use.user();
 
@@ -36,13 +31,12 @@ const QuestionList = ({ questions }: QuestionListProps) => {
       isDefault: false,
     };
 
-    fetchAddAnswer(user?.id, question.id);
     setOpenForm(false);
     textQuestionRef.current.value = '';
   };
 
   const handleUpdateQuestion = (text: string, question: Question) => {
-    if (question.isDefault) fetchUpdateDefaultQuestion(question.id, text);
+    // if (question.isDefault) fetchUpdateDefaultQuestion(question.id, text);
   };
 
   if (questions) {

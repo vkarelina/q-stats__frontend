@@ -2,55 +2,36 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import { fetchUser, fetchUsers } from '../api/user';
+import { User } from '../types';
 import createSelectors from './create-selectors';
-import { fetchSession, fetchUsers } from '../api';
-import { SessionRecord, User } from '../types';
-import useQuestion from './question';
 
 interface UseUserStore {
   users: User[];
   user: User | null;
-  session: SessionRecord[];
 
   fetchUsers: () => void;
-  fetchUser: (userId: number) => void;
-  fetchSession: (userId: number, topicId: number) => void;
-  fetchClearCurrentUser: () => void;
-  fetchClearSession: () => void;
+  fetchUser: (id: number) => void;
+  setResetUser: () => void;
 }
 
 const useUserStore = create<UseUserStore>()(
   devtools(
-    immer((set, get) => ({
+    immer((set) => ({
       users: [],
       user: null,
-      session: [],
 
-      fetchUsers: () => {
-        const users = fetchUsers();
+      fetchUsers: async () => {
+        const users = await fetchUsers();
         set({ users }, false, 'fetchUsers');
       },
 
-      fetchUser: (userId: number) => {
-        const { users } = get();
-        const user = users?.find((user) => user.id === userId);
-        set({ user }, false, 'fetchUser');
+      fetchUser: async (id) => {
+        const user = await fetchUser(id);
+        set({ user }, false, 'fetchUsers');
       },
 
-      fetchSession: (userId: number, topicId: number) => {
-        const { questions } = useQuestion.getState();
-        const session = fetchSession(questions, userId, topicId);
-
-        set({ session }, false, 'fetchSession');
-      },
-
-      fetchClearCurrentUser: () => {
-        set({ user: null }, false, 'fetchClearCurrentUser');
-      }, 
-
-      fetchClearSession: () => {
-        set({ session: [] }, false, 'fetchClearCurrentUser');
-      }, 
+      setResetUser: () => set({ user: null }, false, 'setResetUser'),
     })),
   ),
 );

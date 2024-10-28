@@ -8,7 +8,7 @@ import styles from './sidebar.module.css';
 const Sidebar = () => {
   const fetchUsers = useUser.use.fetchUsers();
   const fetchUser = useUser.use.fetchUser();
-  const fetchClearCurrentUser = useUser.use.fetchClearCurrentUser();
+  const setResetUser = useUser.use.setResetUser();
 
   const users = useUser.use.users();
   const currentUser = useUser.use.user();
@@ -18,7 +18,7 @@ const Sidebar = () => {
   }, []);
 
   const handleSelectUser = (userId: number) =>
-    currentUser?.id !== userId ? fetchUser(userId) : fetchClearCurrentUser();
+    currentUser?.id !== userId ? fetchUser(userId) : setResetUser();
 
   return (
     <div className={styles.wrapperSidebar}>

@@ -1,17 +1,15 @@
-import classNames from 'classnames';
 import { useEffect } from 'react';
+import classNames from 'classnames';
 
-import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
-import { Topic } from '../../types';
 
 import styles from './header.module.css';
+import useQuestion from '../../store/question';
 
 const Header = () => {
   const fetchTopics = useTopic.use.fetchTopics();
-  const fetchCurrentTopic = useTopic.use.fetchCurrentTopic();
-  const fetchQuestions = useQuestion.use.fetchQuestions();
-  const fetchClearCurrentTopic = useTopic.use.fetchClearCurrentTopic();
+  const fetchTopic = useTopic.use.fetchTopic();
+  const fetchTopicQuestions = useQuestion.use.fetchTopicQuestions();
 
   const topics = useTopic.use.topics();
   const currentTopic = useTopic.use.topic();
@@ -20,13 +18,9 @@ const Header = () => {
     fetchTopics();
   }, []);
 
-  const handleTabClick = (topic: Topic) => {
-    if (currentTopic?.id === topic.id) {
-      fetchClearCurrentTopic();
-    } else {
-      fetchQuestions();
-      fetchCurrentTopic(topic);
-    }
+  const handleTabClick = (id: number) => {
+    fetchTopic(id);
+    fetchTopicQuestions(id);
   };
 
   return (
@@ -34,7 +28,7 @@ const Header = () => {
       {topics?.map((topic, index) => (
         <div
           key={index}
-          onClick={() => handleTabClick(topic)}
+          onClick={() => handleTabClick(topic.id)}
           className={classNames({
             [styles.active]: currentTopic?.id === topic.id,
           })}
