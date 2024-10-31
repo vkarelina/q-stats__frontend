@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 
-import { Question, SessionRecord } from '../../types';
+import { Question } from '../../types';
 
 import styles from './question-item.module.css';
 
 interface QuestionItemProps {
-  question: SessionRecord | Question;
+  question: Question;
   idx: number;
-  handleUpdateQuestion: (text: string, question: Question) => void;
+  handleUpdateQuestion: (text: string, questionId: number) => void;
 }
 
 const QuestionItem = ({
@@ -25,7 +25,7 @@ const QuestionItem = ({
   const handleSaveQuestion = (currentQuestion: Question) => {
     if (!textAreaRef.current || currentQuestion.text === textAreaRef.current.value) return;
 
-    handleUpdateQuestion(textAreaRef.current.value, currentQuestion);
+    handleUpdateQuestion(textAreaRef.current.value, currentQuestion.id);
   };
 
   const handleBlur = () => {

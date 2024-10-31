@@ -1,59 +1,31 @@
 .list {
-  display: flex;
-  padding: 12px;
-  margin: 0;
-  justify-content: center;
-  flex-direction: column;
-  flex-wrap: wrap;
-  max-width: 700px;
+  max-width: 564px;
+  width: 100%;
+  background-color: var(--backgraund-color);
+  padding: 8px;
+  aspect-ratio: 0.7;
+  padding: 24px 40px;
 }
 
 .list > li {
   display: flex;
-  align-items: center;
   gap: 10px;
-  list-style-type: none;
   font-size: 14px;
-  border-bottom: 1px solid var(--second-accent-color);
-}
-
-.list > li *:not(div, svg) {
-  padding: 10px 10px 10px 10px;
-  border-radius: 10px;
-  background-color: var(--backgraund-color);
 }
 
 .list > li:last-child {
+  width: 100%;
+  display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0px 10px 0px 10px;
-  list-style-type: none;
-  font-size: 28px;
-  border-radius: 10px;
-  border-bottom: none;
-  background-color: #1c1d2a9e;
-  margin: 8px 0 8px 0px;
-  max-height: 54px;
-  color: #3c3b3b;
-  font-weight: bolder;
-
-  p {
-    background-color: #1b1c2700;
-  }
-}
-
-.list svg {
-  width: 18px;
-  padding: 10px;
-  max-height: 20px;
-  border-radius: 10px;
-  background-color: var(--backgraund-color);
 }
 
 .textarea {
-  width: 500px;
+  width: 100%;
   height: 20px;
   border: 0px;
   line-height: unset;
   outline: none;
+  max-height: 50px;
+  background-color: rgba(240, 248, 255, 0);
+  padding-left: 4px;
 }

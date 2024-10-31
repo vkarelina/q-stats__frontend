@@ -1,24 +1,22 @@
 import classNames from 'classnames';
-import { useEffect } from 'react';
+import { memo } from 'react';
 
 import useUser from '../../store/user';
+import { User } from '../../types';
 
 import styles from './sidebar.module.css';
 
-const Sidebar = () => {
-  const fetchUsers = useUser.use.fetchUsers();
-  const fetchUser = useUser.use.fetchUser();
-  const setResetUser = useUser.use.setResetUser();
+interface SidebarProps {
+  users: User[];
+  handleSelectedUser: (userId: number) => void;
+}
 
-  const users = useUser.use.users();
+const Sidebar = ({ users, handleSelectedUser }: SidebarProps) => {
   const currentUser = useUser.use.user();
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const handleSelectUser = (userId: number) =>
-    currentUser?.id !== userId ? fetchUser(userId) : setResetUser();
+  const handleSelectUser = (userId: number) => {
+    handleSelectedUser(userId);
+  };
 
   return (
     <div className={styles.wrapperSidebar}>
@@ -37,4 +35,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

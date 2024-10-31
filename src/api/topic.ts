@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
-import api from './index';
 import { Topic } from '../types';
+import api from './index';
 
 export const fetchTopics = async (): Promise<Topic[]> => {
   const response: AxiosResponse<Topic[]> = await api.get(

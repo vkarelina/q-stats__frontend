@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
-import api from './index';
 import { User } from '../types';
+import api from './index';
 
 export const fetchUsers = async (): Promise<User[]> => {
   const response: AxiosResponse<User[]> = await api.get(

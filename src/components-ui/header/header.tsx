@@ -1,26 +1,21 @@
-import { useEffect } from 'react';
+import { memo } from 'react';
 import classNames from 'classnames';
 
 import useTopic from '../../store/topic';
+import { Topic } from '../../types';
 
 import styles from './header.module.css';
-import useQuestion from '../../store/question';
 
-const Header = () => {
-  const fetchTopics = useTopic.use.fetchTopics();
-  const fetchTopic = useTopic.use.fetchTopic();
-  const fetchTopicQuestions = useQuestion.use.fetchTopicQuestions();
+interface HeaderProps {
+  topics: Topic[];
+  handleGetSelectedTopic: (topicId: number) => void;
+}
 
-  const topics = useTopic.use.topics();
+const Header = ({ topics, handleGetSelectedTopic }: HeaderProps) => {
   const currentTopic = useTopic.use.topic();
 
-  useEffect(() => {
-    fetchTopics();
-  }, []);
-
-  const handleTabClick = (id: number) => {
-    fetchTopic(id);
-    fetchTopicQuestions(id);
+  const handleTabClick = (topicId: number) => {
+    handleGetSelectedTopic(topicId);
   };
 
   return (
@@ -40,4 +35,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

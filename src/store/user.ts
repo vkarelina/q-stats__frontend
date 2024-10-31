@@ -12,12 +12,11 @@ interface UseUserStore {
 
   fetchUsers: () => void;
   fetchUser: (id: number) => void;
-  setResetUser: () => void;
 }
 
 const useUserStore = create<UseUserStore>()(
   devtools(
-    immer((set) => ({
+    immer((set, get) => ({
       users: [],
       user: null,
 
@@ -27,11 +26,14 @@ const useUserStore = create<UseUserStore>()(
       },
 
       fetchUser: async (id) => {
-        const user = await fetchUser(id);
-        set({ user }, false, 'fetchUsers');
+        const userId = get().user?.id;
+        if (userId !== id) {
+          const user = await fetchUser(id);
+          set({ user }, false, 'fetchUsers');
+        } else {
+          set({ user: null }, false, 'setResetUser')
+        }
       },
-
-      setResetUser: () => set({ user: null }, false, 'setResetUser'),
     })),
   ),
 );

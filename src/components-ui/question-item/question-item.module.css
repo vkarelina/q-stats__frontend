@@ -1,12 +1,12 @@
 .textarea {
-  width: 500px;
+  width: 100%;
   height: 20px;
   border: 0px;
   line-height: unset;
   outline: none;
+  background-color: rgba(240, 248, 255, 0);
 }
 
 .text {
-  width: 500px;
   text-align: start;
 }

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { fetchTopic, fetchTopics } from '../api/topic';
 import { Topic } from '../types';
 import createSelectors from './create-selectors';
-import { fetchTopic, fetchTopics } from '../api/topic';
 
 interface UseTopicStore {
   topics: Topic[];
@@ -15,7 +15,7 @@ interface UseTopicStore {
 
 const useTopicStore = create<UseTopicStore>()(
   devtools(
-    (set) => ({
+    (set, get) => ({
       topics: [],
       topic: null,
 
@@ -24,9 +24,15 @@ const useTopicStore = create<UseTopicStore>()(
         set({ topics }, false, 'fetchTopics');
       },
 
-      fetchTopic: async (id) => {
-        const topic = await fetchTopic(id);
-        set({ topic }, false, 'fetchTopic');
+      fetchTopic: async (id: number) => {
+        const topicId = get().topic?.id;
+
+        if (topicId !== id) {
+          const topic = await fetchTopic(id);
+          set({ topic }, false, 'fetchTopic');
+        } else {
+          set({ topic: null }, false, 'fetchTopic');
+        }
       },
     }),
     { name: 'TopicStore' },

@@ -2,15 +2,31 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import {
+  fetchCreateTopicQuestion,
+  fetchCreateUserQuestion,
+  fetchTopicQuestions,
+  fetchUpdateTopicQuestion,
+  fetchUserQuestions,
+} from '../api/questions';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
-import { fetchUserQuestions } from '../api/questions';
 
 interface UseQuestionStore {
   questions: Question[];
 
-  fetchUserQuestions: (userId: number) => void;
-  fetchTopicQuestions: (topicId: number) => void;
+  fetchQuestions: (topicId: number, userId?: number) => void;
+  fetchCreateQuestion: (
+    text: Pick<Question, 'text'>,
+    topicId: number,
+    userId?: number,
+  ) => void;
+  fetchUpdateTopicQuestion: (
+    text: Pick<Question, 'text'>,
+    questionId: number,
+    topicId?: number,
+    refreshQuestions?: () => void,
+  ) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
@@ -18,14 +34,32 @@ const useQuestionStore = create<UseQuestionStore>()(
     immer((set) => ({
       questions: [],
 
-      fetchUserQuestions: async (userId) => {
-        const questions = await fetchUserQuestions(userId);
-        set({ questions }, false, 'fetchUserQuestions');
+      fetchQuestions: async (topicId: number, userId?: number) => {
+        const questions = userId
+          ? await fetchUserQuestions(topicId, userId)
+          : await fetchTopicQuestions(topicId);
+        set({ questions }, false, 'fetchQuestions');
       },
 
-      fetchTopicQuestions: async (topicId) => {
-        const questions = await fetchUserQuestions(topicId);
-        set({ questions }, false, 'fetchUserQuestions');
+      fetchCreateQuestion: async (
+        text: Pick<Question, 'text'>,
+        topicId: number,
+        userId?: number,
+      ) => {
+        const newQuestion = userId
+          ? await fetchCreateUserQuestion({ ...text, topicId }, userId)
+          : await fetchCreateTopicQuestion(text, topicId);
+        set((state) => ({ questions: [...state.questions, newQuestion] }));
+      },
+
+      fetchUpdateTopicQuestion: async (
+        text: Pick<Question, 'text'>,
+        questionId: number,
+        topicId?: number,
+        refreshQuestions?: () => void,
+      ) => {
+        if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
+        if (refreshQuestions) refreshQuestions();
       },
     })),
   ),

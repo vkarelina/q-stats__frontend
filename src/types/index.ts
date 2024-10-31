@@ -3,19 +3,10 @@ export type User = {
   name: string;
 };
 
-export type Answer = {
-  id: number;
-  questionId: number;
-  userId: number;
-  answer: boolean | null;
-  date: Date;
-};
-
 export type Question = {
   id: number;
-  topicId: number;
   text: string;
-  isDefault: boolean;
+  order: number;
 };
 
 export type Topic = {
@@ -23,6 +14,4 @@ export type Topic = {
   name: string;
 };
 
-export type SessionRecord = Question & {
-  answers: Pick<Answer, 'date' | 'id' | 'answer'>[];
-};
+export type QuestionTopic = Pick<Question, 'text'> & { topicId: number };
