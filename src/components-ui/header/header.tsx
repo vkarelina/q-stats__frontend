@@ -6,11 +6,11 @@ import styles from './header.module.css';
 
 interface HeaderProps {
   items: Topic[];
-  currentItem: Topic | null;
+  selectedItem: Topic | null;
   handleGetSelectedItem: (topicId: number) => void;
 }
 
-const Header = ({ items, currentItem, handleGetSelectedItem }: HeaderProps) => {
+const Header = ({ items, selectedItem, handleGetSelectedItem }: HeaderProps) => {
   const handleTabClick = (topicId: number) => {
     handleGetSelectedItem(topicId);
   };
@@ -22,7 +22,7 @@ const Header = ({ items, currentItem, handleGetSelectedItem }: HeaderProps) => {
           key={index}
           onClick={() => handleTabClick(items.id)}
           className={cn({
-            [styles.active]: currentItem?.id === items.id,
+            [styles.active]: selectedItem?.id === items.id,
           })}
         >
           {items.name}

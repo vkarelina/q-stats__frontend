@@ -6,11 +6,11 @@ import styles from './sidebar.module.css';
 
 interface SidebarProps {
   items: User[];
-  currentItem: User | null;
+  selectedItem: User | null;
   handleSelectedItem: (itemId: number) => void;
 }
 
-const Sidebar = ({ items, currentItem, handleSelectedItem }: SidebarProps) => {
+const Sidebar = ({ items, selectedItem, handleSelectedItem }: SidebarProps) => {
   const handleSelectUser = (itemId: number) => {
     handleSelectedItem(itemId);
   };
@@ -22,7 +22,7 @@ const Sidebar = ({ items, currentItem, handleSelectedItem }: SidebarProps) => {
           key={item.id}
           onClick={() => handleSelectUser(item.id)}
           className={cn({
-            [styles.active]: item?.id === currentItem?.id,
+            [styles.active]: item?.id === selectedItem?.id,
           })}
         >
           <span>{item.name.charAt(0)}</span>

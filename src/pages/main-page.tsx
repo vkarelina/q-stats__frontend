@@ -50,9 +50,9 @@ const MainPage = () => {
 
   return (
     <div className={styles.wrapperApp}>
-      <Header items={topics} currentItem={topic} handleGetSelectedItem={handleGetSelectedTopic} />
+      <Header items={topics} selectedItem={topic} handleGetSelectedItem={handleGetSelectedTopic} />
       <div className={styles.wrapperContent}>
-        <Sidebar items={users} currentItem={user} handleSelectedItem={handleSelectedUser} />
+        <Sidebar items={users} selectedItem={user} handleSelectedItem={handleSelectedUser} />
         <div className={styles.container}>
           <QuestionList questions={questions} refreshQuestions={refreshQuestions} />
         </div>

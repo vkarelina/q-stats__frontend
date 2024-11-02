@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, ConfigEnv } from 'vite';
 
-export default ({ mode }: any) => {
+export default ({ mode }: ConfigEnv) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
   
   return defineConfig({
@@ -11,4 +11,3 @@ export default ({ mode }: any) => {
     },
   });
 }
-
