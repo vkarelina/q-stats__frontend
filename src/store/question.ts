@@ -8,7 +8,7 @@ import {
   fetchTopicQuestions,
   fetchUpdateTopicQuestion,
   fetchUserQuestions,
-} from '../api/questions';
+} from '../api';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
 
@@ -35,9 +35,9 @@ const useQuestionStore = create<UseQuestionStore>()(
       questions: [],
 
       fetchQuestions: async (topicId: number, userId?: number) => {
-        const questions = userId
-          ? await fetchUserQuestions(topicId, userId)
-          : await fetchTopicQuestions(topicId);
+        const questions = await (userId
+          ? fetchUserQuestions(topicId, userId)
+          : fetchTopicQuestions(topicId));
         set({ questions }, false, 'fetchQuestions');
       },
 
@@ -46,9 +46,9 @@ const useQuestionStore = create<UseQuestionStore>()(
         topicId: number,
         userId?: number,
       ) => {
-        const newQuestion = userId
-          ? await fetchCreateUserQuestion({ ...text, topicId }, userId)
-          : await fetchCreateTopicQuestion(text, topicId);
+        const newQuestion = await (userId
+          ? fetchCreateUserQuestion({ ...text, topicId }, userId)
+          : fetchCreateTopicQuestion(text, topicId));
         set((state) => ({ questions: [...state.questions, newQuestion] }));
       },
 

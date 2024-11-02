@@ -1,38 +1,35 @@
-import { memo } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 
-import useTopic from '../../store/topic';
 import { Topic } from '../../types';
 
 import styles from './header.module.css';
 
 interface HeaderProps {
-  topics: Topic[];
-  handleGetSelectedTopic: (topicId: number) => void;
+  items: Topic[];
+  currentItem: Topic | null;
+  handleGetSelectedItem: (topicId: number) => void;
 }
 
-const Header = ({ topics, handleGetSelectedTopic }: HeaderProps) => {
-  const currentTopic = useTopic.use.topic();
-
+const Header = ({ items, currentItem, handleGetSelectedItem }: HeaderProps) => {
   const handleTabClick = (topicId: number) => {
-    handleGetSelectedTopic(topicId);
+    handleGetSelectedItem(topicId);
   };
 
   return (
     <div className={styles.container}>
-      {topics?.map((topic, index) => (
+      {items?.map((items, index) => (
         <div
           key={index}
-          onClick={() => handleTabClick(topic.id)}
-          className={classNames({
-            [styles.active]: currentTopic?.id === topic.id,
+          onClick={() => handleTabClick(items.id)}
+          className={cn({
+            [styles.active]: currentItem?.id === items.id,
           })}
         >
-          {topic.name}
+          {items.name}
         </div>
       ))}
     </div>
   );
 };
 
-export default memo(Header);
+export default Header;

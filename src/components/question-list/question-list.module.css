@@ -1,7 +1,7 @@
 .list {
   max-width: 564px;
   width: 100%;
-  background-color: var(--backgraund-color);
+  background-color: var(--background-color);
   padding: 8px;
   aspect-ratio: 0.7;
   padding: 24px 40px;
@@ -26,6 +26,6 @@
   line-height: unset;
   outline: none;
   max-height: 50px;
-  background-color: rgba(240, 248, 255, 0);
+  background-color: var(--primary-color);
   padding-left: 4px;
 }

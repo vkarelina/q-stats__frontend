@@ -1,14 +1,17 @@
-import { useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 import useQuestion from '../store/question';
 import useUser from '../store/user';
 import useTopic from '../store/topic';
 
 import { QuestionList } from '../components/question-list';
-import { Header } from '../components-ui/header';
-import { Sidebar } from '../components-ui/sidebar';
+import { Header as HeaderMemo } from '../components-ui/header';
+import { Sidebar as SidebarMemo } from '../components-ui/sidebar';
 
 import styles from './main-page.module.css';
+
+const Header = memo(HeaderMemo);
+const Sidebar = memo(SidebarMemo);
 
 const MainPage = () => {
   const fetchQuestions = useQuestion.use.fetchQuestions();
@@ -47,9 +50,9 @@ const MainPage = () => {
 
   return (
     <div className={styles.wrapperApp}>
-      <Header topics={topics} handleGetSelectedTopic={handleGetSelectedTopic} />
+      <Header items={topics} currentItem={topic} handleGetSelectedItem={handleGetSelectedTopic} />
       <div className={styles.wrapperContent}>
-        <Sidebar users={users} handleSelectedUser={handleSelectedUser} />
+        <Sidebar items={users} currentItem={user} handleSelectedItem={handleSelectedUser} />
         <div className={styles.container}>
           <QuestionList questions={questions} refreshQuestions={refreshQuestions} />
         </div>

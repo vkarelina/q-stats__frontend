@@ -1,18 +1,10 @@
-import { AxiosResponse } from 'axios';
-
 import { User } from '../types';
 import api from './index';
 
-export const fetchUsers = async (): Promise<User[]> => {
-  const response: AxiosResponse<User[]> = await api.get(
-    'http://localhost:5000/users',
-  );
-  return response.data;
-};
+export const fetchUsers = () => (
+  api.get<User[]>('users').then((res) => res.data)
+);
 
-export const fetchUser = async (id: number): Promise<User> => {
-  const response: AxiosResponse<User> = await api.get(
-    `http://localhost:5000/users/${id}`,
-  );
-  return response.data;
-};
+export const fetchUser = (id: number) => (
+  api.get<User>(`users/${id}`).then((res) => res.data)
+);

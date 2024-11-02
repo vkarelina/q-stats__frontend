@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { fetchTopic, fetchTopics } from '../api/topic';
+import { fetchTopic, fetchTopics } from '../api';
 import { Topic } from '../types';
 import createSelectors from './create-selectors';
 

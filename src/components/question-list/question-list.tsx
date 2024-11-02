@@ -1,12 +1,14 @@
-import { useRef } from 'react';
+import { memo, useCallback, useRef } from 'react';
 
 import useUser from '../../store/user';
 import useTopic from '../../store/topic';
+import useQuestion from '../../store/question';
+import { ListItem as ListItemMemo } from '../../components-ui/list-item';
 import { Question } from '../../types';
-import { QuestionItem } from '../../components-ui/question-item';
 
 import styles from './question-list.module.css';
-import useQuestion from '../../store/question';
+
+const ListItem = memo(ListItemMemo);
 
 interface QuestionListProps {
   questions: Question[];
@@ -14,7 +16,7 @@ interface QuestionListProps {
 }
 
 const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
-  const textQuestionRef = useRef<HTMLTextAreaElement | any>('');
+  const textQuestionRef = useRef<HTMLTextAreaElement | null>(null);
 
   const fetchCreateQuestion = useQuestion.use.fetchCreateQuestion();
   const fetchUpdateTopicQuestion = useQuestion.use.fetchUpdateTopicQuestion();
@@ -23,6 +25,8 @@ const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
   const topic = useTopic.use.topic();
 
   const handleAddQuestion = () => {
+    if (!textQuestionRef.current) return;
+
     const question = {
       text: textQuestionRef.current.value,
     };
@@ -33,38 +37,42 @@ const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
     textQuestionRef.current.value = '';
   };
 
-  const handleUpdateQuestion = (text: string, questionId: number) => {
-    const newText = { text };
-    if (topic) fetchUpdateTopicQuestion(newText, questionId, topic.id, refreshQuestions);
-  };
+  const handleUpdateQuestion = useCallback(
+    (text: string, questionId: number) => {
+      const newText = { text };
+      if (topic)
+        fetchUpdateTopicQuestion(
+          newText,
+          questionId,
+          topic.id,
+          refreshQuestions,
+        );
+    },
+    [topic],
+  );
 
-  if (questions) {
-    return (
-      <ul className={styles.list}>
-        {topic && (
-          <>
-            {questions.map((question, idx) => (
-              <QuestionItem
-                question={question}
-                key={question.id}
-                idx={idx}
-                handleUpdateQuestion={handleUpdateQuestion}
-              />
-            ))}
-            <li>
-              <textarea
-                onBlur={handleAddQuestion}
-                ref={textQuestionRef}
-                className={styles.textarea}
-                placeholder="Create new question"
-              />
-            </li>
-          </>
-        )}
-        {!topic && <li>Select topic and user</li>}
-      </ul>
-    );
-  }
+  if (!questions || !topic) return <div>Select topic and user</div>;
+
+  return (
+    <ul className={styles.list}>
+      {questions.map((question, idx) => (
+        <ListItem
+          item={question}
+          key={question.id}
+          idx={idx}
+          handleUpdateItem={handleUpdateQuestion}
+        />
+      ))}
+      <li>
+        <textarea
+          onBlur={handleAddQuestion}
+          ref={textQuestionRef}
+          className={styles.textarea}
+          placeholder="Create new question"
+        />
+      </li>
+    </ul>
+  );
 };
 
-export default QuestionList;
+export default memo(QuestionList);

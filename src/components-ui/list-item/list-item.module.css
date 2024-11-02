@@ -4,7 +4,7 @@
   border: 0px;
   line-height: unset;
   outline: none;
-  background-color: rgba(240, 248, 255, 0);
+  background-color: var(--primary-color);
 }
 
 .text {
