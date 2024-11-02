@@ -2,51 +2,64 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import {
+  fetchCreateTopicQuestion,
+  fetchCreateUserQuestion,
+  fetchTopicQuestions,
+  fetchUpdateTopicQuestion,
+  fetchUserQuestions,
+} from '../api';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
-import { fetchQuestionByTopic, fetchQuestions } from '../api';
 
 interface UseQuestionStore {
   questions: Question[];
 
-  fetchQuestions: () => void;
-  fetchQuestionByTopic: (topicId: number) => void;
-  fetchUpdateDefaultQuestion: (questionId: number, text: string) => void;
+  fetchQuestions: (topicId: number, userId?: number) => void;
+  fetchCreateQuestion: (
+    text: Pick<Question, 'text'>,
+    topicId: number,
+    userId?: number,
+  ) => void;
+  fetchUpdateTopicQuestion: (
+    text: Pick<Question, 'text'>,
+    questionId: number,
+    topicId?: number,
+    refreshQuestions?: () => void,
+  ) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
-    immer((set, get) => ({
+    immer((set) => ({
       questions: [],
 
-      fetchQuestions() {
-        const { questions } = get();
-        const questionsToSet = questions.length ? questions : fetchQuestions();
-
-        set(
-          { questions: questionsToSet },
-          false,
-          questions.length ? 'setQuestions' : 'setQuestionsMock',
-        );
+      fetchQuestions: async (topicId: number, userId?: number) => {
+        const questions = await (userId
+          ? fetchUserQuestions(topicId, userId)
+          : fetchTopicQuestions(topicId));
+        set({ questions }, false, 'fetchQuestions');
       },
 
-      fetchQuestionByTopic(topicId) {
-        const questions = fetchQuestionByTopic(topicId);
-        set({ questions }, false, 'setQuestions');
+      fetchCreateQuestion: async (
+        text: Pick<Question, 'text'>,
+        topicId: number,
+        userId?: number,
+      ) => {
+        const newQuestion = await (userId
+          ? fetchCreateUserQuestion({ ...text, topicId }, userId)
+          : fetchCreateTopicQuestion(text, topicId));
+        set((state) => ({ questions: [...state.questions, newQuestion] }));
       },
 
-      fetchUpdateDefaultQuestion(questionId: number, text: string) {
-        set(
-          (state) => {
-            const questionToUpdate = state.questions.find(
-              (question) => question.id === questionId,
-            );
-
-            if (questionToUpdate) questionToUpdate.text = text;
-          },
-          false,
-          'fetchUpdateDefaultQuestion',
-        );
+      fetchUpdateTopicQuestion: async (
+        text: Pick<Question, 'text'>,
+        questionId: number,
+        topicId?: number,
+        refreshQuestions?: () => void,
+      ) => {
+        if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
+        if (refreshQuestions) refreshQuestions();
       },
     })),
   ),

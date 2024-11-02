@@ -4,8 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  background-color: var(--background-color);
   gap: 10px;
-  background-color: var(--backgraund-color);
+  padding-left: 80px;
 }
 
 .container > * {

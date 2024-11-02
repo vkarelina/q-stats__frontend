@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  background-color: var(--backgraund-color);
+  background-color: var(--background-color);
 }
 
 .wrapperSidebar > div {

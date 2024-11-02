@@ -1,31 +1,38 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { fetchTopic, fetchTopics } from '../api';
 import { Topic } from '../types';
 import createSelectors from './create-selectors';
-import { fetchTopics } from '../api';
 
 interface UseTopicStore {
-  topic: Topic | null;
   topics: Topic[];
+  topic: Topic | null;
 
   fetchTopics: () => void;
-  fetchCurrentTopic: (topic: Topic) => void;
+  fetchTopic: (id: number) => void;
 }
 
 const useTopicStore = create<UseTopicStore>()(
   devtools(
-    (set) => ({
-      topic: null,
+    (set, get) => ({
       topics: [],
+      topic: null,
 
-      fetchTopics: () => {
-        const topics = fetchTopics();
+      fetchTopics: async () => {
+        const topics = await fetchTopics();
         set({ topics }, false, 'fetchTopics');
       },
 
-      fetchCurrentTopic: (topic: Topic) => {
-        set({ topic }, false, 'fetchCurrentTopic');
+      fetchTopic: async (id: number) => {
+        const topicId = get().topic?.id;
+
+        if (topicId !== id) {
+          const topic = await fetchTopic(id);
+          set({ topic }, false, 'fetchTopic');
+        } else {
+          set({ topic: null }, false, 'fetchTopic');
+        }
       },
     }),
     { name: 'TopicStore' },

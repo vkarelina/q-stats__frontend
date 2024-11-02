@@ -1,78 +1,78 @@
-import { useRef, useState } from 'react';
+import { memo, useCallback, useRef } from 'react';
 
-import useAnswer from '../../store/answers';
-import useQuestion from '../../store/question';
 import useUser from '../../store/user';
-import { Question, SessionRecord } from '../../types';
-import { QuestionItem } from '../question-item';
+import useTopic from '../../store/topic';
+import useQuestion from '../../store/question';
+import { ListItem as ListItemMemo } from '../../components-ui/list-item';
+import { Question } from '../../types';
 
 import styles from './question-list.module.css';
 
+const ListItem = memo(ListItemMemo);
+
 interface QuestionListProps {
-  questions: Question[] | SessionRecord[] | null;
+  questions: Question[];
+  refreshQuestions: () => void;
 }
 
-const QuestionList = ({ questions }: QuestionListProps) => {
-  const [openForm, setOpenForm] = useState(false);
-  const textQuestionRef = useRef<HTMLTextAreaElement>(null);
+const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
+  const textQuestionRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const fetchAddAnswer = useAnswer.use.fetchAddAnswer();
-  const fetchUpdateDefaultQuestion = useQuestion.use.fetchUpdateDefaultQuestion();
+  const fetchCreateQuestion = useQuestion.use.fetchCreateQuestion();
+  const fetchUpdateTopicQuestion = useQuestion.use.fetchUpdateTopicQuestion();
 
   const user = useUser.use.user();
+  const topic = useTopic.use.topic();
 
   const handleAddQuestion = () => {
-    if (!questions || !user?.id) return;
-
-    if (!textQuestionRef.current?.value) {
-      setOpenForm(false);
-      return;
-    }
+    if (!textQuestionRef.current) return;
 
     const question = {
-      id: Date.now(),
-      topicId: questions[0].topicId,
       text: textQuestionRef.current.value,
-      isDefault: false,
     };
 
-    fetchAddAnswer(user?.id, question.id);
-    setOpenForm(false);
+    if (user && topic) fetchCreateQuestion(question, topic.id, user.id);
+    else if (topic) fetchCreateQuestion(question, topic.id);
+
     textQuestionRef.current.value = '';
   };
 
-  const handleUpdateQuestion = (text: string, question: Question) => {
-    if (question.isDefault) fetchUpdateDefaultQuestion(question.id, text);
-  };
+  const handleUpdateQuestion = useCallback(
+    (text: string, questionId: number) => {
+      const newText = { text };
+      if (topic)
+        fetchUpdateTopicQuestion(
+          newText,
+          questionId,
+          topic.id,
+          refreshQuestions,
+        );
+    },
+    [topic],
+  );
 
-  if (questions) {
-    return (
-      <ul className={styles.list}>
-        {questions.map((question, idx) => (
-          <QuestionItem
-            question={question}
-            key={question.id}
-            idx={idx}
-            handleUpdateQuestion={handleUpdateQuestion}
-          />
-        ))}
-        {openForm && (
-          <li>
-            <p>{questions.length + 1}</p>
-            <textarea
-              onBlur={handleAddQuestion}
-              ref={textQuestionRef}
-              autoFocus
-              className={styles.textarea}
-            />
-          </li>
-        )}
-        <li onClick={() => setOpenForm(true)}>
-          <p>+</p>
-        </li>
-      </ul>
-    );
-  }
+  if (!questions || !topic) return <div>Select topic and user</div>;
+
+  return (
+    <ul className={styles.list}>
+      {questions.map((question, idx) => (
+        <ListItem
+          item={question}
+          key={question.id}
+          idx={idx}
+          handleUpdateItem={handleUpdateQuestion}
+        />
+      ))}
+      <li>
+        <textarea
+          onBlur={handleAddQuestion}
+          ref={textQuestionRef}
+          className={styles.textarea}
+          placeholder="Create new question"
+        />
+      </li>
+    </ul>
+  );
 };
 
-export default QuestionList;
+export default memo(QuestionList);

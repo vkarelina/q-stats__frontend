@@ -1,19 +1,19 @@
 import { useRef, useState } from 'react';
 
-import { Question, SessionRecord } from '../../types';
+import { Question } from '../../types';
 
-import styles from './question-item.module.css';
+import styles from './list-item.module.css';
 
 interface QuestionItemProps {
-  question: SessionRecord | Question;
+  item: Question;
   idx: number;
-  handleUpdateQuestion: (text: string, question: Question) => void;
+  handleUpdateItem: (text: string, itemId: number) => void;
 }
 
-const QuestionItem = ({
-  question,
+const ListItem = ({
+  item,
   idx,
-  handleUpdateQuestion,
+  handleUpdateItem,
 }: QuestionItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -22,14 +22,14 @@ const QuestionItem = ({
     setIsEditing(!isEditing);
   };
 
-  const handleSaveQuestion = (currentQuestion: Question) => {
-    if (!textAreaRef.current || currentQuestion.text === textAreaRef.current.value) return;
+  const handleSaveItem = (currentItem: Question) => {
+    if (!textAreaRef.current || currentItem.text === textAreaRef.current.value) return;
 
-    handleUpdateQuestion(textAreaRef.current.value, currentQuestion);
+    handleUpdateItem(textAreaRef.current.value, currentItem.id);
   };
 
   const handleBlur = () => {
-    handleSaveQuestion(question);
+    handleSaveItem(item);
     toggleEditing();
   };
 
@@ -38,7 +38,7 @@ const QuestionItem = ({
       <p>{`${idx + 1}.`}</p>
       {isEditing ? (
         <textarea
-          defaultValue={question.text}
+          defaultValue={item.text}
           onBlur={handleBlur}
           autoFocus
           className={styles.textarea}
@@ -46,11 +46,11 @@ const QuestionItem = ({
         />
       ) : (
         <p onClick={toggleEditing} className={styles.text}>
-          {question.text}
+          {item.text}
         </p>
       )}
     </li>
   );
 };
 
-export default QuestionItem;
+export default ListItem;

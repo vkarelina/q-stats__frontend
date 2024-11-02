@@ -1,42 +1,62 @@
-import { useState, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
+
+import useQuestion from '../store/question';
+import useUser from '../store/user';
+import useTopic from '../store/topic';
 
 import { QuestionList } from '../components/question-list';
-import useQuestion from '../store/question';
-import useTopic from '../store/topic';
-import useUser from '../store/user';
-import { Question, SessionRecord } from '../types';
+import { Header as HeaderMemo } from '../components-ui/header';
+import { Sidebar as SidebarMemo } from '../components-ui/sidebar';
 
 import styles from './main-page.module.css';
 
+const Header = memo(HeaderMemo);
+const Sidebar = memo(SidebarMemo);
+
 const MainPage = () => {
-  const sessionQuestions = useUser.use.session();
-  const allQuestions = useQuestion.use.questions();
-  const topic = useTopic.use.topic();
+  const fetchQuestions = useQuestion.use.fetchQuestions();
+  const fetchTopics = useTopic.use.fetchTopics();
+  const fetchTopic = useTopic.use.fetchTopic();
+  const fetchUser = useUser.use.fetchUser();
+  const fetchUsers = useUser.use.fetchUsers();
+
+  const questions = useQuestion.use.questions();
   const user = useUser.use.user();
+  const users = useUser.use.users();
+  const topic = useTopic.use.topic();
+  const topics = useTopic.use.topics();
 
-  const fetchSession = useUser.use.fetchSession();
+  const handleGetSelectedTopic = useCallback((topicId: number) => {
+    fetchTopic(topicId);
+  }, []);
 
-  const [questions, setQuestions] = useState<Question[] | SessionRecord[]>([]);
-
-  const selectQuestions = () => {
-    return sessionQuestions?.length
-    ? sessionQuestions
-    : allQuestions.filter(
-      (question) => question.isDefault && question.topicId === topic?.id,
-    );
-  };
-
-  useEffect(() => {
-    if (user && topic) fetchSession(user.id, topic.id);
-  }, [user, topic]);
+  const handleSelectedUser = useCallback((userId: number) => {
+    fetchUser(userId);
+  }, []);
 
   useEffect(() => {
-    setQuestions(selectQuestions());
-  }, [sessionQuestions, allQuestions, topic]);
+    fetchTopics();
+    fetchUsers();
+  }, []);
+
+  const refreshQuestions = useCallback(() => {
+    if (user && topic) fetchQuestions(topic.id, user.id);
+    else if (topic) fetchQuestions(topic.id);
+  }, [fetchQuestions, topic, user]);
+
+  useEffect(() => {
+    refreshQuestions();
+  }, [refreshQuestions]);
 
   return (
-    <div className={styles.container}>
-      <QuestionList questions={questions} />
+    <div className={styles.wrapperApp}>
+      <Header items={topics} selectedItem={topic} handleGetSelectedItem={handleGetSelectedTopic} />
+      <div className={styles.wrapperContent}>
+        <Sidebar items={users} selectedItem={user} handleSelectedItem={handleSelectedUser} />
+        <div className={styles.container}>
+          <QuestionList questions={questions} refreshQuestions={refreshQuestions} />
+        </div>
+      </div>
     </div>
   );
 };

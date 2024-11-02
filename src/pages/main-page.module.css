@@ -3,6 +3,18 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 100px;
+  padding-top: 20px;
   box-sizing: border-box;
+}
+
+.wrapperApp {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapperContent {
+  display: flex;
+  height: 100%;
 }
