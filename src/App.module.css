@@ -17,6 +17,10 @@
   --light-coral: #f0ae99;
   --white: #ffffffde;
   --gunmetal: #272839;
+  --green: #03a100;
+  --red: #a70000;
+  --grey: #434343;
+  --transparent-white: #ffffff33;
 
   /* Применение цветовых переменных */
   --primary-color: var(--deep-space-sparkle);

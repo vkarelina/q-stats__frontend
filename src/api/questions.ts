@@ -1,4 +1,4 @@
-import { Question, QuestionTopic } from '../types';
+import { AnswerStatus, Question, QuestionTopic } from '../types';
 import api from './index';
 
 export const fetchUserQuestions = (topicId: number, userId: number) => (
@@ -16,7 +16,7 @@ export const fetchCreateTopicQuestion = (
   topicId: number,
 ) => (
   api
-    .post<Question[]>(`topic/${topicId}/questions`, data)
+    .post<Question>(`topic/${topicId}/questions`, data)
     .then((res) => res.data)
 );
 
@@ -25,7 +25,7 @@ export const fetchCreateUserQuestion = (
   userId: number,
 ) => (
   api
-    .post<Question[]>(`users/${userId}/questions`, data)
+    .post<Question>(`users/${userId}/questions`, data)
     .then((res) => res.data)
 );
 
@@ -36,5 +36,15 @@ export const fetchUpdateTopicQuestion = (
 ) => (
   api
     .patch<Question[]>(`topic/${topicId}/questions/${questionId}`, data)
+    .then((res) => res.data)
+);
+
+export const fetchUpdateAnswerStatus = (
+  data: AnswerStatus,
+  userId: number,
+  topicId: number,
+) => (
+  api
+    .post(`answers?userId=${userId}&topicId=${topicId}`, data)
     .then((res) => res.data)
 );

@@ -5,6 +5,7 @@
   line-height: unset;
   outline: none;
   background-color: var(--primary-color);
+  color: white;
 }
 
 .text {
