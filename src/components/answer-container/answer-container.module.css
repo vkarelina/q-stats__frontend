@@ -18,18 +18,18 @@
 }
 
 .button {
-  background-color: var(--dark-jungle-green);
+  background-color: var(--background-color);
   border: none;
   padding: 8px 16px;
   cursor: pointer;
 }
 
 .filledGreen {
-  fill: var(--right-icon-color);
+  fill: var(--correct-icon-color);
 }
 
 .filledGray {
-  fill: var(--not-clicked-icon-color);
+  fill: var(--default-icon-color);
 }
 
 .filledRed {

@@ -1,11 +1,11 @@
-import { AnswerContainer } from '../../components-ui/answer-container';
 import useQuestion from '../../store/question';
 import { Answer, Question } from '../../types';
 import { getShortDate, parseDate } from '../../utils/date';
+import { AnswerContainer } from '../answer-container';
 
 interface TableRowProps {
   question: Question;
-  refreshQuestions?: () => void;
+  refreshQuestions: () => void;
 }
 
 const TableRow = ({ question, refreshQuestions }: TableRowProps) => {
@@ -20,7 +20,7 @@ const TableRow = ({ question, refreshQuestions }: TableRowProps) => {
   };
 
   return (
-    <tr key={question.id}>
+    <tr>
       {uniqueDates.map((date, index) => {
         const currentStatus = getCurrentStatus(question.answers, date);
         const foundAnswer = question.answers?.find(
@@ -33,6 +33,7 @@ const TableRow = ({ question, refreshQuestions }: TableRowProps) => {
 
         return (
           <AnswerContainer
+            key={date}
             date={date}
             index={index}
             createdAt={createdAt}

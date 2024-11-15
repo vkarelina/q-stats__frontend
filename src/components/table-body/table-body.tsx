@@ -1,5 +1,5 @@
-import { TableRow } from '../../components/table-row';
 import useQuestion from '../../store/question';
+import { TableRow } from '../table-row';
 
 interface TableBodyProps {
   refreshQuestions: () => void;
@@ -11,7 +11,7 @@ const TableBody = ({ refreshQuestions }: TableBodyProps) => {
   return (
     <tbody>
       {questions.map((question) => (
-        <TableRow refreshQuestions={refreshQuestions} question={question} />
+        <TableRow refreshQuestions={refreshQuestions} question={question} key={question.id}/>
       ))}
     </tbody>
   );

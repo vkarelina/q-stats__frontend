@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-import RightIcon from '../../assets/icons/right-icon.svg';
+import CorrectIcon from '../../assets/icons/correct-icon.svg';
 import WrongIcon from '../../assets/icons/wrong-icon.svg';
 import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
@@ -15,7 +15,7 @@ interface AnswerContainerProps {
   createdAt: Date;
   questionId: number;
   currentStatus: boolean | null;
-  refreshQuestions?: () => void;
+  refreshQuestions: () => void;
 }
 
 const AnswerContainer = ({
@@ -29,11 +29,8 @@ const AnswerContainer = ({
   const uniqueDates = useQuestion.use.uniqueDates();
 
   const fetchUpdateAnswerStatus = useQuestion.use.fetchUpdateAnswerStatus();
-  const questions = useQuestion.use.questions();
   const user = useUser.use.user();
   const topic = useTopic.use.topic();
-
-  const isAnswers = questions.some((q) => q.answers);
 
   const handleButtonClick = (
     status: boolean,
@@ -42,16 +39,15 @@ const AnswerContainer = ({
   ) => {
     if (getShortDate(createdAt) !== getShortDate(new Date())) return;
     if (user?.id && topic?.id) {
-      const params = {
+      fetchUpdateAnswerStatus({
         status,
         date: createdAt,
         userQuestionId: questionId,
         topicId: topic.id,
         userId: user.id,
-        refreshQuestions: isAnswers ? undefined : refreshQuestions,
-      };
+      });
 
-      fetchUpdateAnswerStatus(params);
+      refreshQuestions();
     }
   };
 
@@ -68,10 +64,10 @@ const AnswerContainer = ({
           onClick={() => handleButtonClick(true, createdAt, questionId)}
           className={styles.button}
         >
-          <RightIcon
+          <CorrectIcon
             className={cn(styles.icon, {
-              [styles.filledGreen]: currentStatus === true,
-              [styles.filledGray]: currentStatus !== true,
+              [styles.filledGreen]: currentStatus,
+              [styles.filledGray]: !currentStatus,
             })}
           />
         </button>

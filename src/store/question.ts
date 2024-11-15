@@ -37,7 +37,6 @@ interface UseQuestionStore {
     userQuestionId: number;
     topicId: number;
     userId: number;
-    refreshQuestions?: () => void;
   }) => void;
 }
 
@@ -90,7 +89,6 @@ const useQuestionStore = create<UseQuestionStore>()(
         userQuestionId,
         topicId,
         userId,
-        refreshQuestions,
       }) => {
         const response = await fetchUpdateAnswerStatus(
           { response: status, date, userQuestionId },
@@ -131,8 +129,6 @@ const useQuestionStore = create<UseQuestionStore>()(
 
           return { questions: updatedQuestions };
         }, false, 'fetchUpdateAnswerStatus');
-
-        if (refreshQuestions) refreshQuestions();
       },
     })),
   ),

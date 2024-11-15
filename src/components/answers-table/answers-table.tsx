@@ -1,5 +1,5 @@
-import { TableBody } from '../../components-ui/table-body';
-import { TableHead } from '../../components-ui/table-head';
+import { TableBody } from '../table-body';
+import { TableHead } from '../table-head';
 
 import styles from './answers-table.module.css';
 
