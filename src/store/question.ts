@@ -12,9 +12,12 @@ import {
 } from '../api';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
+import { getUniqueDates } from '../helpers/getUniqueDates';
+import { getShortDate } from '../utils/date';
 
 interface UseQuestionStore {
   questions: Question[];
+  uniqueDates: string[];
 
   fetchQuestions: (topicId: number, userId?: number) => void;
   fetchCreateQuestion: (
@@ -28,26 +31,33 @@ interface UseQuestionStore {
     topicId?: number,
     refreshQuestions?: () => void,
   ) => void;
-  fetchUpdateAnswerStatus: (
-    status: boolean | null,
-    date: Date,
-    userQuestionId: number,
-    topicId: number,
-    userId: number,
-    refreshQuestions?: () => void,
-  ) => void;
+  fetchUpdateAnswerStatus: (params: {
+    status: boolean | null;
+    date: Date;
+    userQuestionId: number;
+    topicId: number;
+    userId: number;
+    refreshQuestions?: () => void;
+  }) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
   devtools(
     immer((set) => ({
       questions: [],
+      uniqueDates: [],
 
       fetchQuestions: async (topicId: number, userId?: number) => {
         const questions = await (userId
           ? fetchUserQuestions(topicId, userId)
           : fetchTopicQuestions(topicId));
-        set({ questions }, false, 'fetchQuestions');
+
+        const uniqueDates =
+          questions.length && questions[0].answers?.length
+            ? getUniqueDates(questions)
+            : [getShortDate(new Date())];
+
+        set({ questions, uniqueDates }, false, 'fetchQuestions');
       },
 
       fetchCreateQuestion: async (
@@ -74,25 +84,25 @@ const useQuestionStore = create<UseQuestionStore>()(
         if (refreshQuestions) refreshQuestions();
       },
 
-      fetchUpdateAnswerStatus: async (
-        status: boolean | null,
-        date: Date,
-        userQuestionId: number,
-        topicId: number,
-        userId: number,
-        refreshQuestions?: () => void,
-      ) => {
+      fetchUpdateAnswerStatus: async ({
+        status,
+        date,
+        userQuestionId,
+        topicId,
+        userId,
+        refreshQuestions,
+      }) => {
         const response = await fetchUpdateAnswerStatus(
           { response: status, date, userQuestionId },
           userId,
           topicId,
         );
 
-        set((state) => {
-          const questionIndex = state.questions.findIndex(
+        set(({ questions }) => {
+          const questionIndex = questions.findIndex(
             (q) => q.id === userQuestionId,
           );
-          const updatedQuestions = [...state.questions];
+          const updatedQuestions = [...questions];
 
           const answers = updatedQuestions[questionIndex].answers || [];
 
@@ -120,7 +130,7 @@ const useQuestionStore = create<UseQuestionStore>()(
           }
 
           return { questions: updatedQuestions };
-        });
+        }, false, 'fetchUpdateAnswerStatus');
 
         if (refreshQuestions) refreshQuestions();
       },

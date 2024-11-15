@@ -10,11 +10,7 @@ interface QuestionItemProps {
   handleUpdateItem: (text: string, itemId: number) => void;
 }
 
-const ListItem = ({
-  item,
-  idx,
-  handleUpdateItem,
-}: QuestionItemProps) => {
+const ListItem = ({ item, idx, handleUpdateItem }: QuestionItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -23,7 +19,8 @@ const ListItem = ({
   };
 
   const handleSaveItem = (currentItem: Question) => {
-    if (!textAreaRef.current || currentItem.text === textAreaRef.current.value) return;
+    if (!textAreaRef.current || currentItem.text === textAreaRef.current.value)
+      return;
 
     handleUpdateItem(textAreaRef.current.value, currentItem.id);
   };

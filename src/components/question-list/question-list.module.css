@@ -3,7 +3,7 @@
   width: 100%;
   background-color: var(--background-color);
   aspect-ratio: 0.7;
-  padding: 33px 40px;
+  padding: 32px 40px;
 }
 
 .list > li {

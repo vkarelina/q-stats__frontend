@@ -1,0 +1,37 @@
+.cellWithBorder {
+  border-right: 1px solid var(--transparent-white);
+}
+
+.cellWithoutBorder {
+  border-right: none;
+}
+
+.icon {
+  width: 15px;
+}
+
+.buttonContainer {
+  align-items: center;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  background-color: var(--dark-jungle-green);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.filledGreen {
+  fill: var(--right-icon-color);
+}
+
+.filledGray {
+  fill: var(--not-clicked-icon-color);
+}
+
+.filledRed {
+  fill: var(--wrong-icon-color);
+}

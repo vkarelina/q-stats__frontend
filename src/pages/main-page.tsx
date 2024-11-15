@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect } from 'react';
 
-import AnswersTable from '../components/answers-table/answers-table';
+import { AnswersTable } from '../components/answers-table';
 import { QuestionList } from '../components/question-list';
 import { Header as HeaderMemo } from '../components-ui/header';
 import { Sidebar as SidebarMemo } from '../components-ui/sidebar';
@@ -67,11 +67,7 @@ const MainPage = () => {
             refreshQuestions={refreshQuestions}
           />
           {topic && user && (
-            <AnswersTable
-              questions={questions}
-              user={user}
-              topic={topic}
-              refreshQuestions={refreshQuestions}
+            <AnswersTable refreshQuestions={refreshQuestions}
             />
           )}
         </div>

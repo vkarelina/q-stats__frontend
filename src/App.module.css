@@ -29,6 +29,10 @@
   --accent-color: var(--vivid-orange);
   --second-accent-color: var(--dark-orange);
   --light-accent-color: var(--light-coral);
+  --right-icon-color: var(--green);
+  --wrong-icon-color: var(--red);
+  --not-clicked-icon-color: var(--grey);
+  --textarea-color: var(--white);
 }
 
 html[data-theme='dark'] {
