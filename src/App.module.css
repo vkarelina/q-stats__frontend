@@ -17,6 +17,10 @@
   --light-coral: #f0ae99;
   --white: #ffffffde;
   --gunmetal: #272839;
+  --green: #03a100;
+  --red: #a70000;
+  --grey: #434343;
+  --transparent-white: #ffffff33;
 
   /* Применение цветовых переменных */
   --primary-color: var(--deep-space-sparkle);
@@ -25,6 +29,10 @@
   --accent-color: var(--vivid-orange);
   --second-accent-color: var(--dark-orange);
   --light-accent-color: var(--light-coral);
+  --correct-icon-color: var(--green);
+  --wrong-icon-color: var(--red);
+  --default-icon-color: var(--grey);
+  --textarea-color: var(--white);
 }
 
 html[data-theme='dark'] {

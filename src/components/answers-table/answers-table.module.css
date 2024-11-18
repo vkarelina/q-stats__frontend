@@ -1,0 +1,10 @@
+.table {
+  width: 100%;
+  background-color: var(--background-color);
+  padding: 10px 40px;
+}
+
+.tableElement {
+  border-collapse: collapse;
+  width: 100%;
+}

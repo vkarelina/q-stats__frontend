@@ -1,9 +1,9 @@
 import { memo, useCallback, useRef } from 'react';
 
-import useUser from '../../store/user';
-import useTopic from '../../store/topic';
-import useQuestion from '../../store/question';
 import { ListItem as ListItemMemo } from '../../components-ui/list-item';
+import useQuestion from '../../store/question';
+import useTopic from '../../store/topic';
+import useUser from '../../store/user';
 import { Question } from '../../types';
 
 import styles from './question-list.module.css';
@@ -50,6 +50,7 @@ const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
     },
     [topic],
   );
+  console.log()
 
   if (!questions || !topic) return <div>Select topic and user</div>;
 

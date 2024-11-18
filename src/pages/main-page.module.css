@@ -1,10 +1,11 @@
 .container {
-  width: 100%;
+  flex-grow: 1;
   height: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  padding: 40px;
   box-sizing: border-box;
+  gap: 20px;
 }
 
 .wrapperApp {
