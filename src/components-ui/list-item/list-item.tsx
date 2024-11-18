@@ -39,8 +39,7 @@ const ListItem = ({ item, idx, handleUpdateItem }: QuestionItemProps) => {
           onBlur={handleBlur}
           autoFocus
           className={styles.textarea}
-          ref={textAreaRef}
-          
+          ref={textAreaRef}  
         />
       ) : (
         <p onClick={toggleEditing} className={styles.text}>
