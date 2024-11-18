@@ -3,12 +3,12 @@ import { Answer, Question } from '../../types';
 import { getShortDate, parseDate } from '../../utils/date';
 import { AnswerContainer } from '../answer-container';
 
-interface TableRowProps {
+interface AnswersTableRowProps {
   question: Question;
   refreshQuestions: () => void;
 }
 
-const TableRow = ({ question, refreshQuestions }: TableRowProps) => {
+const AnswersTableRow = ({ question, refreshQuestions }: AnswersTableRowProps) => {
   const uniqueDates = useQuestion.use.uniqueDates();
 
   const getCurrentStatus = (answers: Answer[], date: string) => {
@@ -47,4 +47,4 @@ const TableRow = ({ question, refreshQuestions }: TableRowProps) => {
   );
 };
 
-export default TableRow;
+export default AnswersTableRow;

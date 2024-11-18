@@ -50,9 +50,10 @@ const QuestionList = ({ questions, refreshQuestions }: QuestionListProps) => {
     },
     [topic],
   );
+  console.log()
 
   if (!questions || !topic) return <div>Select topic and user</div>;
-
+console.log(questions)
   return (
     <ul className={styles.list}>
       {questions.map((question, idx) => (

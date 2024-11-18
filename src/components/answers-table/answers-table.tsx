@@ -1,5 +1,5 @@
-import { TableBody } from '../table-body';
-import { TableHead } from '../table-head';
+import { AnswersTableBody } from '../answers-table-body';
+import { AnswersTableHead } from '../answers-table-head';
 
 import styles from './answers-table.module.css';
 
@@ -11,8 +11,8 @@ const AnswersTable = ({ refreshQuestions }: AnswersTableProps) => {
   return (
     <div className={styles.table}>
       <table className={styles.tableElement}>
-        <TableHead />
-        <TableBody refreshQuestions={refreshQuestions} />
+        <AnswersTableHead />
+        <AnswersTableBody refreshQuestions={refreshQuestions} />
       </table>
     </div>
   );

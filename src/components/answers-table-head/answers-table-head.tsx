@@ -1,8 +1,8 @@
 import useQuestion from '../../store/question';
 
-import styles from './table-head.module.css';
+import styles from './answers-table-head.module.css';
 
-const TableHead = () => {
+const AnswersTableHead = () => {
   const uniqueDates = useQuestion.use.uniqueDates();
 
   return (
@@ -18,4 +18,4 @@ const TableHead = () => {
   );
 };
 
-export default TableHead;
+export default AnswersTableHead;

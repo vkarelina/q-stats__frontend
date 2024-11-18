@@ -40,6 +40,7 @@ const ListItem = ({ item, idx, handleUpdateItem }: QuestionItemProps) => {
           autoFocus
           className={styles.textarea}
           ref={textAreaRef}
+          
         />
       ) : (
         <p onClick={toggleEditing} className={styles.text}>
