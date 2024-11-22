@@ -2,12 +2,14 @@ import cn from 'classnames';
 
 import CorrectIcon from '../../assets/icons/correct-icon.svg';
 import WrongIcon from '../../assets/icons/wrong-icon.svg';
+import useAnswers from '../../store/answers';
 import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
 import useUser from '../../store/user';
-import { getShortDate } from '../../utils/date';
+import { formatDate, getShortDate } from '../../utils/date';
 
 import styles from './answer-container.module.css';
+
 
 interface AnswerContainerProps {
   date: string;
@@ -28,16 +30,17 @@ const AnswerContainer = ({
 }: AnswerContainerProps) => {
   const uniqueDates = useQuestion.use.uniqueDates();
 
-  const fetchUpdateAnswerStatus = useQuestion.use.fetchUpdateAnswerStatus();
+  const fetchUpdateAnswerStatus = useAnswers.use.fetchUpdateAnswerStatus();
   const user = useUser.use.user();
   const topic = useTopic.use.topic();
-
+  
   const handleButtonClick = (
     status: boolean,
     createdAt: Date,
     questionId: number,
   ) => {
-    if (getShortDate(createdAt) !== getShortDate(new Date())) return;
+
+    if (formatDate(createdAt) !== formatDate(new Date())) return;
     if (user?.id && topic?.id) {
       fetchUpdateAnswerStatus({
         status,

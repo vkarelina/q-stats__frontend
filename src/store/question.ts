@@ -6,14 +6,11 @@ import {
   fetchCreateTopicQuestion,
   fetchCreateUserQuestion,
   fetchTopicQuestions,
-  fetchUpdateAnswerStatus,
   fetchUpdateTopicQuestion,
   fetchUserQuestions,
 } from '../api';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
-import { getUniqueDates } from '../helpers/getUniqueDates';
-import { getShortDate } from '../utils/date';
 
 interface UseQuestionStore {
   questions: Question[];
@@ -31,13 +28,6 @@ interface UseQuestionStore {
     topicId?: number,
     refreshQuestions?: () => void,
   ) => void;
-  fetchUpdateAnswerStatus: (params: {
-    status: boolean | null;
-    date: Date;
-    userQuestionId: number;
-    topicId: number;
-    userId: number;
-  }) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
@@ -51,12 +41,7 @@ const useQuestionStore = create<UseQuestionStore>()(
           ? fetchUserQuestions(topicId, userId)
           : fetchTopicQuestions(topicId));
 
-        const uniqueDates =
-          questions.length && questions[0].answers?.length
-            ? getUniqueDates(questions)
-            : [getShortDate(new Date())];
-
-        set({ questions, uniqueDates }, false, 'fetchQuestions');
+        set({ questions }, false, 'fetchQuestions');
       },
 
       fetchCreateQuestion: async (
@@ -81,55 +66,7 @@ const useQuestionStore = create<UseQuestionStore>()(
       ) => {
         if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
         if (refreshQuestions) refreshQuestions();
-      },
-
-      fetchUpdateAnswerStatus: async ({
-        status,
-        date,
-        userQuestionId,
-        topicId,
-        userId,
-      }) => {
-        const response = await fetchUpdateAnswerStatus(
-          { response: status, date, userQuestionId },
-          userId,
-          topicId,
-        );
-
-        set(({ questions }) => {
-          const questionIndex = questions.findIndex(
-            (q) => q.id === userQuestionId,
-          );
-          const updatedQuestions = [...questions];
-
-          const answers = updatedQuestions[questionIndex].answers || [];
-
-          const answerIndex = answers.findIndex(
-            (a) => a.id === response[0]?.id,
-          );
-
-          if (answerIndex !== -1) {
-            updatedQuestions[questionIndex] = {
-              ...updatedQuestions[questionIndex],
-              answers: [
-                ...answers.slice(0, answerIndex),
-                {
-                  ...answers[answerIndex],
-                  ...response[0],
-                },
-                ...answers.slice(answerIndex + 1),
-              ],
-            };
-          } else {
-            updatedQuestions[questionIndex] = {
-              ...updatedQuestions[questionIndex],
-              answers: [...answers, { ...response }],
-            };
-          }
-
-          return { questions: updatedQuestions };
-        }, false, 'fetchUpdateAnswerStatus');
-      },
+      }
     })),
   ),
 );

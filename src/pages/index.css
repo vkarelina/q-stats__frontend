@@ -1,0 +1,38 @@
+.container {
+  /* width: 400px; */
+  background: #DFA;
+  height: 100%;
+  background-color: var(--primary-color);
+  margin: 30px 0 0 30px;
+}
+
+.header, .row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.question, .question-header {
+  min-width: 200px;
+  background-color: var(--background-color);
+}
+
+.answer, .answer-header {
+  min-width: 100px;
+  background-color: var(--background-color);
+}
+
+.question-header, .answer-header  {
+  padding-top: 8px;
+}
+
+.row:last-child * {
+  /* padding-bottom: 8px; */
+  /* height: 100%; */
+}
+
+.answer-header, .answer, .question-header, .question {
+  min-height: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
