@@ -1,0 +1,29 @@
+.icon {
+  width: 16px;
+}
+
+.buttonContainer {
+  align-items: center;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  background-color: var(--background-color);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.filledGreen {
+  fill: var(--correct-icon-color);
+}
+
+.filledGray {
+  fill: var(--default-icon-color);
+}
+
+.filledRed {
+  fill: var(--wrong-icon-color);
+}

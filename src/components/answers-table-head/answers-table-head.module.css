@@ -1,4 +1,27 @@
-.headerCell {
-  font-weight: 400;
-  font-size: 16px;
+.headerRow {
+  display: flex;
+  gap: 16px;
+}
+
+.answerHeaders {
+  display: flex;
+}
+
+.questionHeader {
+  width: 300px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+}
+
+.answerHeader {
+  font-weight: 500;
+  width: 120px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+}
+
+.questionHeader,
+.answerHeader {
+  min-height: 30px;
+  padding: 8px;
 }
