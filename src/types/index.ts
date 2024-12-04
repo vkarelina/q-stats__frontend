@@ -3,10 +3,16 @@ export type User = {
   name: string;
 };
 
-export type Answer = {
+export type AnswerStatus = {
   id: number;
-  response: boolean;
+  status: boolean | null;
+  userQuestionId: number;
   createdAt: string;
+};
+
+export type Answer = {
+  date: string | Date;
+  answers: AnswerStatus[];
 };
 
 export type Question = {
@@ -23,8 +29,8 @@ export type Topic = {
 
 export type QuestionTopic = Pick<Question, 'text'> & { topicId: number };
 
-export type AnswerStatus = {
-  response: boolean | null;
-  date: Date;
+export type UpdateAnswerStatusPayload = {
+  status: boolean | null; 
+  date: Date; 
   userQuestionId: number;
-};
+}

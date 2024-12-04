@@ -14,7 +14,6 @@ import createSelectors from './create-selectors';
 
 interface UseQuestionStore {
   questions: Question[];
-  uniqueDates: string[];
 
   fetchQuestions: (topicId: number, userId?: number) => void;
   fetchCreateQuestion: (
@@ -34,7 +33,6 @@ const useQuestionStore = create<UseQuestionStore>()(
   devtools(
     immer((set) => ({
       questions: [],
-      uniqueDates: [],
 
       fetchQuestions: async (topicId: number, userId?: number) => {
         const questions = await (userId
@@ -66,7 +64,7 @@ const useQuestionStore = create<UseQuestionStore>()(
       ) => {
         if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
         if (refreshQuestions) refreshQuestions();
-      }
+      },
     })),
   ),
 );
