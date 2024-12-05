@@ -1,13 +1,5 @@
-.cellWithBorder {
-  border-right: 1px solid var(--transparent-white);
-}
-
-.cellWithoutBorder {
-  border-right: none;
-}
-
 .icon {
-  width: 15px;
+  width: 16px;
 }
 
 .buttonContainer {

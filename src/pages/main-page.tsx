@@ -1,17 +1,14 @@
-import { memo, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { AnswersTable } from '../components/answers-table';
-import { QuestionList } from '../components/question-list';
-import { Header as HeaderMemo } from '../components-ui/header';
-import { Sidebar as SidebarMemo } from '../components-ui/sidebar';
+import { Header } from '../components-ui/header';
+import { Sidebar } from '../components-ui/sidebar';
+import useAnswers from '../store/answers';
 import useQuestion from '../store/question';
 import useTopic from '../store/topic';
 import useUser from '../store/user';
 
 import styles from './main-page.module.css';
-
-const Header = memo(HeaderMemo);
-const Sidebar = memo(SidebarMemo);
 
 const MainPage = () => {
   const fetchQuestions = useQuestion.use.fetchQuestions();
@@ -19,8 +16,8 @@ const MainPage = () => {
   const fetchTopic = useTopic.use.fetchTopic();
   const fetchUser = useUser.use.fetchUser();
   const fetchUsers = useUser.use.fetchUsers();
+  const fetchAnswers = useAnswers.use.fetchAnswers();
 
-  const questions = useQuestion.use.questions();
   const user = useUser.use.user();
   const users = useUser.use.users();
   const topic = useTopic.use.topic();
@@ -40,13 +37,14 @@ const MainPage = () => {
   }, []);
 
   const refreshQuestions = useCallback(() => {
-    if (user && topic) fetchQuestions(topic.id, user.id);
-    else if (topic) fetchQuestions(topic.id);
-  }, [fetchQuestions, topic, user]);
+    if (user?.id && topic?.id) fetchQuestions(topic.id, user.id);
+    else if (topic?.id) fetchQuestions(topic.id);
+  }, [fetchQuestions, topic?.id, user?.id]);
 
   useEffect(() => {
     refreshQuestions();
-  }, [refreshQuestions]);
+    fetchAnswers(user ?? undefined, topic ?? undefined);
+  }, [refreshQuestions, fetchAnswers, user, topic]);
 
   return (
     <div className={styles.wrapperApp}>
@@ -61,16 +59,7 @@ const MainPage = () => {
           selectedItem={user}
           handleSelectedItem={handleSelectedUser}
         />
-        <div className={styles.container}>
-          <QuestionList
-            questions={questions}
-            refreshQuestions={refreshQuestions}
-          />
-          {topic && user && (
-            <AnswersTable refreshQuestions={refreshQuestions}
-            />
-          )}
-        </div>
+        <AnswersTable refreshQuestions={refreshQuestions}/>
       </div>
     </div>
   );

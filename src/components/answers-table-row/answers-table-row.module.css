@@ -1,0 +1,28 @@
+.row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.question {
+  width: 300px;
+  background-color: var(--background-color);
+}
+
+.answer {
+  width: 120px;
+  background-color: var(--background-color);
+}
+
+.answer,
+.question {
+  min-height: 32px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.answers {
+  display: flex;
+}
