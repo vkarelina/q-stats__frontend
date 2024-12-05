@@ -1,0 +1,28 @@
+.menuContainer {
+  /* position: relative; */
+}
+
+.menuButton {
+  background-color: var(--background-color);
+  border: 0px;
+}
+
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  background-color: var(--textarea-color);
+  color: var(--dark-jungle-green);
+}
+
+.dropdownMenu li {
+  list-style-type: none;
+  padding: 6px;
+  &:hover {
+    background-color: var(--second-accent-color);
+    color: var(--textarea-color);
+  }
+}
+
+.show {
+  display: block;
+}

@@ -1,6 +1,8 @@
+import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
 import useAnswers from '../../store/answers';
 import useTopic from '../../store/topic';
 import useUser from '../../store/user';
+import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import { Question } from '../../types';
 import { Answer } from '../answer';
 
@@ -11,6 +13,8 @@ interface AnswersTableRowProps {
   index: number;
   refreshQuestions: () => void;
 }
+
+const dropdownList = ['Редактировать', 'Удалить'];
 
 const AnswersTableRow = ({
   question,
@@ -38,9 +42,18 @@ const AnswersTableRow = ({
     }
   };
 
+  const getItem = (item: string) => {
+    console.log(item);
+  };
+
   return (
     <tr className={styles.row}>
-      <td className={styles.question}>{`${index + 1}. ${question.text}`}</td>
+      <td className={styles.question}>
+        <p>{`${index + 1}. ${question.text}`}</p>
+        <DropdownList items={dropdownList} getItemList={getItem}>
+          <MenuVerticalIcon />
+        </DropdownList>
+      </td>
       {user && topic && (
         <td className={styles.answers}>
           {sortedAnswers.map((answer, index) => {
@@ -48,7 +61,9 @@ const AnswersTableRow = ({
               <div className={styles.answer} key={`${index}-${question.id}`}>
                 <Answer
                   key={answer.date}
-                  createdAt={new Date(answer.date.split('-').reverse().join('-'))}
+                  createdAt={
+                    new Date(answer.date.split('-').reverse().join('-'))
+                  }
                   questionId={question.id}
                   currentStatus={answer.answers[question.id]?.status}
                   onClick={handleAnswerButtonClick}
