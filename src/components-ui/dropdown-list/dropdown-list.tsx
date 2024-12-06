@@ -1,14 +1,21 @@
+import cn from 'classnames';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown-list.module.css';
 
-interface DropdownListProps {
+interface DropdownListProps<T> {
   children: ReactNode;
-  items: any[];
-  getItemList: (item: any) => void;
+  items: T[];
+  getItemList: (item: T, idx: number) => void;
+  renderItem: (item: T) => ReactNode;
 }
 
-const DropdownList = ({ children, items, getItemList }: DropdownListProps) => {
+const DropdownList = <T,>({
+  children,
+  items,
+  getItemList,
+  renderItem,
+}: DropdownListProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -17,14 +24,15 @@ const DropdownList = ({ children, items, getItemList }: DropdownListProps) => {
   };
 
   const closeMenu = (e: MouseEvent) => {
-    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    if (!menuRef.current?.contains(e.target as Node)) {
       setIsOpen(false);
     }
   };
 
-  const getItem = (item: any) => {
-    getItemList(item)
-  }
+  const getItem = (item: T, idx: number) => {
+    getItemList(item, idx);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     document.addEventListener('mousedown', closeMenu);
@@ -38,10 +46,10 @@ const DropdownList = ({ children, items, getItemList }: DropdownListProps) => {
       <button className={styles.menuButton} onClick={openMenu}>
         {children}
       </button>
-      <ul className={`${styles.dropdownMenu} ${isOpen ? styles.show : ''}`}>
+      <ul className={cn(styles.dropdownMenu, { [styles.show]: isOpen })}>
         {items.map((item, idx) => (
-          <li key={idx} onClick={() => getItem(item)}>
-            {item}
+          <li key={idx} onClick={() => getItem(item, idx + 1)}>
+            {renderItem(item)}
           </li>
         ))}
       </ul>

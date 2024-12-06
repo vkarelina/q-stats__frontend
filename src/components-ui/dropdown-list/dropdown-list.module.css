@@ -1,13 +1,16 @@
 .menuContainer {
-  /* position: relative; */
+  position: relative;
 }
 
 .menuButton {
   background-color: var(--background-color);
   border: 0px;
+  cursor: pointer;
 }
 
 .dropdownMenu {
+  left: 40px;
+  top: 0px;
   display: none;
   position: absolute;
   background-color: var(--textarea-color);
@@ -17,6 +20,10 @@
 .dropdownMenu li {
   list-style-type: none;
   padding: 6px;
+  cursor: pointer;
+  min-width: 50px;
+  white-space: nowrap;
+
   &:hover {
     background-color: var(--second-accent-color);
     color: var(--textarea-color);

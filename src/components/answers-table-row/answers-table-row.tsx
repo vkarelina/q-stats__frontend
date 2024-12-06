@@ -1,8 +1,8 @@
+import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
 import useAnswers from '../../store/answers';
 import useTopic from '../../store/topic';
 import useUser from '../../store/user';
-import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import { Question } from '../../types';
 import { Answer } from '../answer';
 
@@ -42,15 +42,20 @@ const AnswersTableRow = ({
     }
   };
 
-  const getItem = (item: string) => {
-    console.log(item);
+  const getItem = (item: string, idx: number) => {
+    // TODO: Пример использования списка DropdownList
+    console.log(item, idx);
   };
 
   return (
     <tr className={styles.row}>
       <td className={styles.question}>
         <p>{`${index + 1}. ${question.text}`}</p>
-        <DropdownList items={dropdownList} getItemList={getItem}>
+        <DropdownList
+          items={dropdownList}
+          getItemList={getItem}
+          renderItem={(item) => <p>{item}</p>}
+        >
           <MenuVerticalIcon />
         </DropdownList>
       </td>
