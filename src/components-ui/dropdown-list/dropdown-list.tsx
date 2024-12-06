@@ -3,14 +3,14 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown-list.module.css';
 
-interface DropdownListProps<T> {
+interface DropdownListProps<T extends { id: number }> {
   children: ReactNode;
   items: T[];
-  getItemList: (idx: number, item?: T) => void;
+  getItemList: (id: number) => void;
   renderItem: (item: T) => ReactNode;
 }
 
-const DropdownList = <T,>({
+const DropdownList = <T extends { id: number }>({
   children,
   items,
   getItemList,
@@ -23,8 +23,8 @@ const DropdownList = <T,>({
     setIsOpen(!isOpen);
   };
 
-  const getItem = (idx: number, item: T) => {
-    getItemList(idx, item);
+  const getItem = (id: number) => {
+    getItemList(id);
     setIsOpen(false);
   };
 
@@ -47,8 +47,8 @@ const DropdownList = <T,>({
         {children}
       </button>
       <ul className={cn(styles.dropdownMenu, { [styles.show]: isOpen })}>
-        {items.map((item, idx) => (
-          <li key={idx} onClick={() => getItem(idx + 1, item)}>
+        {items.map((item) => (
+          <li key={item.id} onClick={() => getItem(item.id)}>
             {renderItem(item)}
           </li>
         ))}

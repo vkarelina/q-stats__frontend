@@ -14,7 +14,10 @@ interface AnswersTableRowProps {
   refreshQuestions: () => void;
 }
 
-const dropdownList = ['Редактировать', 'Удалить'];
+const dropdownList = [
+  { id: 1, label: 'Edite' },
+  { id: 2, label: 'Delete' },
+];
 
 const AnswersTableRow = ({
   question,
@@ -42,9 +45,9 @@ const AnswersTableRow = ({
     }
   };
 
-  const getItem = (idx: number, item?: string) => {
+  const getItem = (id: number) => {
     // TODO: Пример использования списка DropdownList
-    console.log(idx, item);
+    console.log(id);
   };
 
   return (
@@ -54,7 +57,7 @@ const AnswersTableRow = ({
         <DropdownList
           items={dropdownList}
           getItemList={getItem}
-          renderItem={(item) => <p>{item}</p>}
+          renderItem={(item) => <p>{item.label}</p>}
         >
           <MenuVerticalIcon />
         </DropdownList>
