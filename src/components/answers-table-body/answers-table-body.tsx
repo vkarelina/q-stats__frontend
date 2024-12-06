@@ -34,8 +34,7 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       handleAddQuestion();
     }
   };
