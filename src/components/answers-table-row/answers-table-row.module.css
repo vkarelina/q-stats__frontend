@@ -25,8 +25,16 @@
   font-size: 14px;
   word-break: break-all;
   align-content: center;
+
+  textarea {
+    width: 100%;
+  }
 }
 
 .answers {
   display: flex;
+}
+
+.close {
+  display: none;
 }
