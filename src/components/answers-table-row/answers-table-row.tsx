@@ -42,9 +42,9 @@ const AnswersTableRow = ({
     }
   };
 
-  const getItem = (item: string, idx: number) => {
+  const getItem = (idx: number, item?: string) => {
     // TODO: Пример использования списка DropdownList
-    console.log(item, idx);
+    console.log(idx, item);
   };
 
   return (

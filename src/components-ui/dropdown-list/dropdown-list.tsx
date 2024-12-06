@@ -6,7 +6,7 @@ import styles from './dropdown-list.module.css';
 interface DropdownListProps<T> {
   children: ReactNode;
   items: T[];
-  getItemList: (item: T, idx: number) => void;
+  getItemList: (idx: number, item?: T) => void;
   renderItem: (item: T) => ReactNode;
 }
 
@@ -23,18 +23,18 @@ const DropdownList = <T,>({
     setIsOpen(!isOpen);
   };
 
-  const closeMenu = (e: MouseEvent) => {
-    if (!menuRef.current?.contains(e.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-
-  const getItem = (item: T, idx: number) => {
-    getItemList(item, idx);
+  const getItem = (idx: number, item: T) => {
+    getItemList(idx, item);
     setIsOpen(false);
   };
 
   useEffect(() => {
+    const closeMenu = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
     document.addEventListener('mousedown', closeMenu);
     return () => {
       document.removeEventListener('mousedown', closeMenu);
@@ -48,7 +48,7 @@ const DropdownList = <T,>({
       </button>
       <ul className={cn(styles.dropdownMenu, { [styles.show]: isOpen })}>
         {items.map((item, idx) => (
-          <li key={idx} onClick={() => getItem(item, idx + 1)}>
+          <li key={idx} onClick={() => getItem(idx + 1, item)}>
             {renderItem(item)}
           </li>
         ))}
