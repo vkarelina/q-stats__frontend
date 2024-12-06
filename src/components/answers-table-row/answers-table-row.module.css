@@ -7,6 +7,9 @@
 .question {
   width: 300px;
   background-color: var(--background-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .answer {
