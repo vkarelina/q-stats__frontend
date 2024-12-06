@@ -17,10 +17,11 @@
 .answer,
 .question {
   min-height: 32px;
-  padding: 0 8px;
+  padding: 4px 8px;
   box-sizing: border-box;
   font-size: 14px;
   word-break: break-all;
+  align-content: center;
 }
 
 .answers {

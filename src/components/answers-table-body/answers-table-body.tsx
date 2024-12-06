@@ -13,11 +13,11 @@ interface AnswersTableBodyProps {
 
 const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
   const textQuestionRef = useRef<HTMLTextAreaElement | null>(null);
-  
+
   const questions = useQuestion.use.questions();
   const user = useUser.use.user();
   const topic = useTopic.use.topic();
-  
+
   const fetchCreateQuestion = useQuestion.use.fetchCreateQuestion();
 
   const handleAddQuestion = () => {
@@ -33,6 +33,13 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
     textQuestionRef.current.value = '';
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddQuestion();
+    }
+  };
+
   return (
     <tbody>
       {questions.map((question, index) => (
@@ -46,6 +53,7 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
       <tr>
         <td>
           <textarea
+            onKeyDown={handleKeyDown}
             onBlur={handleAddQuestion}
             ref={textQuestionRef}
             className={styles.textarea}
