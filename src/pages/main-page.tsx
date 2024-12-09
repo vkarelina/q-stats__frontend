@@ -11,7 +11,7 @@ import useUser from '../store/user';
 import styles from './main-page.module.css';
 
 const MainPage = () => {
-  const fetchQuestions = useQuestion.use.fetchQuestions();
+  const getQuestions = useQuestion.use.getQuestions();
   const fetchTopics = useTopic.use.fetchTopics();
   const fetchTopic = useTopic.use.fetchTopic();
   const fetchUser = useUser.use.fetchUser();
@@ -37,9 +37,9 @@ const MainPage = () => {
   }, []);
 
   const refreshQuestions = useCallback(() => {
-    if (user?.id && topic?.id) fetchQuestions(topic.id, user.id);
-    else if (topic?.id) fetchQuestions(topic.id);
-  }, [fetchQuestions, topic?.id, user?.id]);
+    if (user?.id && topic?.id) getQuestions(topic.id, user.id);
+    else if (topic?.id) getQuestions(topic.id);
+  }, [getQuestions, topic?.id, user?.id]);
 
   useEffect(() => {
     refreshQuestions();
