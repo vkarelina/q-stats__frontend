@@ -37,7 +37,14 @@ export type Topic = {
   name: string;
 };
 
+export const enum MenuList {
+  Edit = 1,
+  Delete = 2,
+}
+
 export type QuestionTopic = Pick<Question, 'text'> & { topicId: number };
+
+export type DtoUpdateUserQuestion = Pick<Question, 'id' & 'text'>;
 
 export type UpdateAnswerStatusPayload = {
   status: boolean | null;

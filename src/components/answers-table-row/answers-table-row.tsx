@@ -1,3 +1,6 @@
+import cn from 'classnames';
+import { useRef, useState } from 'react';
+
 import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
 import { DROPDOWN_LIST } from '../../constants';
@@ -26,7 +29,12 @@ const AnswersTableRow = ({
   const answers = useAnswers.use.answers();
 
   const fetchAnswers = useAnswers.use.fetchAnswers();
+  const updateTopicQuestion = useQuestion.use.updateTopicQuestion();
+  const updateUserQuestion = useQuestion.use.updateUserQuestion();
   const deleteQuestion = useQuestion.use.fetchDeleteQuestion();
+  
+  const [isShowTextarea, setIsShowTextarea] = useState(false);
+  const refText = useRef<HTMLTextAreaElement | null>(null);
 
   const sortedAnswers = answers.sort((a, b) => {
     const dateA = new Date(a.date.split('-').reverse().join('-')).getTime();
@@ -37,14 +45,37 @@ const AnswersTableRow = ({
   const handleAnswerButtonClick = (isCopiedQuestion: boolean) => {
     if (user && topic) {
       fetchAnswers(user, topic);
-      if (isCopiedQuestion) {
-        refreshQuestions();
-      }
+      if (isCopiedQuestion) refreshQuestions();
     }
+  };
+
+  const handleUpdateText = (question: Question) => {
+    if (!refText.current || refText.current.value === '') return;
+
+    const text = refText.current.value;
+
+    if (!user) {
+      updateTopicQuestion(
+        { text },
+        question.id,
+        topic?.id,
+        refreshQuestions,
+      );
+    } else {
+      updateUserQuestion(
+        { id: question.id, text },
+        user.id,
+        refreshQuestions,
+      );
+    }
+    setIsShowTextarea(false);
   };
 
   const getItem = (id: number) => {
     switch (id) {
+      case MenuList.Edit:
+        setIsShowTextarea(true);
+        break;
       case MenuList.Delete:
         deleteQuestion(topic.id, question.id);
         break;
@@ -56,7 +87,15 @@ const AnswersTableRow = ({
   return (
     <tr className={styles.row}>
       <td className={styles.question}>
-        <p>{`${index + 1}. ${question.text}`}</p>
+        <p className={cn({ [styles.close]: isShowTextarea })}>
+          {`${index + 1}. ${question.text}`}
+        </p>
+        <textarea
+          className={cn({ [styles.close]: !isShowTextarea })}
+          defaultValue={question.text}
+          onBlur={() => handleUpdateText(question)}
+          ref={refText}
+        />
         <DropdownList
           options={DROPDOWN_LIST}
           getItem={getItem}
