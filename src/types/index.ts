@@ -1,3 +1,13 @@
+export const enum MenuList {
+  Edit = 1,
+  Delete = 2,
+}
+
+export interface DropdownListItem {
+  id: number;
+  label: MenuList;
+}
+
 export type User = {
   id: number;
   name: string;
@@ -37,7 +47,7 @@ export type QuestionTopic = Pick<Question, 'text'> & { topicId: number };
 export type DtoUpdateUserQuestion = Pick<Question, 'id' & 'text'>;
 
 export type UpdateAnswerStatusPayload = {
-  status: boolean | null; 
-  date: Date; 
+  status: boolean | null;
+  date: Date;
   userQuestionId: number;
-}
+};

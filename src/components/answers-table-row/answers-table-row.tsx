@@ -6,9 +6,8 @@ import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
 import { DROPDOWN_LIST } from '../../constants';
 import useAnswers from '../../store/answers';
 import useQuestion from '../../store/question';
-import useTopic from '../../store/topic';
 import useUser from '../../store/user';
-import { MenuList, Question } from '../../types';
+import { MenuList, Question, Topic } from '../../types';
 import { Answer } from '../answer';
 
 import styles from './answers-table-row.module.css';
@@ -16,22 +15,24 @@ import styles from './answers-table-row.module.css';
 interface AnswersTableRowProps {
   question: Question;
   index: number;
+  topic: Topic;
   refreshQuestions: () => void;
 }
 
 const AnswersTableRow = ({
   question,
   index,
+  topic,
   refreshQuestions,
 }: AnswersTableRowProps) => {
   const user = useUser.use.user();
-  const topic = useTopic.use.topic();
   const answers = useAnswers.use.answers();
 
   const fetchAnswers = useAnswers.use.fetchAnswers();
   const updateTopicQuestion = useQuestion.use.updateTopicQuestion();
   const updateUserQuestion = useQuestion.use.updateUserQuestion();
-
+  const deleteQuestion = useQuestion.use.fetchDeleteQuestion();
+  
   const [isShowTextarea, setIsShowTextarea] = useState(false);
   const refText = useRef<HTMLTextAreaElement | null>(null);
 
@@ -76,11 +77,10 @@ const AnswersTableRow = ({
         setIsShowTextarea(true);
         break;
       case MenuList.Delete:
-        //TODO: will be done in another pr
-        console.log(id);
+        deleteQuestion(topic.id, question.id);
         break;
       default:
-        console.warn(`Id ${id}: not found`);
+        console.warn(`Unknown option id: ${id}`);
     }
   };
 
@@ -97,8 +97,8 @@ const AnswersTableRow = ({
           ref={refText}
         />
         <DropdownList
-          items={DROPDOWN_LIST}
-          getItemList={getItem}
+          options={DROPDOWN_LIST}
+          getItem={getItem}
           renderItem={(item) => <p>{item.label}</p>}
         >
           <MenuVerticalIcon />
