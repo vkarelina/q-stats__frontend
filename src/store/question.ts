@@ -5,12 +5,15 @@ import { immer } from 'zustand/middleware/immer';
 import {
   fetchCreateTopicQuestion,
   fetchCreateUserQuestion,
+  fetchDeleteTopicQuestion,
+  fetchDeleteUserQuestion,
   fetchTopicQuestions,
   fetchUpdateTopicQuestion,
   fetchUserQuestions,
 } from '../api';
 import { Question } from '../types';
 import createSelectors from './create-selectors';
+import useUser from './user';
 
 interface UseQuestionStore {
   questions: Question[];
@@ -27,6 +30,7 @@ interface UseQuestionStore {
     topicId?: number,
     refreshQuestions?: () => void,
   ) => void;
+  fetchDeleteQuestion: (topicId: number, questionId: number) => void;
 }
 
 const useQuestionStore = create<UseQuestionStore>()(
@@ -64,6 +68,22 @@ const useQuestionStore = create<UseQuestionStore>()(
       ) => {
         if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
         if (refreshQuestions) refreshQuestions();
+      },
+
+      fetchDeleteQuestion: async (id: number, questionId: number) => {
+        const { user } = useUser.getState();
+
+        const deleteQuestion = user
+          ? fetchDeleteUserQuestion
+          : fetchDeleteTopicQuestion;
+
+        await deleteQuestion(id, questionId);
+
+        set((state) => ({
+          questions: state.questions.filter(
+            (question) => question.id !== questionId,
+          ),
+        }));
       },
     })),
   ),

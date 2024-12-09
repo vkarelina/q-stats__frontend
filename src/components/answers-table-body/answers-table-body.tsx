@@ -41,11 +41,12 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
 
   return (
     <tbody>
-      {questions.map((question, index) => (
+      {topic && questions.map((question, index) => (
         <AnswersTableRow
           key={question.id}
           index={index}
           question={question}
+          topic={topic}
           refreshQuestions={refreshQuestions}
         />
       ))}

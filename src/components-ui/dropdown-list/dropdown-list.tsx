@@ -1,31 +1,38 @@
 import cn from 'classnames';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import useQuestion from '../../store/question';
+import { ActionType, Question, Topic } from '../../types';
+
 import styles from './dropdown-list.module.css';
 
-interface DropdownListProps<T extends { id: number }> {
+interface DropdownListItem {
+  id: number;
+  label: ActionType;
+}
+
+interface DropdownListProps<T extends DropdownListItem> {
   children: ReactNode;
   items: T[];
-  getItemList: (id: number) => void;
+  question: Question;
+  topic: Topic;
   renderItem: (item: T) => ReactNode;
 }
 
-const DropdownList = <T extends { id: number }>({
+const DropdownList = <T extends DropdownListItem>({
   children,
   items,
-  getItemList,
+  question,
+  topic,
   renderItem,
 }: DropdownListProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const deleteQuestion = useQuestion.use.fetchDeleteQuestion();
+
   const openMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const getItem = (id: number) => {
-    getItemList(id);
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -34,12 +41,22 @@ const DropdownList = <T extends { id: number }>({
         setIsOpen(false);
       }
     };
-    
+
     document.addEventListener('mousedown', closeMenu);
     return () => {
       document.removeEventListener('mousedown', closeMenu);
     };
   }, []);
+
+  const handleActionBarItemClick = (item: T) => {
+    switch (item.label) {
+      case ActionType.delete:
+        deleteQuestion(topic.id, question.id);
+        break;
+      default:
+        setIsOpen(false);
+    }
+  };
 
   return (
     <div className={styles.menuContainer} ref={menuRef}>
@@ -48,7 +65,7 @@ const DropdownList = <T extends { id: number }>({
       </button>
       <ul className={cn(styles.dropdownMenu, { [styles.show]: isOpen })}>
         {items.map((item) => (
-          <li key={item.id} onClick={() => getItem(item.id)}>
+          <li key={item.id} onClick={() => handleActionBarItemClick(item)}>
             {renderItem(item)}
           </li>
         ))}

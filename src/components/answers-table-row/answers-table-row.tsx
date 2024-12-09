@@ -1,9 +1,9 @@
 import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
+import { dropdownList } from '../../constants';
 import useAnswers from '../../store/answers';
-import useTopic from '../../store/topic';
 import useUser from '../../store/user';
-import { Question } from '../../types';
+import { Question, Topic } from '../../types';
 import { Answer } from '../answer';
 
 import styles from './answers-table-row.module.css';
@@ -11,21 +11,17 @@ import styles from './answers-table-row.module.css';
 interface AnswersTableRowProps {
   question: Question;
   index: number;
+  topic: Topic;
   refreshQuestions: () => void;
 }
-
-const dropdownList = [
-  { id: 1, label: 'Edite' },
-  { id: 2, label: 'Delete' },
-];
 
 const AnswersTableRow = ({
   question,
   index,
+  topic,
   refreshQuestions,
 }: AnswersTableRowProps) => {
   const user = useUser.use.user();
-  const topic = useTopic.use.topic();
   const answers = useAnswers.use.answers();
 
   const fetchAnswers = useAnswers.use.fetchAnswers();
@@ -45,22 +41,18 @@ const AnswersTableRow = ({
     }
   };
 
-  const getItem = (id: number) => {
-    // TODO: Пример использования списка DropdownList
-    console.log(id);
-  };
-
   return (
     <tr className={styles.row}>
       <td className={styles.question}>
         <p>{`${index + 1}. ${question.text}`}</p>
-        <DropdownList
-          items={dropdownList}
-          getItemList={getItem}
-          renderItem={(item) => <p>{item.label}</p>}
-        >
-          <MenuVerticalIcon />
-        </DropdownList>
+          <DropdownList
+            items={dropdownList}
+            question={question}
+            topic={topic}
+            renderItem={(item) => <p>{item.label}</p>}
+          >
+            <MenuVerticalIcon />
+          </DropdownList> 
       </td>
       {user && topic && (
         <td className={styles.answers}>
