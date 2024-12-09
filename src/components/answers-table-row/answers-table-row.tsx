@@ -76,11 +76,11 @@ const AnswersTableRow = ({
         setIsShowTextarea(true);
         break;
       case MenuList.Delete:
-        //TODO: бцдет сделано в другом pr
+        //TODO: will be done in another pr
         console.log(id);
         break;
       default:
-        console.error('Id not found');
+        console.warn(`Id ${id}: not found`);
     }
   };
 
