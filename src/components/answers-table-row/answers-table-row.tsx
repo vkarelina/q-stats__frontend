@@ -1,9 +1,10 @@
 import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
+import { DROPDOWN_LIST } from '../../constants';
 import useAnswers from '../../store/answers';
-import useTopic from '../../store/topic';
+import useQuestion from '../../store/question';
 import useUser from '../../store/user';
-import { Question } from '../../types';
+import { MenuList, Question, Topic } from '../../types';
 import { Answer } from '../answer';
 
 import styles from './answers-table-row.module.css';
@@ -11,24 +12,21 @@ import styles from './answers-table-row.module.css';
 interface AnswersTableRowProps {
   question: Question;
   index: number;
+  topic: Topic;
   refreshQuestions: () => void;
 }
-
-const dropdownList = [
-  { id: 1, label: 'Edite' },
-  { id: 2, label: 'Delete' },
-];
 
 const AnswersTableRow = ({
   question,
   index,
+  topic,
   refreshQuestions,
 }: AnswersTableRowProps) => {
   const user = useUser.use.user();
-  const topic = useTopic.use.topic();
   const answers = useAnswers.use.answers();
 
   const fetchAnswers = useAnswers.use.fetchAnswers();
+  const deleteQuestion = useQuestion.use.fetchDeleteQuestion();
 
   const sortedAnswers = answers.sort((a, b) => {
     const dateA = new Date(a.date.split('-').reverse().join('-')).getTime();
@@ -46,8 +44,13 @@ const AnswersTableRow = ({
   };
 
   const getItem = (id: number) => {
-    // TODO: Пример использования списка DropdownList
-    console.log(id);
+    switch (id) {
+      case MenuList.Delete:
+        deleteQuestion(topic.id, question.id);
+        break;
+      default:
+        console.warn(`Unknown option id: ${id}`);
+    }
   };
 
   return (
@@ -55,8 +58,8 @@ const AnswersTableRow = ({
       <td className={styles.question}>
         <p>{`${index + 1}. ${question.text}`}</p>
         <DropdownList
-          items={dropdownList}
-          getItemList={getItem}
+          options={DROPDOWN_LIST}
+          getItem={getItem}
           renderItem={(item) => <p>{item.label}</p>}
         >
           <MenuVerticalIcon />

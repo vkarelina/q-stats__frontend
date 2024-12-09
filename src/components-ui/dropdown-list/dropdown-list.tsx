@@ -3,17 +3,22 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown-list.module.css';
 
-interface DropdownListProps<T extends { id: number }> {
+interface DropdownListItem {
+  id: number;
+  label: string;
+}
+
+interface DropdownListProps<T extends DropdownListItem> {
   children: ReactNode;
-  items: T[];
-  getItemList: (id: number) => void;
+  options: T[];
+  getItem: (itemId: number) => void;
   renderItem: (item: T) => ReactNode;
 }
 
-const DropdownList = <T extends { id: number }>({
+const DropdownList = <T extends DropdownListItem>({
   children,
-  items,
-  getItemList,
+  options,
+  getItem,
   renderItem,
 }: DropdownListProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,18 +28,13 @@ const DropdownList = <T extends { id: number }>({
     setIsOpen(!isOpen);
   };
 
-  const getItem = (id: number) => {
-    getItemList(id);
-    setIsOpen(false);
-  };
-
   useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
       if (!menuRef.current?.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
-    
+
     document.addEventListener('mousedown', closeMenu);
     return () => {
       document.removeEventListener('mousedown', closeMenu);
@@ -47,9 +47,9 @@ const DropdownList = <T extends { id: number }>({
         {children}
       </button>
       <ul className={cn(styles.dropdownMenu, { [styles.show]: isOpen })}>
-        {items.map((item) => (
-          <li key={item.id} onClick={() => getItem(item.id)}>
-            {renderItem(item)}
+        {options.map((option) => (
+          <li key={option.id} onClick={() => getItem(option.id)}>
+            {renderItem(option)}
           </li>
         ))}
       </ul>
