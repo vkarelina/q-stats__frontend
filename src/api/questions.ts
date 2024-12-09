@@ -1,4 +1,4 @@
-import { Question, QuestionTopic } from '../types';
+import { DtoUpdateUserQuestion, Question, QuestionTopic } from '../types';
 import api from './index';
 
 export const fetchUserQuestions = (topicId: number, userId: number) => (
@@ -26,6 +26,15 @@ export const fetchCreateUserQuestion = (
 ) => (
   api
     .post<Question>(`users/${userId}/questions`, data)
+    .then((res) => res.data)
+);
+
+export const fetchUpdateUserQuestion = (
+  data: DtoUpdateUserQuestion,
+  userId: number,
+) => (
+  api
+    .patch<Question>(`users/${userId}/questions`, data)
     .then((res) => res.data)
 );
 

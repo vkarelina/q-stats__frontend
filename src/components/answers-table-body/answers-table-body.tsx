@@ -18,7 +18,7 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
   const user = useUser.use.user();
   const topic = useTopic.use.topic();
 
-  const fetchCreateQuestion = useQuestion.use.fetchCreateQuestion();
+  const createQuestion = useQuestion.use.createQuestion();
 
   const handleAddQuestion = () => {
     if (!textQuestionRef.current) return;
@@ -27,8 +27,8 @@ const AnswersTableBody = ({ refreshQuestions }: AnswersTableBodyProps) => {
       text: textQuestionRef.current.value,
     };
 
-    if (user && topic) fetchCreateQuestion(question, topic.id, user.id);
-    else if (topic) fetchCreateQuestion(question, topic.id);
+    if (user && topic) createQuestion(question, topic.id, user.id);
+    else if (topic) createQuestion(question, topic.id);
 
     textQuestionRef.current.value = '';
   };

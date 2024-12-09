@@ -3,11 +3,12 @@ import { useRef, useState } from 'react';
 
 import MenuVerticalIcon from '../../assets/icons/menu-vertical.svg';
 import DropdownList from '../../components-ui/dropdown-list/dropdown-list';
+import { DROPDOWN_LIST } from '../../constants';
 import useAnswers from '../../store/answers';
 import useQuestion from '../../store/question';
 import useTopic from '../../store/topic';
 import useUser from '../../store/user';
-import { Question } from '../../types';
+import { MenuList, Question } from '../../types';
 import { Answer } from '../answer';
 
 import styles from './answers-table-row.module.css';
@@ -16,16 +17,6 @@ interface AnswersTableRowProps {
   question: Question;
   index: number;
   refreshQuestions: () => void;
-}
-
-const dropdownList = [
-  { id: 1, label: 'Edit' },
-  { id: 2, label: 'Delete' },
-];
-
-const enum MenuList {
-  Edit = 1,
-  Delete = 2,
 }
 
 const AnswersTableRow = ({
@@ -38,7 +29,8 @@ const AnswersTableRow = ({
   const answers = useAnswers.use.answers();
 
   const fetchAnswers = useAnswers.use.fetchAnswers();
-  const fetchUpdateTopicQuestion = useQuestion.use.fetchUpdateTopicQuestion();
+  const updateTopicQuestion = useQuestion.use.updateTopicQuestion();
+  const updateUserQuestion = useQuestion.use.updateUserQuestion();
 
   const [isShowTextarea, setIsShowTextarea] = useState(false);
   const refText = useRef<HTMLTextAreaElement | null>(null);
@@ -52,10 +44,30 @@ const AnswersTableRow = ({
   const handleAnswerButtonClick = (isCopiedQuestion: boolean) => {
     if (user && topic) {
       fetchAnswers(user, topic);
-      if (isCopiedQuestion) {
-        refreshQuestions();
-      }
+      if (isCopiedQuestion) refreshQuestions();
     }
+  };
+
+  const handleUpdateText = (question: Question) => {
+    if (!refText.current || refText.current.value === '') return;
+
+    const text = refText.current.value;
+
+    if (!user) {
+      updateTopicQuestion(
+        { text },
+        question.id,
+        topic?.id,
+        refreshQuestions,
+      );
+    } else {
+      updateUserQuestion(
+        { id: question.id, text },
+        user.id,
+        refreshQuestions,
+      );
+    }
+    setIsShowTextarea(false);
   };
 
   const getItem = (id: number) => {
@@ -64,24 +76,12 @@ const AnswersTableRow = ({
         setIsShowTextarea(true);
         break;
       case MenuList.Delete:
+        //TODO: бцдет сделано в другом pr
         console.log(id);
         break;
       default:
-        console.log(id);
+        console.error('Id not found');
     }
-  };
-
-  const handleUpdateText = (question: Question) => {
-    if (!refText.current || refText.current.value === '') return;
-
-    fetchUpdateTopicQuestion(
-      { text: refText.current.value },
-      question.id,
-      topic?.id,
-      refreshQuestions,
-    );
-
-    setIsShowTextarea(false);
   };
 
   return (
@@ -97,7 +97,7 @@ const AnswersTableRow = ({
           ref={refText}
         />
         <DropdownList
-          items={dropdownList}
+          items={DROPDOWN_LIST}
           getItemList={getItem}
           renderItem={(item) => <p>{item.label}</p>}
         >

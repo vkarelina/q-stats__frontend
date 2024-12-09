@@ -7,24 +7,30 @@ import {
   fetchCreateUserQuestion,
   fetchTopicQuestions,
   fetchUpdateTopicQuestion,
+  fetchUpdateUserQuestion,
   fetchUserQuestions,
 } from '../api';
-import { Question } from '../types';
+import { DtoUpdateUserQuestion, Question } from '../types';
 import createSelectors from './create-selectors';
 
 interface UseQuestionStore {
   questions: Question[];
 
-  fetchQuestions: (topicId: number, userId?: number) => void;
-  fetchCreateQuestion: (
+  getQuestions: (topicId: number, userId?: number) => void;
+  createQuestion: (
     text: Pick<Question, 'text'>,
     topicId: number,
     userId?: number,
   ) => void;
-  fetchUpdateTopicQuestion: (
+  updateTopicQuestion: (
     text: Pick<Question, 'text'>,
     questionId: number,
     topicId?: number,
+    refreshQuestions?: () => void,
+  ) => void;
+  updateUserQuestion: (
+    data: DtoUpdateUserQuestion,
+    userId: number,
     refreshQuestions?: () => void,
   ) => void;
 }
@@ -34,7 +40,7 @@ const useQuestionStore = create<UseQuestionStore>()(
     immer((set) => ({
       questions: [],
 
-      fetchQuestions: async (topicId: number, userId?: number) => {
+      getQuestions: async (topicId: number, userId?: number) => {
         const questions = await (userId
           ? fetchUserQuestions(topicId, userId)
           : fetchTopicQuestions(topicId));
@@ -42,7 +48,7 @@ const useQuestionStore = create<UseQuestionStore>()(
         set({ questions }, false, 'fetchQuestions');
       },
 
-      fetchCreateQuestion: async (
+      createQuestion: async (
         text: Pick<Question, 'text'>,
         topicId: number,
         userId?: number,
@@ -56,13 +62,22 @@ const useQuestionStore = create<UseQuestionStore>()(
         set((state) => ({ questions: [...state.questions, newQuestion] }));
       },
 
-      fetchUpdateTopicQuestion: async (
+      updateTopicQuestion: async (
         text: Pick<Question, 'text'>,
         questionId: number,
         topicId?: number,
         refreshQuestions?: () => void,
       ) => {
         if (topicId) await fetchUpdateTopicQuestion(text, questionId, topicId);
+        if (refreshQuestions) refreshQuestions();
+      },
+
+      updateUserQuestion: async (
+        data: DtoUpdateUserQuestion,
+        userId: number,
+        refreshQuestions?: () => void,
+      ) => {
+        await fetchUpdateUserQuestion(data, userId);
         if (refreshQuestions) refreshQuestions();
       },
     })),
