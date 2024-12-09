@@ -1,6 +1,4 @@
-import { ActionType } from '../types';
-
-export const dropdownList = [
-  { id: 1, label: ActionType.edit },
-  { id: 2, label: ActionType.delete },
+export const DROPDOWN_LIST = [
+  { id: 1, label: 'Edit' },
+  { id: 2, label: 'Delete' },
 ];

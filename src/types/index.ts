@@ -1,6 +1,11 @@
-export enum ActionType {
-  delete = 'Delete',
-  edit = 'Edit',
+export const enum MenuList {
+  Edit = 1,
+  Delete = 2,
+}
+
+export interface DropdownListItem {
+  id: number;
+  label: MenuList;
 }
 
 export type User = {
