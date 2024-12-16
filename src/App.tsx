@@ -1,4 +1,4 @@
-import './app.module.css';
+import './App.module.css';
 
 import { MainPage } from './pages';
 
