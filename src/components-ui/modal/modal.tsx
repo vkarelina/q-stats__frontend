@@ -7,13 +7,11 @@ import styles from './modal.module.css';
 
 interface ModalProps {
   children: ReactNode;
-  setIsOpen: (isOpen: boolean) => void;
+  onClose: () => void;
 }
 
-const Modal = ({ children, setIsOpen }: ModalProps) => {
+const Modal = ({ children, onClose }: ModalProps) => {
   const modalRoot = document.body;
-
-  const onClose = () => setIsOpen(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -23,12 +21,12 @@ const Modal = ({ children, setIsOpen }: ModalProps) => {
     document.addEventListener('keydown', handleKeyDown);
 
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [onClose]);
 
   return createPortal(
     <div className={styles.wrapperModal}>
       <div className={styles.bodyModal}>
-        { children }
+        {children}
         <button className={styles.wrapperIconCloseModal}>
           <Close onClick={onClose} />
         </button>
