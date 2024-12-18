@@ -21,6 +21,8 @@
   --red: #a70000;
   --grey: #434343;
   --transparent-white: #ffffff33;
+  --deep-purple-blue: #0c13224d;
+  --white-transparent: #ffffff24;
 
   /* Применение цветовых переменных */
   --primary-color: var(--deep-space-sparkle);
@@ -33,6 +35,8 @@
   --wrong-icon-color: var(--red);
   --default-icon-color: var(--grey);
   --textarea-color: var(--white);
+  --modal-background: var(--deep-purple-blue);
+  --button-color: var(--white-transparent);
 }
 
 html[data-theme='dark'] {
